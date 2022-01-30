@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>LaTeX3----函数篇 | 芒果不盲</title><meta name="keywords" content="LaTeX3,函数"><meta name="author" content="ljguo"><meta name="copyright" content="ljguo"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文只记录函数，也即控制序列(control sequences)的相关用法 与 LaTeX2e 的一些比较在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 \mycmd \myvar,它们的定义方法都是一样的 12\newcommand&amp;#123;\mycmd&amp;#125;[2]&amp;#123;#1 love #2&amp;#125;%\mycmd&amp;#123;I&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX3----函数篇">
+<meta property="og:url" content="http://example.com/2021/12/28/hello-blog/index.html">
+<meta property="og:site_name" content="芒果不盲">
+<meta property="og:description" content="本文只记录函数，也即控制序列(control sequences)的相关用法 与 LaTeX2e 的一些比较在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 \mycmd \myvar,它们的定义方法都是一样的 12\newcommand&amp;#123;\mycmd&amp;#125;[2]&amp;#123;#1 love #2&amp;#125;%\mycmd&amp;#123;I&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png">
+<meta property="article:published_time" content="2021-12-28T04:32:07.000Z">
+<meta property="article:modified_time" content="2022-01-02T13:38:42.000Z">
+<meta property="article:author" content="ljguo">
+<meta property="article:tag" content="LaTeX3">
+<meta property="article:tag" content="函数">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png"><link rel="shortcut icon" href="/img/logo.png"><link rel="canonical" href="http://example.com/2021/12/28/hello-blog/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LaTeX3----函数篇',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-01-02 21:38:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9tSAAdmuMm5jUsjb-3gquD8DzqZSD4sDW-Q&amp;usqp=CAU" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ljguo1020.github.io/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">芒果不盲</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" target="_blank" rel="noopener" href="https://ljguo1020.github.io/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">LaTeX3----函数篇</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-28T04:32:07.000Z" title="发表于 2021-12-28 12:32:07">2021-12-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-01-02T13:38:42.000Z" title="更新于 2022-01-02 21:38:42">2022-01-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="LaTeX3----函数篇"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本文只记录函数，也即控制序列(control sequences)的相关用法</p>
+<h2 id="与-LaTeX2e-的一些比较"><a href="#与-LaTeX2e-的一些比较" class="headerlink" title="与 LaTeX2e 的一些比较"></a>与 LaTeX2e 的一些比较</h2><p>在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 <code>\mycmd</code> <code>\myvar</code>,它们的定义方法都是一样的</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\mycmd</span>&#125;[2]&#123;<span class="params">#1</span> love <span class="params">#2</span>&#125;<span class="comment">%\mycmd&#123;I&#125;&#123;you&#125;--&gt;I love you</span></span><br><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\myvar</span>&#125;&#123;I love <span class="keyword">\LaTeX</span>&#125;<span class="comment">%\myvar --&gt;I love LaTeX </span></span><br></pre></td></tr></table></figure>
+<p>都是用 <code>\newcommand</code> 来定义的，函数无非是多了几个参数，这意味着函数是可以接受参数的，而变量是不需要的.<br>更加古老的 <code>\def</code> 也是如此</p>
+<h2 id="LaTeX3"><a href="#LaTeX3" class="headerlink" title="LaTeX3"></a>LaTeX3</h2><p>在LaTeX3中创建一个函数的语法如下：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; </span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;I&#125;&#123;you&#125; <span class="comment">%--&gt;I love you</span></span><br></pre></td></tr></table></figure>
+<p>这是在全局范围内创建一个函数，相当于 <code>\newcommand</code> ,所有如果这个函数已经被定义，将会报错，当然还有其它语法</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%局部创建函数</span></span><br><span class="line"><span class="keyword">\cs_gset:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%全局创建函数</span></span><br></pre></td></tr></table></figure>
+<p>这两个函数也可以用于创建函数，但是区别于前面的是，如果这个函数存在，它会重新定义该函数，而不会报错，如果不存在，就创建.而这里的 <code>set</code> 和 <code>gset</code> 通过上面的注释，大概知道了，前者用于局部创建，后者用于全局.至于这里的 <strong>Npn</strong> <strong>nn</strong>，可以通过上一篇文章了解一下.</p>
+<p>前面三个，还有一些情况，待我一一道来</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="params">#1</span><span class="params">#2</span>&#123;<span class="params">#1</span> ~ Do~not ~love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>顾名思义 <code>nopar</code> 就是参数中不能加 <code>\par</code> 这个命令，也就是不能分段啦。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，根据名字 <code>protected</code> 我们可以猜到，这是一个受保护的函数，也就是它不能被 <strong>x</strong> 型展开.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>这个，自己猜一下吧。</p>
+<p>另外，以上只列举了 <code>set</code> ,当然 <code>new</code>,<code>gset</code> 也都有这些对应的情况，并且它们默认各自还提供了几种不同的<font color=magenta><strong>变体</strong></font>供大家使用，当然也可以自己创建一些变体，我们后面再讲。</p>
+<p>大家再来看看</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>对比一下，是不是有点不一样 <code>Npn</code> $\to$ <code>Nn</code>,少了个屁 (p),读过前面的文章应该知道，这个 p 其实就是 parameters (参数), 创建函数时可以将其省略 ，对应的花括号外部的 <code>#1#2</code> 也一并省去，系统会自动检测参数数量.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_eq:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数的作用是复制函数定义，复制第二个函数的定义给第一个函数，在底层 TeX 中有 <code>\let\cmda\cmdb</code> 与之有类似或者一模一样(?)的功能, <code>eq</code> $\to$ <code>equal</code> ,当然 <code>new</code> , <code>gset</code><br>也有对应的函数.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_undefine:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_undefine:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数 <code>undefine</code> 顾名思义，就是删掉一个函数的定义。例如，我们前文定义了函数 <code>\l_my_cmd:nn</code> 现在我们使用以上其中一个命令 (两个命令是等效的，待会就会讲到), 然后再用该函数的话，系统就会报错 </p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">! Undefined control sequence.</span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>结果很显然了.</p>
+<p><strong>注</strong> . 这里我们第一次遭遇 <code>c</code> 变体, <code>N</code> 变体接受一个 <strong>cs</strong> (控制序列)，也就是一个带反斜杠的命令(?), 而 <code>c</code> 接受一个 (token list) 也就是一个带花括号的内容，然后会为花括号里面的内容自动加上一个 <code>\</code> , 对比上面的例子，不难理解.</p>
+<p>还有一些函数如下，我将它们一起列举出来 (偷个懒)：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_meaning:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_meaning:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="keyword">\cs_show:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_show:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_log:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_log:c</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>这三个函数都是用于查看函数定义的，区别在于第一个是直接在 PDF 里面显示，第二个是在终端显示 (会停止运行) ，第三个是在日志中显示.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%first</span></span><br><span class="line"><span class="keyword">\use:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="comment">%second</span></span><br><span class="line"><span class="keyword">\cs:w</span></span><br><span class="line">l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs</span><span class="built_in">_</span>end</span><br></pre></td></tr></table></figure>
+<p>上面两个作用是一样的，前者将内容放在花括号里面，后者放在环境之间.都等价于直接使用 <code>\l_my_cmd:nn</code> .</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_to_str:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数是将函数转化为字符串 (str) 输出是 <code>˙my˙cmd:nn</code>，好吧，我也不知道它干嘛用的，希望有大佬能为我解释一下.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\use:n</span> &#123;abc&#125;</span><br><span class="line"><span class="keyword">\use:nn</span> &#123;abc&#125;&#123;&#123;def&#125;&#125;</span><br><span class="line"><span class="keyword">\use_i:nn</span> &#123;abc&#125;&#123;def&#125;</span><br></pre></td></tr></table></figure>
+<p>上面三个函数得到的结果依次是：<code>abc</code>, <code>abc&#123;def&#125;</code>, <code>abc</code> ,这个函数的作用就是直接将花括号里面的内容输出，应该注意第二个，你在 PDF 里面看到的应该是 <code>abcdef</code> 这是因为 <code>&#123;&#125;</code> 在PDF 里面是不显示的，当然我们可以做一个简单的测试来验证它</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;abc&#125;<span class="built_in">$</span> </span><br><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;&#123;abc&#125;&#125;<span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+<p>输出依次是 $a^{a}bc$, $a^{abc}$.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_eq_p:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br><span class="line"><span class="keyword">\cs_if_eq:NNTF</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn &#123;yse&#125;&#123;no&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个函数用于测试两个函数的定义是否相同，在 PDF 中的显示是 $\Delta$,$\Gamma$ ,这其实就是两个布尔值, 前者为真，后者为假. 第二个函数同样的作用，只不过跟上了 <code>T</code>, <code>F</code> 变体，也就是说条件为真，执行 <code>T</code>,条件为假，执行 <code>F</code>.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_exist_p:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_if_exist_p:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_if_exist:NTF</span> ...</span><br><span class="line"><span class="keyword">\cs_if_exist:cTF</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>通过名字，可以知道，这是用来测试这个函数是否存在的，类比一下上面就知道了.(懒得敲了)</p>
+<hr>
+<p> 函数篇大概就写这么多了吧，还有些函数我没看懂，或者暂时不知道它有啥用的，就先不写了,以后再更吧.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">ljguo</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://example.com/2021/12/28/hello-blog/">http://example.com/2021/12/28/hello-blog/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">芒果不盲</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LaTeX3/">LaTeX3</a><a class="post-meta__tags" href="/tags/%E5%87%BD%E6%95%B0/">函数</a></div><div class="post_share"><div class="social-share" data-image="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/images/weixin.jpg" target="_blank"><img class="post-qr-code-img" src="/images/weixin.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/images/zfb.jpg" target="_blank"><img class="post-qr-code-img" src="/images/zfb.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2021/12/28/LaTeX3-int/"><img class="prev-cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">LaTeX3--整数</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2021/12/28/LaTeX3-TikZ/" title="LaTeX3 和 TikZ 结合绘图"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-28</div><div class="title">LaTeX3 和 TikZ 结合绘图</div></div></a></div><div><a href="/2021/12/28/LaTeX3-digui/" title="LaTeX3实例--函数递归"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-28</div><div class="title">LaTeX3实例--函数递归</div></div></a></div><div><a href="/2021/12/28/LaTeX3-int/" title="LaTeX3--整数"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-28</div><div class="title">LaTeX3--整数</div></div></a></div><div><a href="/2021/12/28/LaTeX3-intarry/" title="LaTeX3--整数数组"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-28</div><div class="title">LaTeX3--整数数组</div></div></a></div><div><a href="/2022/01/13/LaTeX3-prop/" title="LaTeX3---prop (属性列表)"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-13</div><div class="title">LaTeX3---prop (属性列表)</div></div></a></div><div><a href="/2021/12/28/LaTeX3-sort/" title="LaTeX3实例--冒泡排序"><img class="cover" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-28</div><div class="title">LaTeX3实例--冒泡排序</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9tSAAdmuMm5jUsjb-3gquD8DzqZSD4sDW-Q&amp;usqp=CAU" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">ljguo</div><div class="author-info__description">记录学习</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/ljguo1020/TeX.git"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ljguo1020/TeX.git" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="/ljguo1020@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://www.zhihu.com/people/zhu-meng-99-23" target="_blank" title=""><i class="fab fa-zhihu"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">容易发怒,是品格上最为显著的弱点.</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E-LaTeX2e-%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AF%94%E8%BE%83"><span class="toc-number">1.</span> <span class="toc-text">与 LaTeX2e 的一些比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LaTeX3"><span class="toc-number">2.</span> <span class="toc-text">LaTeX3</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/01/30/args/" title="在LaTeX中定义多参数命令"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="在LaTeX中定义多参数命令"/></a><div class="content"><a class="title" href="/2022/01/30/args/" title="在LaTeX中定义多参数命令">在LaTeX中定义多参数命令</a><time datetime="2022-01-30T00:50:13.000Z" title="发表于 2022-01-30 08:50:13">2022-01-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/13/LaTeX3-prop/" title="LaTeX3---prop (属性列表)"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LaTeX3---prop (属性列表)"/></a><div class="content"><a class="title" href="/2022/01/13/LaTeX3-prop/" title="LaTeX3---prop (属性列表)">LaTeX3---prop (属性列表)</a><time datetime="2022-01-12T17:21:43.000Z" title="发表于 2022-01-13 01:21:43">2022-01-13</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/28/texlive-for-termux/" title="在安卓手机上安装 LaTeX"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="在安卓手机上安装 LaTeX"/></a><div class="content"><a class="title" href="/2021/12/28/texlive-for-termux/" title="在安卓手机上安装 LaTeX">在安卓手机上安装 LaTeX</a><time datetime="2021-12-28T08:50:13.000Z" title="发表于 2021-12-28 16:50:13">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/28/texlive-for-linux/" title="texlive-for-linux"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="texlive-for-linux"/></a><div class="content"><a class="title" href="/2021/12/28/texlive-for-linux/" title="texlive-for-linux">texlive-for-linux</a><time datetime="2021-12-28T08:49:19.000Z" title="发表于 2021-12-28 16:49:19">2021-12-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/12/28/LaTeX3-TikZ/" title="LaTeX3 和 TikZ 结合绘图"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/LaTeX_project_logo_bird.svg/316px-LaTeX_project_logo_bird.svg.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="LaTeX3 和 TikZ 结合绘图"/></a><div class="content"><a class="title" href="/2021/12/28/LaTeX3-TikZ/" title="LaTeX3 和 TikZ 结合绘图">LaTeX3 和 TikZ 结合绘图</a><time datetime="2021-12-28T08:46:25.000Z" title="发表于 2021-12-28 16:46:25">2021-12-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2022 By ljguo</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
