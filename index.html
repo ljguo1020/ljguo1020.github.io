@@ -212,9 +212,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-11-11 22:58:39 / 修改时间：22:58:57" itemprop="dateCreated datePublished" datetime="2022-11-11T22:58:39+08:00">2022-11-11</time>
+      <time title="创建时间：2022-11-11 22:58:39" itemprop="dateCreated datePublished" datetime="2022-11-11T22:58:39+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-11-12 00:29:24" itemprop="dateModified" datetime="2022-11-12T00:29:24+08:00">2022-11-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -236,9 +242,43 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="文件I-x2F-O"><a href="#文件I-x2F-O" class="headerlink" title="文件I&#x2F;O"></a>文件I&#x2F;O</h2><h3 id="构造及使用"><a href="#构造及使用" class="headerlink" title="构造及使用"></a>构造及使用</h3><ul>
-<li>File 类<br>构造方法</li>
+          <h2 id="文件I-x2F-O"><a href="#文件I-x2F-O" class="headerlink" title="文件I&#x2F;O"></a>文件I&#x2F;O</h2><h3 id="构造及使用"><a href="#构造及使用" class="headerlink" title="构造及使用"></a>构造及使用</h3><h4 id="File-类"><a href="#File-类" class="headerlink" title="File 类"></a>File 类</h4><p>构造方法</p>
+<ul>
 <li><code>File(pathname: String)</code></li>
+<li><code>File(parent: String, child: String)</code></li>
+<li><code>File(parent: File, child: String)</code></li>
+</ul>
+<p>方法</p>
+<ul>
+<li><code>exists(): boolean</code>, 检测文件或文件夹是否存在</li>
+<li><code>canRead(): boolean</code>, 可读性</li>
+<li><code>canWrite(): boolean</code>, 可写性</li>
+<li><code>length(): long</code>, 返回文件大小</li>
+<li><code>lastModified(): long</code>, 最后修改时间</li>
+<li><code>listFile(): File[]</code>, 返回当前对象路径下的文件</li>
+<li><code>renameTo(dest: File): boolean</code>, 重命名文件</li>
+</ul>
+<h4 id="PrintWriter类"><a href="#PrintWriter类" class="headerlink" title="PrintWriter类"></a>PrintWriter类</h4><p>构造方法</p>
+<ul>
+<li><code>PrintWriter(file: File)</code>, 接受一个 File 对象进行构建</li>
+<li><code>PrintWriter(filename: String)</code></li>
+</ul>
+<p>方法</p>
+<ul>
+<li><code>print()</code>, 与 <code>System.out.print()</code> 一样的用法</li>
+<li><code>println()</code></li>
+<li><code>printf()</code></li>
+</ul>
+<h4 id="Scanner类"><a href="#Scanner类" class="headerlink" title="Scanner类"></a>Scanner类</h4><p>构造方法</p>
+<ul>
+<li><code>Scanner(source: File)</code></li>
+<li><code>Scanner(source: String)</code></li>
+</ul>
+<p>方法</p>
+<ul>
+<li><code>close()</code> 关闭这个扫描器</li>
+<li><code>hasNext(): boolean</code> 检测这个扫描器还有无可读的内容</li>
+<li><code>useDelimiter(pattern: String)</code>, 设置分隔模式</li>
 </ul>
 <h3 id="替换文本-待完善"><a href="#替换文本-待完善" class="headerlink" title="替换文本(待完善)"></a>替换文本(待完善)</h3><ul>
 <li>需求: 编写一个程序, 从命令行接受参数, 实现对文件内容替换, 如</li>
@@ -248,7 +288,7 @@
 </blockquote>
 <p>将实现对 <code>sourceFile</code> 中的 <code>oldString</code> 替换为 <code>newString</code>, 并保存到 <code>targetFile</code> 中. </p>
 <ul>
-<li><code>ReplaceFileContents.java</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">ReplaceFileContents.java</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReplaceFileContents</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">currentString</span> <span class="operator">=</span> args[<span class="number">0</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">replaceString</span> <span class="operator">=</span> args[<span class="number">1</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">oldFileName</span> <span class="operator">=</span> args[<span class="number">2</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">newFileName</span> <span class="operator">=</span> args[<span class="number">3</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="type">File</span> <span class="variable">oldFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(oldFileName);</span><br><span class="line">        <span class="type">File</span> <span class="variable">newFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(newFileName);</span><br><span class="line">        <span class="type">PrintWriter</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(newFile);</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(oldFile);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (input.hasNext())&#123;</span><br><span class="line">            file.println(input.nextLine().replaceAll(currentString,replaceString));</span><br><span class="line">        &#125;</span><br><span class="line">        file.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>ReplaceFileContents.java</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">ReplaceFileContents.java</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReplaceFileContents</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">currentString</span> <span class="operator">=</span> args[<span class="number">0</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">replaceString</span> <span class="operator">=</span> args[<span class="number">1</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">oldFileName</span> <span class="operator">=</span> args[<span class="number">2</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">newFileName</span> <span class="operator">=</span> args[<span class="number">3</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="type">File</span> <span class="variable">oldFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(oldFileName);</span><br><span class="line">        <span class="type">File</span> <span class="variable">newFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(newFileName);</span><br><span class="line">        <span class="type">PrintWriter</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(newFile);</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(oldFile);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (input.hasNext())&#123;</span><br><span class="line">            file.println(input.nextLine().replaceAll(currentString,replaceString));</span><br><span class="line">        &#125;</span><br><span class="line">        file.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><code>old.txt</code><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my name is ljguo,</span><br><span class="line">ljguo is me,</span><br><span class="line">ljguo love gxx.</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>javac ReplaceFileContents.java<br>java ReplaceFileContents ljguo LJGUO old.txt new.txt</p>
