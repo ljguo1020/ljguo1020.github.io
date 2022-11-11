@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PingFang+SC:300,300italic,400,400italic,700,700italic%7Cconsolas:300,300italic,400,400italic,700,700italic%7CKaiTi:300,300italic,400,400italic,700,700italic%7CSimSum:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="这是LaTeX3的使用样例  定义颜色colors.tex 1234567891011121314151617181920\definecolor&amp;#123;1&amp;#125;&amp;#123;RGB&amp;#125;&amp;#123;255,255,255&amp;#125;\definecolor&amp;#123;2&amp;#125;&amp;#123;RGB&amp;#125;&amp;#123;255,20,147&amp;#125;\definecolor&amp;#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX3 和 TikZ 结合绘图">
+<meta property="og:url" content="http://example.com/2022/11/11/LaTeX3-TikZ/index.html">
+<meta property="og:site_name" content="LJGUO">
+<meta property="og:description" content="这是LaTeX3的使用样例  定义颜色colors.tex 1234567891011121314151617181920\definecolor&amp;#123;1&amp;#125;&amp;#123;RGB&amp;#125;&amp;#123;255,255,255&amp;#125;\definecolor&amp;#123;2&amp;#125;&amp;#123;RGB&amp;#125;&amp;#123;255,20,147&amp;#125;\definecolor&amp;#">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-13e03941cfa2da229449c2128c569c25.jpg">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-bc27ca6062fe5896b4a2df6a671916df.jpg">
+<meta property="article:published_time" content="2022-11-11T14:18:35.365Z">
+<meta property="article:modified_time" content="2022-11-11T14:39:59.348Z">
+<meta property="article:author" content="ljguo">
+<meta property="article:tag" content="LaTeX3">
+<meta property="article:tag" content="实例">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-13e03941cfa2da229449c2128c569c25.jpg">
+
+
+<link rel="canonical" href="http://example.com/2022/11/11/LaTeX3-TikZ/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/11/LaTeX3-TikZ/","path":"2022/11/11/LaTeX3-TikZ/","title":"LaTeX3 和 TikZ 结合绘图"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LaTeX3 和 TikZ 结合绘图 | LJGUO</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">LJGUO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">芒果不盲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-随笔"><a href="/diary/" rel="section"><i class="fa fa-pen-nib fa-fw"></i>随笔</a></li><li class="menu-item menu-item-目标"><a href="/flag/" rel="section"><i class="fa fa-flag fa-fw"></i>目标</a></li><li class="menu-item menu-item-关于我"><a href="/about/" rel="section"><i class="fa fa-bolt fa-fw"></i>关于我</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%A2%9C%E8%89%B2"><span class="nav-number">1.</span> <span class="nav-text">定义颜色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">主文件</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ljguo</p>
+  <div class="site-description" itemprop="description">学习交流</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ljguo1020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ljguo1020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ljguo1020@gmail.com" title="E-Mail → mailto:ljguo1020@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-TikZ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LaTeX3 和 TikZ 结合绘图 | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX3 和 TikZ 结合绘图
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:59" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>这是LaTeX3的使用样例</p>
+<hr>
+<h2 id="定义颜色"><a href="#定义颜色" class="headerlink" title="定义颜色"></a>定义颜色</h2><p>colors.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\definecolor</span>&#123;1&#125;&#123;RGB&#125;&#123;255,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;2&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;3&#125;&#123;RGB&#125;&#123;0,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;4&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;5&#125;&#123;RGB&#125;&#123;225,0,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;6&#125;&#123;RGB&#125;&#123;225,255,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;7&#125;&#123;RGB&#125;&#123;47,79,79&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;8&#125;&#123;RGB&#125;&#123;25,25,112&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;9&#125;&#123;RGB&#125;&#123;0,200,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;10&#125;&#123;RGB&#125;&#123;124,252,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;11&#125;&#123;RGB&#125;&#123;139,69,19&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;12&#125;&#123;RGB&#125;&#123;250,128,114&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;13&#125;&#123;RGB&#125;&#123;255,69,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;14&#125;&#123;RGB&#125;&#123;153,50,204&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;15&#125;&#123;RGB&#125;&#123;139,121,94&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;16&#125;&#123;RGB&#125;&#123;205,193,197&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;17&#125;&#123;RGB&#125;&#123;205,16,118&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;18&#125;&#123;RGB&#125;&#123;238,154,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;19&#125;&#123;RGB&#125;&#123;205,133,63&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;20&#125;&#123;RGB&#125;&#123;139,0,139&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主文件"><a href="#主文件" class="headerlink" title="主文件"></a>主文件</h2><p>main.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=5cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=0.1cm,y=0.1cm]  </span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;1080&#125; <span class="keyword">\i</span> </span><br><span class="line">        &#123;   </span><br><span class="line">            <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> 2+1*<span class="keyword">\i</span>)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15*<span class="keyword">\i</span>&#125;        </span><br><span class="line">        &#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>输出<br><img src="https://pic4.zhimg.com/80/v2-13e03941cfa2da229449c2128c569c25.jpg" alt="Image"><br>将函数解析式稍加修改</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=10cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=20cm,y=20cm]</span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;360&#125; <span class="keyword">\i</span> </span><br><span class="line">     &#123;   </span><br><span class="line">         <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> &#123;1-sin(<span class="keyword">\i</span>)&#125;)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15&#125;        </span><br><span class="line">     &#125; </span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>得到<br><img src="https://pic4.zhimg.com/80/v2-bc27ca6062fe5896b4a2df6a671916df.jpg" alt="Image"></p>
+<hr>
+<p>点赞，关注都是我的动力鸭~~~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX3/" rel="tag"># LaTeX3</a>
+              <a href="/tags/%E5%AE%9E%E4%BE%8B/" rel="tag"># 实例</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/11/LaTeX3-sort/" rel="prev" title="LaTeX3实例--冒泡排序">
+                  <i class="fa fa-chevron-left"></i> LaTeX3实例--冒泡排序
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/11/LaTeX-answer/" rel="next" title="使用 LaTeX3 在试卷中做一个答案统计">
+                  使用 LaTeX3 在试卷中做一个答案统计 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ljguo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

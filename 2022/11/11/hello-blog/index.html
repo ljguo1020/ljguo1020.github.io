@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PingFang+SC:300,300italic,400,400italic,700,700italic%7Cconsolas:300,300italic,400,400italic,700,700italic%7CKaiTi:300,300italic,400,400italic,700,700italic%7CSimSum:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文只记录函数，也即控制序列(control sequences)的相关用法 与 LaTeX2e 的一些比较在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 \mycmd \myvar,它们的定义方法都是一样的 12\newcommand&amp;#123;\mycmd&amp;#125;[2]&amp;#123;#1 love #2&amp;#125;%\mycmd&amp;#123;I&amp;#125;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LaTeX3----函数篇">
+<meta property="og:url" content="http://example.com/2022/11/11/hello-blog/index.html">
+<meta property="og:site_name" content="LJGUO">
+<meta property="og:description" content="本文只记录函数，也即控制序列(control sequences)的相关用法 与 LaTeX2e 的一些比较在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 \mycmd \myvar,它们的定义方法都是一样的 12\newcommand&amp;#123;\mycmd&amp;#125;[2]&amp;#123;#1 love #2&amp;#125;%\mycmd&amp;#123;I&amp;#125;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-11T14:18:35.325Z">
+<meta property="article:modified_time" content="2022-11-11T14:38:21.651Z">
+<meta property="article:author" content="ljguo">
+<meta property="article:tag" content="LaTeX3">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/11/11/hello-blog/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/11/hello-blog/","path":"2022/11/11/hello-blog/","title":"LaTeX3----函数篇"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LaTeX3----函数篇 | LJGUO</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">LJGUO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">芒果不盲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-随笔"><a href="/diary/" rel="section"><i class="fa fa-pen-nib fa-fw"></i>随笔</a></li><li class="menu-item menu-item-目标"><a href="/flag/" rel="section"><i class="fa fa-flag fa-fw"></i>目标</a></li><li class="menu-item menu-item-关于我"><a href="/about/" rel="section"><i class="fa fa-bolt fa-fw"></i>关于我</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8E-LaTeX2e-%E7%9A%84%E4%B8%80%E4%BA%9B%E6%AF%94%E8%BE%83"><span class="nav-number">1.</span> <span class="nav-text">与 LaTeX2e 的一些比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LaTeX3"><span class="nav-number">2.</span> <span class="nav-text">LaTeX3</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ljguo</p>
+  <div class="site-description" itemprop="description">学习交流</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ljguo1020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ljguo1020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ljguo1020@gmail.com" title="E-Mail → mailto:ljguo1020@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/hello-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LaTeX3----函数篇 | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LaTeX3----函数篇
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:38:21" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本文只记录函数，也即控制序列(control sequences)的相关用法</p>
+<h2 id="与-LaTeX2e-的一些比较"><a href="#与-LaTeX2e-的一些比较" class="headerlink" title="与 LaTeX2e 的一些比较"></a>与 LaTeX2e 的一些比较</h2><p>在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 <code>\mycmd</code> <code>\myvar</code>,它们的定义方法都是一样的</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\mycmd</span>&#125;[2]&#123;<span class="params">#1</span> love <span class="params">#2</span>&#125;<span class="comment">%\mycmd&#123;I&#125;&#123;you&#125;--&gt;I love you</span></span><br><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\myvar</span>&#125;&#123;I love <span class="keyword">\LaTeX</span>&#125;<span class="comment">%\myvar --&gt;I love LaTeX </span></span><br></pre></td></tr></table></figure>
+<p>都是用 <code>\newcommand</code> 来定义的，函数无非是多了几个参数，这意味着函数是可以接受参数的，而变量是不需要的.<br>更加古老的 <code>\def</code> 也是如此</p>
+<h2 id="LaTeX3"><a href="#LaTeX3" class="headerlink" title="LaTeX3"></a>LaTeX3</h2><p>在LaTeX3中创建一个函数的语法如下：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; </span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;I&#125;&#123;you&#125; <span class="comment">%--&gt;I love you</span></span><br></pre></td></tr></table></figure>
+<p>这是在全局范围内创建一个函数，相当于 <code>\newcommand</code> ,所有如果这个函数已经被定义，将会报错，当然还有其它语法</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%局部创建函数</span></span><br><span class="line"><span class="keyword">\cs_gset:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%全局创建函数</span></span><br></pre></td></tr></table></figure>
+<p>这两个函数也可以用于创建函数，但是区别于前面的是，如果这个函数存在，它会重新定义该函数，而不会报错，如果不存在，就创建.而这里的 <code>set</code> 和 <code>gset</code> 通过上面的注释，大概知道了，前者用于局部创建，后者用于全局.至于这里的 <strong>Npn</strong> <strong>nn</strong>，可以通过上一篇文章了解一下.</p>
+<p>前面三个，还有一些情况，待我一一道来</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="params">#1</span><span class="params">#2</span>&#123;<span class="params">#1</span> ~ Do~not ~love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>顾名思义 <code>nopar</code> 就是参数中不能加 <code>\par</code> 这个命令，也就是不能分段啦。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，根据名字 <code>protected</code> 我们可以猜到，这是一个受保护的函数，也就是它不能被 <strong>x</strong> 型展开.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>这个，自己猜一下吧。</p>
+<p>另外，以上只列举了 <code>set</code> ,当然 <code>new</code>,<code>gset</code> 也都有这些对应的情况，并且它们默认各自还提供了几种不同的<font color=magenta><strong>变体</strong></font>供大家使用，当然也可以自己创建一些变体，我们后面再讲。</p>
+<p>大家再来看看</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>对比一下，是不是有点不一样 <code>Npn</code> $\to$ <code>Nn</code>,少了个屁 (p),读过前面的文章应该知道，这个 p 其实就是 parameters (参数), 创建函数时可以将其省略 ，对应的花括号外部的 <code>#1#2</code> 也一并省去，系统会自动检测参数数量.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_eq:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数的作用是复制函数定义，复制第二个函数的定义给第一个函数，在底层 TeX 中有 <code>\let\cmda\cmdb</code> 与之有类似或者一模一样(?)的功能, <code>eq</code> $\to$ <code>equal</code> ,当然 <code>new</code> , <code>gset</code><br>也有对应的函数.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_undefine:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_undefine:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数 <code>undefine</code> 顾名思义，就是删掉一个函数的定义。例如，我们前文定义了函数 <code>\l_my_cmd:nn</code> 现在我们使用以上其中一个命令 (两个命令是等效的，待会就会讲到), 然后再用该函数的话，系统就会报错 </p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">! Undefined control sequence.</span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>结果很显然了.</p>
+<p><strong>注</strong> . 这里我们第一次遭遇 <code>c</code> 变体, <code>N</code> 变体接受一个 <strong>cs</strong> (控制序列)，也就是一个带反斜杠的命令(?), 而 <code>c</code> 接受一个 (token list) 也就是一个带花括号的内容，然后会为花括号里面的内容自动加上一个 <code>\</code> , 对比上面的例子，不难理解.</p>
+<p>还有一些函数如下，我将它们一起列举出来 (偷个懒)：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_meaning:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_meaning:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="keyword">\cs_show:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_show:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_log:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_log:c</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>这三个函数都是用于查看函数定义的，区别在于第一个是直接在 PDF 里面显示，第二个是在终端显示 (会停止运行) ，第三个是在日志中显示.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%first</span></span><br><span class="line"><span class="keyword">\use:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="comment">%second</span></span><br><span class="line"><span class="keyword">\cs:w</span></span><br><span class="line">l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs</span><span class="built_in">_</span>end</span><br></pre></td></tr></table></figure>
+<p>上面两个作用是一样的，前者将内容放在花括号里面，后者放在环境之间.都等价于直接使用 <code>\l_my_cmd:nn</code> .</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_to_str:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数是将函数转化为字符串 (str) 输出是 <code>˙my˙cmd:nn</code>，好吧，我也不知道它干嘛用的，希望有大佬能为我解释一下.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\use:n</span> &#123;abc&#125;</span><br><span class="line"><span class="keyword">\use:nn</span> &#123;abc&#125;&#123;&#123;def&#125;&#125;</span><br><span class="line"><span class="keyword">\use_i:nn</span> &#123;abc&#125;&#123;def&#125;</span><br></pre></td></tr></table></figure>
+<p>上面三个函数得到的结果依次是：<code>abc</code>, <code>abc&#123;def&#125;</code>, <code>abc</code> ,这个函数的作用就是直接将花括号里面的内容输出，应该注意第二个，你在 PDF 里面看到的应该是 <code>abcdef</code> 这是因为 <code>&#123;&#125;</code> 在PDF 里面是不显示的，当然我们可以做一个简单的测试来验证它</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;abc&#125;<span class="built_in">$</span> </span><br><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;&#123;abc&#125;&#125;<span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+<p>输出依次是 $a^{a}bc$, $a^{abc}$.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_eq_p:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br><span class="line"><span class="keyword">\cs_if_eq:NNTF</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn &#123;yse&#125;&#123;no&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个函数用于测试两个函数的定义是否相同，在 PDF 中的显示是 $\Delta$,$\Gamma$ ,这其实就是两个布尔值, 前者为真，后者为假. 第二个函数同样的作用，只不过跟上了 <code>T</code>, <code>F</code> 变体，也就是说条件为真，执行 <code>T</code>,条件为假，执行 <code>F</code>.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_exist_p:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_if_exist_p:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_if_exist:NTF</span> ...</span><br><span class="line"><span class="keyword">\cs_if_exist:cTF</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>通过名字，可以知道，这是用来测试这个函数是否存在的，类比一下上面就知道了.(懒得敲了)</p>
+<hr>
+<p> 函数篇大概就写这么多了吧，还有些函数我没看懂，或者暂时不知道它有啥用的，就先不写了,以后再更吧.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX3/" rel="tag"># LaTeX3</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/11/day04/" rel="prev" title="Java 学习第四天">
+                  <i class="fa fa-chevron-left"></i> Java 学习第四天
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/11/LaTeX3-args/" rel="next" title="在LaTeX中定义多参数命令">
+                  在LaTeX中定义多参数命令 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ljguo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
