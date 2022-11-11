@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -175,6 +175,415 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX-answer-show-after/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX-answer-show-after/" class="post-title-link" itemprop="url">LaTeX 中暂存答案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:37:53" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文介绍如何在 LaTeX2e 中实现答案控制的效果，也即是答案统一在后面显示，考虑到有些朋友没有学习 LaTeX3，所以本文尽量用 LaTeX2e &amp; TeX 来实现，如果对 LaTeX3 感兴趣，可以参考下面的文章</p>
+</blockquote>
+<p><a target="_blank" rel="noopener" href="https://ljguo1020.github.io/2022/02/17/LaTeX-answer/">使用 LaTeX3 在试卷中做一个答案统计</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.latexstudio.net/index/details/index/mid/2468">用l3的seq实现习题答案统一输出</a></p>
+<h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><p>我们的想法其实就是要在前面输入答案，但是不做输出，而是存起来，然后放到指定位置输出，例如</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1.这是题目这是题目...</span><br><span class="line"><span class="keyword">\answer</span>&#123;C&#125;</span><br><span class="line">2.这是题目这是题目...</span><br><span class="line"><span class="keyword">\answer</span>&#123;B&#125;</span><br><span class="line">...</span><br><span class="line"><span class="keyword">\showanswer</span></span><br></pre></td></tr></table></figure>
+
+<p>大概就是这样，使用 <code>\showanswer</code> 命令来显示答案</p>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a>讨论</h2><p>不知道大家有没有注意过一个问题，在标准文档类中的 <code>\author</code>,<code>\title</code>,<code>\date</code> , 这些命令使用后并不会立即输出，而是等到 <code>\maketitle</code> 命令的到来才会输出，其实它就在做这样一个事情</p>
+<p>为了更加清楚，我们来看看其源码，在命令行使用 <code>latexdef -s \author</code> 即可查看其定义</p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/answer-show-after1.png" alt="\author"></p>
+<p>哎，简化一下吧，大概类似于</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>*&#123;<span class="keyword">\author</span>&#125;[1]&#123;<span class="keyword">\newcommand</span>&#123;<span class="keyword">\@author</span>&#125;&#123;<span class="params">#1</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>嘿，我们再来看看 <code>\maketitle</code> 命令呢，同样使用 <code>latexdef -c article \maketitle</code> </p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/answer-show-after2.png" alt="\maketitle"></p>
+<p>好吧，有点乱，我也没读懂，我猜测应该是设置了一些格式，然后将前面定义的所有与封面相关的元素全部删除了，好像没有多少对我们有用的信息呢.  咿<del>，我发现有个 <code>\@maketitle</code> ,这小家伙藏得还挺深，还是被我揪出来了</del>，<code>latexdef -c article \@maketitle</code> </p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/answer-show-after3.png" alt="\@maketitle"></p>
+<p>原来都藏在这儿呢，在封面使用前面定义的 <code>\@author</code> <code>\@title</code> 等，注意了，不是 <code>\author</code> <code>\title</code> 哦.</p>
+<p> (做封面的朋友该有想法了)</p>
+<p>回来吧，现在我们应该清楚了，<code>\author</code> 命令的作用只是在间接定义 <code>\@author</code> ，实际并不做输出</p>
+<h2 id="开始动手"><a href="#开始动手" class="headerlink" title="开始动手"></a>开始动手</h2><h3 id="设计输入"><a href="#设计输入" class="headerlink" title="设计输入"></a>设计输入</h3><p>我们也可以仿照它的做法，来实现我们的效果，使用如下代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\answer</span>&#125;[1]&#123;<span class="keyword">\def</span><span class="keyword">\@answer</span>&#123;<span class="params">#1</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用 <code>\def</code> 是为了避免 <code> Command \@answer already defined.</code> 的问题</p>
+<p>但是这样有一个问题，当我们使用</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\answer</span>&#123;A&#125;</span><br><span class="line"><span class="keyword">\answer</span>&#123;B&#125;</span><br><span class="line"><span class="keyword">\answer</span>&#123;C&#125;</span><br></pre></td></tr></table></figure>
+
+<p>后，实际保存在 <code>\@answer</code> 里面的值是 C，所以我们只用一个宏来保存答案似乎不太好办（LaTeX3 里面倒是很简单），最好是为每一个题目都分配一个宏来保存答案，考虑如下</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\answerI</span>&#125;[1]&#123;<span class="keyword">\def</span><span class="keyword">\@answerI</span>&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\answerII</span>&#125;[1]&#123;<span class="keyword">\def</span><span class="keyword">\@answerII</span>&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\answerIII</span>&#125;[1]&#123;<span class="keyword">\def</span><span class="keyword">\@answerIII</span>&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>一张试卷 20 多个题目，难道我们要定义 20 多个命令？太麻烦了！如果能自动根据题号来定义命令就好了</p>
+<p>唉，我想到了计数器，为其分配一个计数器 <code>answer</code>，尝试如下代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\answer</span>&#125;[1]&#123;<span class="keyword">\def</span><span class="keyword">\answer</span><span class="keyword">\theanswer</span>&#123;<span class="params">#1</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，使用第一次 <code>\answer</code> 就定义了 <code>\answer1</code> , 第二次就定义了 <code>\answer2</code> ,但是这样定义有两个问题</p>
+<ol>
+<li><code>\def\answer\theanswer</code> 本身是有问题的</li>
+<li><code>\answer1</code> 这样的命令命名是有问题的，数字正常情况下不能作为命令名</li>
+</ol>
+<p>但是，不要气馁，我们正在慢慢接近答案</p>
+<p>解决第一个问题就涉及到 TeX 中 <strong>迷人的宏展开</strong> 了，当然这里只涉及到很简单的</p>
+<p>介绍两个命令 <code>\csname</code> 和 <code>\endcsname</code> , 我们使用如下命令</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\csname</span> textbf <span class="keyword">\endcsname</span>&#123;abc&#125; <span class="comment">% ---&gt; \textbf&#123;abc&#125;</span></span><br><span class="line"><span class="keyword">\def</span><span class="keyword">\aa</span>&#123;textbf&#125;</span><br><span class="line"><span class="keyword">\csname</span> <span class="keyword">\aa</span> <span class="keyword">\endcsname</span>&#123;abc&#125; <span class="comment">% ---&gt; \textbf&#123;abc&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>也就是说，夹在 <code>\csname</code> 和 <code>\endcsname</code> 之间的部分会先被完全展开至不可展开为止，然后再为其加上 <code>\</code> 使其成为一个控制序列（命令）</p>
+<p>解决第二个问题也很简单，我们只需将数字转化为罗马数字即可，这里是计数器，我们直接使用现成的<code>\roman&#123;answer&#125;</code> 即可</p>
+<p>我们考虑如下定义</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\def</span><span class="keyword">\answer</span><span class="params">#1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\expandafter</span><span class="keyword">\gdef</span><span class="keyword">\csname</span> answer<span class="keyword">\roman</span>&#123;answer&#125;<span class="keyword">\endcsname</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\stepcounter</span>&#123;answer&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用了 <code>\expandafter</code> ,是为了跳过 \def 先展开 <code>\csname</code> 和 <code>\endcsname</code> 之间的内容，然后再 <code>\def</code> </p>
+<h3 id="设计输出"><a href="#设计输出" class="headerlink" title="设计输出"></a>设计输出</h3><p>输出的话我们可以</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\answeri</span></span><br><span class="line"><span class="keyword">\answerii</span></span><br><span class="line"><span class="keyword">\answeriii</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>但更好的是使用循环来做这件事情，这里使用 <code>pgffor</code> 宏包提供的 <code>\foreach</code> 命令</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\foreach</span>[parse] <span class="keyword">\x</span> in&#123;1,2,...,<span class="keyword">\theanswer</span>&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\csname</span> answer<span class="keyword">\romannumeral</span><span class="keyword">\x</span> <span class="keyword">\endcsname</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意这里的 <code>\romannumeral</code> 接受一个数字， 并将其转化为小写罗马数字，区别于刚刚的 <code>\roman</code> , 它是接受一个计数器，而不是接受数字</p>
+<h2 id="实现源码"><a href="#实现源码" class="headerlink" title="实现源码"></a>实现源码</h2><p>现在我们将代码整合一下</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;pgffor&#125;</span><br><span class="line"><span class="keyword">\newcounter</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\setcounter</span>&#123;answer&#125;&#123;1&#125;</span><br><span class="line"><span class="keyword">\def</span><span class="keyword">\answer</span><span class="params">#1</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\expandafter</span><span class="keyword">\gdef</span><span class="keyword">\csname</span> answer<span class="keyword">\roman</span>&#123;answer&#125;<span class="keyword">\endcsname</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\stepcounter</span>&#123;answer&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\def</span><span class="keyword">\showanswer</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\foreach</span>[parse] <span class="keyword">\x</span> in&#123;1,2,...,<span class="keyword">\theanswer</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\csname</span> answer<span class="keyword">\romannumeral</span><span class="keyword">\x</span> <span class="keyword">\endcsname</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;enumerate&#125;</span><br><span class="line">  <span class="keyword">\item</span> 这是题目这是题目 <span class="keyword">\answer</span>&#123;A&#125;</span><br><span class="line">  <span class="keyword">\item</span> 这是题目这是题目 <span class="keyword">\answer</span>&#123;D&#125;</span><br><span class="line">  <span class="keyword">\item</span> 这是题目这是题目 <span class="keyword">\answer</span>&#123;B&#125;</span><br><span class="line">  <span class="keyword">\item</span> 这是题目这是题目 <span class="keyword">\answer</span>&#123;C&#125;</span><br><span class="line">  <span class="keyword">\item</span> 这是题目这是题目 <span class="keyword">\answer</span>&#123;B&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;enumerate&#125;</span><br><span class="line">答案分别是：<span class="keyword">\showanswer</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出</p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/answer-show-after4.png" alt="输出"></p>
+<p>好了，至此本文结束，下期再见吧 ~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX-answer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX-answer/" class="post-title-link" itemprop="url">使用 LaTeX3 在试卷中做一个答案统计</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:40:10" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="问题的提出"><a href="#问题的提出" class="headerlink" title="问题的提出"></a>问题的提出</h2><p>在群里有老师想要实现如下的一个答案统计效果</p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/QQ%E6%88%AA%E5%9B%BE20220217123653.png"></p>
+<p>这本来是 <code>exam</code> 文档类提供的一个功能，奈何有些老师不想使用这个文类，我们只好造一个轮子</p>
+<h2 id="分析问题"><a href="#分析问题" class="headerlink" title="分析问题"></a>分析问题</h2><p>我们需要注意到：</p>
+<ul>
+<li>这个<strong>答案列表</strong>应该是在排版选择题的时候就输入，而不是最后来输入</li>
+<li>也就是我们需要先将前面的答案暂存起来，最后再来排版出来</li>
+<li><strong>计数</strong>功能，我们还需要去检测答案列表中各个选项的数量</li>
+</ul>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><p>首先我们需要一个排版选择题答案的命令</p>
+<p>有不少老师在使用 <code>\xx&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;</code>这个命令，如果你没有类似的命令，我仿造他们的思路造了一个这样的命令<code>\choices&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;</code>，源码如下，这里参考了公众号<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/nq6Qx_yCX5Vt4Acl--RX6w"><strong>不会功夫的熊猫</strong></a>的方法</p>
+<blockquote>
+<p>这里排版选择题我特别推荐<a target="_blank" rel="noopener" href="https://github.com/xkwxdyy">xkwxdyy</a>的 <code>xchoices</code> 宏包，这个宏包功能十分强大，对选择题可以很灵活的排版，项目地址 <a target="_blank" rel="noopener" href="https://github.com/xkwxdyy/xchoices">https://github.com/xkwxdyy/xchoices</a></p>
+</blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\cs_new_protected:Npn</span> <span class="keyword">\g</span><span class="built_in">_</span>choices: <span class="params">#1</span><span class="params">#2</span><span class="params">#3</span><span class="params">#4</span> &#123;</span><br><span class="line">  <span class="keyword">\par</span><span class="keyword">\noindent</span></span><br><span class="line"><span class="keyword">\box_clear_new:N</span> <span class="keyword">\l_choiceA_box</span></span><br><span class="line"><span class="keyword">\box_clear_new:N</span> <span class="keyword">\l_choiceB_box</span></span><br><span class="line"><span class="keyword">\box_clear_new:N</span> <span class="keyword">\l_choiceC_box</span></span><br><span class="line"><span class="keyword">\box_clear_new:N</span> <span class="keyword">\l_choiceD_box</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\hbox_set:Nn</span> <span class="keyword">\l_choiceA_box</span>&#123;A.<span class="params">#1</span>~~&#125;</span><br><span class="line"><span class="keyword">\hbox_set:Nn</span> <span class="keyword">\l_choiceB_box</span>&#123;B.<span class="params">#2</span>~~&#125;</span><br><span class="line"><span class="keyword">\hbox_set:Nn</span> <span class="keyword">\l_choiceC_box</span>&#123;C.<span class="params">#3</span>~~&#125;</span><br><span class="line"><span class="keyword">\hbox_set:Nn</span> <span class="keyword">\l_choiceD_box</span>&#123;D.<span class="params">#4</span>~~&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\l_choice_wd_max_AB</span></span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\l_choice_wd_max_CD</span> </span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\l_choice_wd_max</span></span><br><span class="line"> <span class="keyword">\dim_set:Nn</span> <span class="keyword">\l_choice_wd_max_AB</span> &#123;<span class="keyword">\dim_max:nn</span>&#123;<span class="keyword">\box_wd:N</span> <span class="keyword">\l_choiceA_box</span>&#125;&#123;<span class="keyword">\box_wd:N</span> <span class="keyword">\l_choiceB_box</span>&#125;&#125;</span><br><span class="line"> <span class="keyword">\dim_set:Nn</span> <span class="keyword">\l_choice_wd_max_CD</span> &#123;<span class="keyword">\dim_max:nn</span>&#123;<span class="keyword">\box_wd:N</span> <span class="keyword">\l_choiceC_box</span>&#125;&#123;<span class="keyword">\box_wd:N</span> <span class="keyword">\l_choiceD_box</span>&#125;&#125;</span><br><span class="line"> <span class="keyword">\dim_set:Nn</span> <span class="keyword">\l_choice_wd_max</span> &#123;<span class="keyword">\dim_max:nn</span>&#123;<span class="keyword">\dim_use:N</span> <span class="keyword">\l_choice_wd_max_AB</span>&#125;&#123;<span class="keyword">\dim_use:N</span> <span class="keyword">\l_choice_wd_max_CD</span>&#125;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\dim_compare:nNnTF</span>&#123;<span class="keyword">\dim_use:N</span> <span class="keyword">\l_choice_wd_max</span>&#125; &lt; &#123;0.25<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceA_box</span> &#123;0.25<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceB_box</span> &#123;0.25<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceC_box</span> &#123;0.25<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceD_box</span> &#123;0.25<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceA_box</span></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceB_box</span></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceC_box</span></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceD_box</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\dim_compare:nNnTF</span>&#123;<span class="keyword">\dim_use:N</span> <span class="keyword">\l_choice_wd_max</span>&#125; &lt; &#123;0.5<span class="keyword">\linewidth</span>&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceA_box</span> &#123;0.45<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceB_box</span> &#123;0.45<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceC_box</span> &#123;0.45<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"><span class="keyword">\box_set_wd:Nn</span> <span class="keyword">\l_choiceD_box</span> &#123;0.45<span class="keyword">\linewidth</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceA_box</span></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceB_box</span></span><br><span class="line"><span class="keyword">\par</span><span class="keyword">\vspace</span>*&#123;0.5em&#125;<span class="keyword">\hspace</span>&#123;2em&#125;</span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceC_box</span></span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceD_box</span></span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceA_box</span></span><br><span class="line"><span class="keyword">\par</span><span class="keyword">\vspace</span>*&#123;0.5em&#125;<span class="keyword">\hspace</span>&#123;2em&#125;</span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceB_box</span></span><br><span class="line"><span class="keyword">\par</span><span class="keyword">\vspace</span>*&#123;0.5em&#125;<span class="keyword">\hspace</span>&#123;2em&#125;</span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceC_box</span></span><br><span class="line"><span class="keyword">\par</span><span class="keyword">\vspace</span>*&#123;0.5em&#125;<span class="keyword">\hspace</span>&#123;2em&#125;</span><br><span class="line"><span class="keyword">\box_use:N</span> <span class="keyword">\l_choiceD_box</span>   </span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\cs_set_eq:NN</span> <span class="keyword">\choices</span> <span class="keyword">\g</span><span class="built_in">_</span>choices:</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br></pre></td></tr></table></figure>
+
+<p>有了个命令，就比较方便了，我们只需要在原有的命令上面加上一个参数来接受正确答案的选项就好了</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choices</span>&#125;&#123;ommmm&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfNoValueTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="keyword">\space</span>&#125;&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line">  <span class="keyword">\choice</span>&#123;<span class="params">#2</span>&#125;&#123;<span class="params">#3</span>&#125;&#123;<span class="params">#4</span>&#125;&#123;<span class="params">#5</span>&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里重新定义了一个<code>\choices[]&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;</code> 命令，第一个可选参数接受正确答案</p>
+<p>观察到上面有三行代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\IfNoValueTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="keyword">\space</span>&#125;&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">#1</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这行代码是用于检测第一个可选参数，如果有可选参数，则将接受到的参数向右追加到 <code>\__answer_list_seq</code> 这个序列里面，如果没有可选参数，追加一个 <code>\space</code> 标记</p>
+<p>下面我们需要定义和初始化一些变量</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\seq_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq <span class="comment">% 用于保存答案列表</span></span><br><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int <span class="comment">% 用于获取各个选项数量</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来解释一些上面的 <code>\seq_put_right:Nn</code> 函数，例如现在我们有一个空序列变量 <code>\__answer_list_seq</code> 我们使用如下命令后</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\choices</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时这个<code>\__answer_list_seq</code> 的值就是 <code>ABCAC</code> 了</p>
+<p>使用如下命令可以获取到 <code>\__answer_list_seq</code>  这个序列某项的值</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\seq_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;2&#125; <span class="comment">% ---&gt; B</span></span><br></pre></td></tr></table></figure>
+
+<p>那么我们来定义一个命令来显示答案列表，<code>\seq_count:N</code> 命令用于获取序列的长度，<code>\int_step_inline:nnn</code> 用于创建一个整数循环</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\answerlists</span>&#125;&#123;&#125;</span><br><span class="line">&#123;</span><br><span class="line">答案列表:~<span class="keyword">\int_step_inline:nnn</span>&#123;1&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">&#123;<span class="params">##1</span>.<span class="keyword">\seq_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;~&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此时再使用 <code>\answerlists</code> 命令就可以得到</p>
+<blockquote>
+<p>答案列表: 1.A 2.B 3.C 4.A 5.C</p>
+</blockquote>
+<p>下面的问题就是来解决这个选项计数的功能</p>
+<p>例如现在我们的 <code>\__answer_list_seq</code> 中保存的值为 <code>ABCAC</code> ，我们如何去获取各个选项的值呢？</p>
+<p>当然这里有一个思路，可以用 <code>\seq_map_inline:Nn </code> ，然后使用一个加法计数器来得到各选项的值，但是感觉比较麻烦，所以这里我将使用正则表达式来获取匹配到的数量</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\regex_count:nnN</span>&#123;A&#125;&#123;ABCDAA&#125;<span class="keyword">\l_tmpa_int</span> <span class="comment">% ---&gt; \l_tmpa_int = 3</span></span><br></pre></td></tr></table></figure>
+
+<p>这个 <code>\regex_count:nnN</code> 函数接受三个参数，第一个接受一个正则表达式，第二个接受待匹配内容，第三个接受一个整数变量，用于保存匹配到的次数的整数值</p>
+<p>我们尝试 </p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex<span class="built_in">_</span>count:nnN&#123;A&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br></pre></td></tr></table></figure>
+
+<p>这样是不行的，因为第二个参数的 <code>n</code> 变体，无法为我们展开 <code>\__answer_list_seq</code> ，我们需要定义一个 <code>V</code> 变体</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\regex_count:nnN</span>&#123;nVN&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样我们就可以使用</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regex<span class="built_in">_</span>count:nVN&#123;A&#125; <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br></pre></td></tr></table></figure>
+
+<p>来得到选项 <code>A</code> 的数量了</p>
+<p>现在来定义一个选项计数的命令</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choicescount</span>&#125;&#123;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  选项计数: ~A:<span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> B:<span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> C:<span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> D:<span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，这个问题已经被解决了</p>
+<h2 id="完整源码"><a href="#完整源码" class="headerlink" title="完整源码"></a>完整源码</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\geometry</span>&#123;margin=2cm&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="comment">%%%%%%%%%%%%%%%%%% 定义\choice&#123;&#125;&#123;&#125;&#123;&#125;&#123;&#125;命令，如果你有，可以注释它 %%%%%%%%%%%%%%%%%%%%%</span></span><br><span class="line"><span class="keyword">\input</span>&#123;choice.tex&#125; <span class="comment">%% 这部分代码在上文中</span></span><br><span class="line"><span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span></span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\seq_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq</span><br><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\regex_count:nnN</span>&#123;nVN&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choice</span>&#125;&#123;ommmm&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfNoValueTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="keyword">\space</span></span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line">  <span class="keyword">\choice</span>&#123;<span class="params">#2</span>&#125;&#123;<span class="params">#3</span>&#125;&#123;<span class="params">#4</span>&#125;&#123;<span class="params">#5</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\answerlists</span>&#125;&#123;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  答案列表:~<span class="keyword">\int_step_inline:nnn</span>&#123;1&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">         &#123;<span class="params">##1</span>.<span class="keyword">\seq_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;~&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choicescount</span>&#125;&#123;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  选项计数: ~A:<span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> B:<span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> C:<span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> D:<span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\choice</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[D]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[D]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choice</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\vspace</span>*&#123;2cm&#125;</span><br><span class="line"><span class="keyword">\answerlists</span></span><br><span class="line"><span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\choicescount</span></span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h2><p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/QQ%E6%88%AA%E5%9B%BE20220217130337.png"></p>
+<h2 id="样式加强"><a href="#样式加强" class="headerlink" title="样式加强"></a>样式加强</h2><p>我们还可以修改一下输出样式</p>
+<p>效果图如下</p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/QQ%E6%88%AA%E5%9B%BE20220217132609.png"></p>
+<p>我们修改一下 <code>\answerlists</code> 命令</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\answerlists</span>&#125;&#123;s&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\int_step_inline:nn</span>&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;&#125;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;tabularx&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq cm&#125;</span><br><span class="line">      &#123;|*&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;&#123;&gt;&#123;<span class="keyword">\centering</span><span class="keyword">\arraybackslash</span>&#125;X|&#125;&#125;</span><br><span class="line">      <span class="keyword">\hline</span></span><br><span class="line">      <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;<span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">      <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;<span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">    <span class="keyword">\end</span>&#123;tabularx&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">    答案列表:~<span class="keyword">\int_step_inline:nnn</span>&#123;1&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">    &#123;<span class="params">##1</span>.<span class="keyword">\seq_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;~&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以发现增加了</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_step_inline:nn</span>&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">&#123;<span class="keyword">\seq_put_right:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;tabularx&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq cm&#125;</span><br><span class="line">  &#123;|*&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;&#123;&gt;&#123;<span class="keyword">\centering</span><span class="keyword">\arraybackslash</span>&#125;X|&#125;&#125;</span><br><span class="line">  <span class="keyword">\hline</span></span><br><span class="line">  <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;<span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">  <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;  <span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line"><span class="keyword">\end</span>&#123;tabularx&#125;</span><br></pre></td></tr></table></figure>
+
+<p>观察前两行代码，这里是通过 <code>\int_step_inline:nn</code> 构建了一个序列，这个序列<code>\__answer_amount_seq</code> 的值为<code>1234 ... \seq_count:N \__answer_list_seq</code> ，随后使用 <code>tabularx</code> 环境来排版这个表格，同时需要 <code>\usepackage&#123;tabularx&#125;</code> 宏包的支持</p>
+<p>然后就是 <code>\seq_use:Nn</code> 这个函数，是用来将序列的值通过某个 <strong>token</strong> 连接起来，例如，此时 <code>\__answer_list_seq</code> 的值为 <code>ABCDAC</code> ，那么使用 <code>\seq_use:Nn \__answer_list_seq&#123;&amp;&#125;</code> 后，将被扩展为</p>
+<blockquote>
+<p>A &amp; B &amp; C &amp; D &amp; A &amp; C   </p>
+</blockquote>
+<p>同时，我们也修改 <code>\choicescount</code> 命令</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choicescount</span>&#125;&#123;s&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;tabular&#125;&#123;|c|c|c|c|c|&#125;</span><br><span class="line">      <span class="keyword">\hline</span></span><br><span class="line">      选项 <span class="built_in">&amp;</span> A <span class="built_in">&amp;</span> B <span class="built_in">&amp;</span> C <span class="built_in">&amp;</span> D <span class="keyword">\\</span><span class="keyword">\hline</span></span><br><span class="line">      计数 </span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int <span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">    <span class="keyword">\end</span>&#123;tabular&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">    选项计数: ~A:<span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> B:<span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> C:<span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> D:<span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>关于 <code>\NewDocumentCommand</code> 中的参数规范 <code>s</code> 可自行查阅 <code>xparse</code> 宏包用户说明文档</p>
+<p>通过前面的工作我们构建了四个命令，分别是</p>
+<ul>
+<li><p>\answerlists</p>
+</li>
+<li><p>\answerlists*</p>
+</li>
+<li><p>\choicescount</p>
+</li>
+<li><p>\choicescount*</p>
+</li>
+</ul>
+<p>带星号的命令用于输出表格形式</p>
+<h2 id="加强完整源码"><a href="#加强完整源码" class="headerlink" title="加强完整源码"></a>加强完整源码</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;geometry,tabularx&#125;</span><br><span class="line"><span class="keyword">\geometry</span>&#123;margin=2cm&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;choice.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\seq_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq</span><br><span class="line"><span class="keyword">\seq_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq</span><br><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\regex_count:nnN</span>&#123;nVN&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choices</span>&#125;&#123;ommmm&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfNoValueTF</span>&#123;<span class="params">#1</span>&#125;&#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="keyword">\space</span>&#125;&#125;&#123;<span class="keyword">\seq_put_right:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">#1</span>&#125;&#125;</span><br><span class="line">  <span class="keyword">\choice</span>&#123;<span class="params">#2</span>&#125;&#123;<span class="params">#3</span>&#125;&#123;<span class="params">#4</span>&#125;&#123;<span class="params">#5</span>&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\answerlist</span>&#125;&#123;s&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\int_step_inline:nn</span>&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">    &#123;<span class="keyword">\seq_put_right:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;&#125;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;tabularx&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq cm&#125;</span><br><span class="line">      &#123;|*&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;&#123;&gt;&#123;<span class="keyword">\centering</span><span class="keyword">\arraybackslash</span>&#125;X|&#125;&#125;</span><br><span class="line">      <span class="keyword">\hline</span></span><br><span class="line">      <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>amount<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;<span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">      <span class="keyword">\seq_use:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="built_in">&amp;</span>&#125;<span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">    <span class="keyword">\end</span>&#123;tabularx&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">    答案列表:~<span class="keyword">\int_step_inline:nnn</span>&#123;1&#125;&#123;<span class="keyword">\seq_count:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#125;</span><br><span class="line">    &#123;<span class="params">##1</span>.<span class="keyword">\seq_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq&#123;<span class="params">##1</span>&#125;~&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\choicecount</span>&#125;&#123;s&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\begin</span>&#123;tabular&#125;&#123;|c|c|c|c|c|&#125;</span><br><span class="line">      <span class="keyword">\hline</span></span><br><span class="line">      选项 <span class="built_in">&amp;</span> A <span class="built_in">&amp;</span> B <span class="built_in">&amp;</span> C <span class="built_in">&amp;</span> D <span class="keyword">\\</span><span class="keyword">\hline</span></span><br><span class="line">      计数 </span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">      <span class="built_in">&amp;</span> <span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int <span class="keyword">\\</span> <span class="keyword">\hline</span></span><br><span class="line">    <span class="keyword">\end</span>&#123;tabular&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">    选项计数: ~A:<span class="keyword">\regex_count:nVN</span>&#123;A&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> B:<span class="keyword">\regex_count:nVN</span>&#123;B&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> C:<span class="keyword">\regex_count:nVN</span>&#123;C&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int </span><br><span class="line">      <span class="keyword">\quad</span> D:<span class="keyword">\regex_count:nVN</span>&#123;D&#125;<span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>list<span class="built_in">_</span>seq<span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\int_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>choice<span class="built_in">_</span>amount<span class="built_in">_</span>int</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\choices</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[C]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[D]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[A]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[D]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\choices</span>[B]&#123;A&#125;&#123;B&#125;&#123;C&#125;&#123;D&#125;</span><br><span class="line"><span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\vspace</span>*&#123;2cm&#125;</span><br><span class="line"><span class="keyword">\centering</span></span><br><span class="line"><span class="keyword">\answerlist</span>*</span><br><span class="line"><span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\choicecount</span>*</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出结果-1"><a href="#输出结果-1" class="headerlink" title="输出结果"></a>输出结果</h2><p><img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/QQ%E6%88%AA%E5%9B%BE20220217132609.png"></p>
+<hr>
+<p>好了，就到这儿叭，我们下期再见啦 ~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-TikZ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX3-TikZ/" class="post-title-link" itemprop="url">LaTeX3 和 TikZ 结合绘图</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:59" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这是LaTeX3的使用样例</p>
+<hr>
+<h2 id="定义颜色"><a href="#定义颜色" class="headerlink" title="定义颜色"></a>定义颜色</h2><p>colors.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\definecolor</span>&#123;1&#125;&#123;RGB&#125;&#123;255,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;2&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;3&#125;&#123;RGB&#125;&#123;0,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;4&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;5&#125;&#123;RGB&#125;&#123;225,0,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;6&#125;&#123;RGB&#125;&#123;225,255,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;7&#125;&#123;RGB&#125;&#123;47,79,79&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;8&#125;&#123;RGB&#125;&#123;25,25,112&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;9&#125;&#123;RGB&#125;&#123;0,200,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;10&#125;&#123;RGB&#125;&#123;124,252,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;11&#125;&#123;RGB&#125;&#123;139,69,19&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;12&#125;&#123;RGB&#125;&#123;250,128,114&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;13&#125;&#123;RGB&#125;&#123;255,69,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;14&#125;&#123;RGB&#125;&#123;153,50,204&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;15&#125;&#123;RGB&#125;&#123;139,121,94&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;16&#125;&#123;RGB&#125;&#123;205,193,197&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;17&#125;&#123;RGB&#125;&#123;205,16,118&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;18&#125;&#123;RGB&#125;&#123;238,154,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;19&#125;&#123;RGB&#125;&#123;205,133,63&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;20&#125;&#123;RGB&#125;&#123;139,0,139&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主文件"><a href="#主文件" class="headerlink" title="主文件"></a>主文件</h2><p>main.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=5cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=0.1cm,y=0.1cm]  </span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;1080&#125; <span class="keyword">\i</span> </span><br><span class="line">        &#123;   </span><br><span class="line">            <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> 2+1*<span class="keyword">\i</span>)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15*<span class="keyword">\i</span>&#125;        </span><br><span class="line">        &#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>输出<br><img src="https://pic4.zhimg.com/80/v2-13e03941cfa2da229449c2128c569c25.jpg" alt="Image"><br>将函数解析式稍加修改</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=10cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=20cm,y=20cm]</span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;360&#125; <span class="keyword">\i</span> </span><br><span class="line">     &#123;   </span><br><span class="line">         <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> &#123;1-sin(<span class="keyword">\i</span>)&#125;)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15&#125;        </span><br><span class="line">     &#125; </span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>得到<br><img src="https://pic4.zhimg.com/80/v2-bc27ca6062fe5896b4a2df6a671916df.jpg" alt="Image"></p>
+<hr>
+<p>点赞，关注都是我的动力鸭~~~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -878,7 +1287,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>xparse</strong> 宏包是一个非常优秀的宏包，值得大家去学习，另外，作者水平有限，如有错误或者疑问，欢迎联系我</p>
 <ul>
 <li><strong>QQ</strong> : 1123203930</li>
-<li><strong>Email</strong> : <a href="mailto:&#49;&#49;&#50;&#51;&#x32;&#x30;&#51;&#x39;&#x33;&#48;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#49;&#49;&#50;&#51;&#x32;&#x30;&#51;&#x39;&#x33;&#48;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></li>
+<li><strong>Email</strong> : <a href="mailto:&#49;&#x31;&#50;&#51;&#x32;&#x30;&#x33;&#57;&#x33;&#48;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;">&#49;&#x31;&#50;&#51;&#x32;&#x30;&#x33;&#57;&#x33;&#48;&#64;&#113;&#113;&#x2e;&#99;&#x6f;&#x6d;</a></li>
 </ul>
 
       
@@ -1020,371 +1429,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/day04/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/11/day04/" class="post-title-link" itemprop="url">Java 学习第四天</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-11 01:37:27 / 修改时间：01:52:25" itemprop="dateCreated datePublished" datetime="2022-11-11T01:37:27+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="文件I-x2F-O"><a href="#文件I-x2F-O" class="headerlink" title="文件I&#x2F;O"></a>文件I&#x2F;O</h2><h3 id="构造及使用-待补充"><a href="#构造及使用-待补充" class="headerlink" title="构造及使用(待补充)"></a>构造及使用(待补充)</h3><h3 id="替换文本-待完善"><a href="#替换文本-待完善" class="headerlink" title="替换文本(待完善)"></a>替换文本(待完善)</h3><ul>
-<li>需求: 编写一个程序, 从命令行接受参数, 实现对文件内容替换, 如</li>
-</ul>
-<blockquote>
-<p>java ReplaceFileContents oldString newString sourceFile targetFile</p>
-</blockquote>
-<p>将实现对 <code>sourceFile</code> 中的 <code>oldString</code> 替换为 <code>newString</code>, 并保存到 <code>targetFile</code> 中. </p>
-<ul>
-<li><code>ReplaceFileContents.java</code><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">ReplaceFileContents.java</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileNotFoundException;</span><br><span class="line"><span class="keyword">import</span> java.io.PrintWriter;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">ReplaceFileContents</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> FileNotFoundException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">currentString</span> <span class="operator">=</span> args[<span class="number">0</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">replaceString</span> <span class="operator">=</span> args[<span class="number">1</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">oldFileName</span> <span class="operator">=</span> args[<span class="number">2</span>];</span><br><span class="line">        <span class="type">String</span> <span class="variable">newFileName</span> <span class="operator">=</span> args[<span class="number">3</span>];</span><br><span class="line">        </span><br><span class="line">        <span class="type">File</span> <span class="variable">oldFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(oldFileName);</span><br><span class="line">        <span class="type">File</span> <span class="variable">newFile</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(newFileName);</span><br><span class="line">        <span class="type">PrintWriter</span> <span class="variable">file</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">PrintWriter</span>(newFile);</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(oldFile);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (input.hasNext())&#123;</span><br><span class="line">            file.println(input.nextLine().replaceAll(currentString,replaceString));</span><br><span class="line">        &#125;</span><br><span class="line">        file.close();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><code>old.txt</code><figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my name is ljguo,</span><br><span class="line">ljguo is me,</span><br><span class="line">ljguo love gxx.</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>javac ReplaceFileContents.java<br>java ReplaceFileContents ljguo LJGUO old.txt new.txt</p>
-</blockquote>
-</li>
-</ul>
-<p>会在当前目录下生成文件<code>new.txt</code>, 内容为</p>
-<figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">my name is LJGUO,</span><br><span class="line">LJGUO is me,</span><br><span class="line">LJGUO love gxx.</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/09/day03/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/09/day03/" class="post-title-link" itemprop="url">Java 学习第三天</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-09 20:55:32" itemprop="dateCreated datePublished" datetime="2022-11-09T20:55:32+08:00">2022-11-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-11 21:54:03" itemprop="dateModified" datetime="2022-11-11T21:54:03+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h3><p>在 Java 中, 异常会导致程序运行时错误, 如果没有得到处理, 程序将会终止<br>例如</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line"><span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line"><span class="type">int</span> <span class="variable">num2</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line">System.out.println(num1 + <span class="string">&quot; / &quot;</span> + num2 + <span class="string">&quot; is &quot;</span> + (num1/num2));</span><br></pre></td></tr></table></figure>
-<p>如果为 <code>num2</code> 键入 0, Java 会抛出一个 <code>ArithmeticException</code> 的异常, 程序终止<br>为解决这个问题, 可以用如下的方式.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        System.out.println(<span class="string">&quot;Please insert two numbers for num1 and num2: &quot;</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line">        <span class="type">int</span> <span class="variable">num2</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (num2 != <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(num1 + <span class="string">&quot; / &quot;</span> + num2 + <span class="string">&quot; is &quot;</span> + (num1 / num2));</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Try insert again: &quot;</span>);</span><br><span class="line">                num2 = input.nextInt();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>当然, 这是不优雅的, 没有扩展性, 我们采取 Java 的异常处理</p>
-<ul>
-<li><p><code>try-catch</code> </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">Scanner</span> <span class="variable">input</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Scanner</span>(System.in);</span><br><span class="line">        System.out.println(<span class="string">&quot;Please insert two numbers for num1 and num2: &quot;</span>);</span><br><span class="line">        <span class="type">int</span> <span class="variable">num1</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line">        <span class="type">int</span> <span class="variable">num2</span> <span class="operator">=</span> input.nextInt();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            System.out.println(num1 + <span class="string">&quot; / &quot;</span> + num2 + <span class="string">&quot; is &quot;</span> + (num1 / num2));</span><br><span class="line">        &#125;<span class="keyword">catch</span> (ArithmeticException ex) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;cannot be divided by zero&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>try</code> 块是可能发生异常的块, <code>catch</code> 用于捕获参数中的异常, 此处是 <code>ArithmeticException</code>, 一旦捕获到异常, 立马跳转到 <code>catch</code> 块</p>
-</li>
-<li><p>创建异常<br>异常也是一个类, 可以创建对象, 如下创建并抛出异常</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ArithmeticException</span> <span class="variable">ex</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ArithmeticException</span>(<span class="string">&quot;Message&quot;</span>);</span><br><span class="line"><span class="keyword">throw</span> ex;</span><br></pre></td></tr></table></figure></li>
-<li><p>申明异常<br>如果一个方法可能出现异常, 创建时需要声明异常, 以便用户使用时能够知道此方法可能抛出异常, 既进行处理</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">throwTest</span><span class="params">()</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">    xxx;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>throws</code> 用于声明异常, 可以声明多个, 以逗号分隔</p>
-</li>
-<li><p>异常类型</p>
-<ul>
-<li>系统错误, 由 Java 虚拟机抛出, 用 <code>Error</code> 表示<ul>
-<li><code>LinkageError</code></li>
-</ul>
-</li>
-<li>异常, 用 <code>Exception</code> 表示, 这类可以被程序捕获处理<ul>
-<li><code>ClassNotFoundException</code>, 企图使用一个不存在的类</li>
-<li><code>IOException</code>, 文件相关</li>
-</ul>
-</li>
-<li>运行时异常, 用 <code>RuntimeException</code> 表示<ul>
-<li><code>ArithmeticException</code>, 算术异常, 整数除以 0 导致, 注意浮点数不会</li>
-<li><code>NullPointerException</code>, 企图通过一个 null 引用变量访问一个对象</li>
-<li><code>IndexOutOfBoundsException</code>, 数组下标越界</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>finally 子句<br>用于异常被捕获与否都会执行的块</p>
-</li>
-</ul>
-<hr>
-<h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><ul>
-<li>通过继承 <code>Thread</code> 类构造多线程<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Threadx</span> <span class="keyword">extends</span> <span class="title class_">Thread</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>重写 <code>run</code> 方法，方法内部是要让线程做的任务<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (trick &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;票已卖完&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;       </span><br><span class="line">            System.out.println(getName() + <span class="string">&quot;正在售卖第&quot;</span> + (<span class="number">100</span> - trick + <span class="number">1</span>) + <span class="string">&quot;张票，还剩下&quot;</span> + (trick--) + <span class="string">&quot;张票&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>创建并开启线程<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Threadx</span> <span class="variable">t</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Threadx</span>();</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure></li>
-<li>通过 <code>Runnable</code> 实现<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">T</span> <span class="keyword">implements</span> <span class="title class_">Runnable</span> &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>重写 <code>run</code> 方法，方法内部是要让线程做的任务<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">run</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (trick &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;票已卖完&quot;</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;       </span><br><span class="line">            System.out.println(getName() + <span class="string">&quot;正在售卖第&quot;</span> + (<span class="number">100</span> - trick + <span class="number">1</span>) + <span class="string">&quot;张票，还剩下&quot;</span> + (trick--) + <span class="string">&quot;张票&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>创建线程对象<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">T</span> <span class="variable">win1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">T</span>();</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(win1,<span class="string">&quot;窗口一&quot;</span>);</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(win1,<span class="string">&quot;窗口二&quot;</span>);</span><br><span class="line"><span class="type">Thread</span> <span class="variable">t3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Thread</span>(win1,<span class="string">&quot;窗口三&quot;</span>);</span><br><span class="line">t1.start();</span><br><span class="line">t2.start();</span><br><span class="line">t3.start();</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="解决线程不安全"><a href="#解决线程不安全" class="headerlink" title="解决线程不安全"></a>解决线程不安全</h3><ul>
-<li><code>synchronized</code> 锁方法<br>将 <code>run</code> 方法锁起来<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (<span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (trick &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;票已卖完&quot;</span>);</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">RuntimeException</span>(e);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(Thread.currentThread().getName() + <span class="string">&quot;正在售卖第&quot;</span> + (<span class="number">100</span> - trick + <span class="number">1</span>) + <span class="string">&quot;张票，还剩下&quot;</span> (trick--) + <span class="string">&quot;张票&quot;</span>);   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/06/day02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/06/day02/" class="post-title-link" itemprop="url">Java 学习第二天</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-06 14:06:00" itemprop="dateCreated datePublished" datetime="2022-11-06T14:06:00+08:00">2022-11-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-11 00:30:18" itemprop="dateModified" datetime="2022-11-11T00:30:18+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="JOptionPane-类"><a href="#JOptionPane-类" class="headerlink" title="JOptionPane 类"></a>JOptionPane 类</h2><ul>
-<li>导入包<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> javax.swing.JOptionPane;</span><br></pre></td></tr></table></figure></li>
-<li>showMessageDialog<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JOptionPane.showMessageDialog(<span class="literal">null</span>, x, y, JOptionPane.INFORMATION_MESSAGE);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>第一个参数总是 <code>null</code></li>
-<li><code>x</code> 是要显示的字符串</li>
-<li><code>y</code> 是消息对话框的标题</li>
-<li><code>JOptionPane.INFORMATION_MESSAGE</code> 是图标</li>
-</ul>
-</li>
-<li>showInputDialog<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">string</span> <span class="operator">=</span> JOptionPane.showMessageDialog(<span class="literal">null</span>, x, y, JOptionPane.INFORMATION_MESSAGE);</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>x</code> 是提示字符串</li>
-<li><code>y</code> 是标题字符串</li>
-<li>返回的是字符串, 若需要其它类型需要转换, 如   <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">intValue</span> <span class="operator">=</span> Integer.parseInt(string); </span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ul>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="string">&quot;ljguo&quot;</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="创建及使用"><a href="#创建及使用" class="headerlink" title="创建及使用"></a>创建及使用</h3><p><code>String</code> 类有很多构造方法, 例如接受字符串, 字符数组等.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;my name is ljguo&quot;</span>);</span><br><span class="line"><span class="type">char</span>[] charArray = &#123;<span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;j&#x27;</span>, <span class="string">&#x27;g&#x27;</span>, <span class="string">&#x27;u&#x27;</span>, <span class="string">&#x27;o&#x27;</span>&#125;;</span><br><span class="line"><span class="type">String</span> <span class="variable">str</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(charArray);</span><br></pre></td></tr></table></figure>
-<p>诸如 <code>&quot;ljguo&quot;</code> 这种称为<strong>字符串直接量</strong>, <code>java</code> 为了提高效率和节约内存, 对具有相同字符串序列的字符串直接量使用同一实例(对象), 也即</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">str1</span> <span class="operator">=</span> <span class="string">&quot;ljguo&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">str2</span> <span class="operator">=</span> <span class="string">&quot;ljguo&quot;</span>;</span><br><span class="line"><span class="type">String</span> <span class="variable">str3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">String</span>(<span class="string">&quot;ljguo&quot;</span>);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">str1 == str2 : true</span></span><br><span class="line"><span class="comment">str1 == str3 : false</span></span><br><span class="line"><span class="comment">*/</span> </span><br></pre></td></tr></table></figure>
-<p>这是因为 <code>str1</code> 和 <code>str2</code> 在用 <code>==</code> 进行比较的时候比较的是引用值(类似于地址), 而二者指向同一对象, 故它们的引用值是相等的.<br><code>String</code> 类还提供了一些方法</p>
-<ul>
-<li><code>equals(s: String): boolean</code> 比较两个字符串对象所指的字符串是否相等, 继承自 <code>Object</code>.</li>
-<li><code>equalsIgnoreCase(s: String): boolean</code> 忽略大小写的 <code>equals</code>.</li>
-<li><code>compareTo(s: String): int</code> 比较字符串, 返回一个 <code>int</code>.</li>
-<li><code>startsWith(prefix: String): boolean</code>, 返回一个 <code>boolean</code>, 用于检测该字符串是否以 <code>prefix</code> 为前缀.</li>
-<li><code>endsWith(suffix: String): boolean</code>, 返回一个 <code>boolean</code>, 用于检测该字符串是否以 <code>suffix</code> 为后缀.<br>此外还有一些方法, 例如: <code>toLowerCase</code>, <code>replace</code>, <code>replaceFirst</code>, <code>replaceAll</code>, <code>split</code>, <code>matches</code>等, 他们都支持以<strong>正则表达式</strong>进行匹配, 更多的方法参考API.</li>
-</ul>
-<h3 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h3><ul>
-<li><code>Integer.parseInt(s: String): int</code> 将字符串转换为整数, 这是<code>Integer</code>类提供的方法, 其他基本类型对应的包装类也都提供了对应的方法</li>
-<li><code>valueOf()</code> 将其他基本数据转换为字符串.</li>
-<li><code>toCharArray()</code> 将字符串转换为字符数组.</li>
-</ul>
-<h3 id="StringBuilder和StringBuffer类"><a href="#StringBuilder和StringBuffer类" class="headerlink" title="StringBuilder和StringBuffer类"></a>StringBuilder和StringBuffer类</h3><p>这两个类用来代替 <code>String</code> 类, 处理可变长字符串.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">StringBuffer</span> <span class="variable">str1</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(); <span class="comment">// 创建长度为 16 的生成器</span></span><br><span class="line"><span class="type">StringBuffer</span> <span class="variable">str2</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="number">10</span>); <span class="comment">// length: 10</span></span><br><span class="line"><span class="type">StringBuffer</span> <span class="variable">str3</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuffer</span>(<span class="string">&quot;ljguo&quot;</span>); <span class="comment">// length: &quot;ljguo&quot;.length();</span></span><br></pre></td></tr></table></figure>
-<p>方法</p>
-<ul>
-<li><code>append(d: char[])</code> 添加 char 数组</li>
-<li><code>append(s: String)</code> 添加字符串</li>
-<li><code>append(d: char[], offset: int, length: int)</code> </li>
-<li><code>append(v: aPrimetiveType)</code> 添加基本类型</li>
-<li><code>insert()</code>, <code>charAt()</code>, <code>deleteCharAt()</code>, <code>reverse()</code>等 </li>
-<li><code>capacity()</code> 返回生成器容量, 区分 <code>length()</code></li>
-<li><code>trimTosize()</code> 可以将容量降低到实际长度(用于节省内存)</li>
-</ul>
-<hr>
-<h1 id="Students-类-待更新"><a href="#Students-类-待更新" class="headerlink" title="Students 类(待更新)"></a>Students 类(待更新)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Students;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Students</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String[] elements;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">STUDENTS_SIZE</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">numberOfStudents</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Students</span><span class="params">()</span> &#123;</span><br><span class="line">        elements = <span class="keyword">new</span> <span class="title class_">String</span>[STUDENTS_SIZE];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">push</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (numberOfStudents &gt;= STUDENTS_SIZE) &#123;</span><br><span class="line">            String[] temp = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">2</span> * STUDENTS_SIZE];</span><br><span class="line">            STUDENTS_SIZE *= <span class="number">2</span>;</span><br><span class="line">            System.arraycopy(elements, <span class="number">0</span>, temp, <span class="number">0</span>, elements.length);</span><br><span class="line">            elements = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        elements[numberOfStudents++] = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getNumberOfStudents</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> numberOfStudents;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getStudent</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(index &lt; numberOfStudents)&#123;</span><br><span class="line">            <span class="keyword">return</span> elements[index];</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArrayIndexOutOfBoundsException</span>(<span class="string">&quot;Index &quot;</span> + index + <span class="string">&quot; out of bounds for length &quot;</span> + numberOfStudents);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">tem</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numberOfStudents; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; numberOfStudents - <span class="number">1</span>)</span><br><span class="line">                tem.append(elements[i]).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                tem.append(elements[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;[&quot;</span> + tem +<span class="string">&quot;]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">pop</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> elements[--numberOfStudents];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Students.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentsTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Students</span> <span class="variable">st</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Students</span>();</span><br><span class="line">        st.push(<span class="string">&quot;ljguo&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;王二麻子&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;王八蛋&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;狗头&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;二蛋子&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(st.getStudent(<span class="number">5</span>));</span><br><span class="line">        System.out.println(st.getNumberOfStudents());</span><br><span class="line">        </span><br><span class="line">        System.out.println(st.pop());</span><br><span class="line">        System.out.println(st);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">狗头</span><br><span class="line"><span class="number">7</span></span><br><span class="line">二蛋子</span><br><span class="line">[ljguo,张三,李四,王二麻子,王八蛋,狗头]</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
 </div>
