@@ -127,7 +127,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -175,6 +175,92 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-sort/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX3-sort/" class="post-title-link" itemprop="url">LaTeX3实例--冒泡排序</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:47" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="本文是-LaTeX3-的一个简单使用样例"><a href="#本文是-LaTeX3-的一个简单使用样例" class="headerlink" title="本文是 LaTeX3 的一个简单使用样例"></a>本文是 LaTeX3 的一个简单使用样例</h2><p>根据 C 语言的冒泡排序，改写成 LaTeX3， 如下：</p>
+<p>C (部分代码)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(j=<span class="number">0</span>;j&lt;<span class="number">4</span>-i;j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[j]&gt;a[j+<span class="number">1</span>])</span><br><span class="line">        &#123;</span><br><span class="line">            t=a[j];</span><br><span class="line">            a[j]=a[j+<span class="number">1</span>];</span><br><span class="line">            a[j+<span class="number">1</span>]=t;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>LaTeX3</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[UTF8]&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_t_int</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\sort</span>&#125;&#123;m&#125;</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\intarray_const_from_clist:Nn</span> <span class="keyword">\l_array_int</span> &#123;<span class="params">#1</span>&#125;                 </span><br><span class="line"><span class="keyword">\int_step_variable:nNn</span>&#123;<span class="keyword">\intarray_count:N</span> <span class="keyword">\l_array_int</span>&#125; <span class="keyword">\i</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\int_step_variable:nNn</span>&#123;<span class="keyword">\intarray_count:N</span> <span class="keyword">\l_array_int</span>-<span class="keyword">\i</span>&#125; <span class="keyword">\j</span> </span><br><span class="line">    &#123;        </span><br><span class="line">        <span class="keyword">\int_compare:nT</span> &#123;<span class="keyword">\intarray_item:Nn</span> <span class="keyword">\l_array_int</span>&#123;<span class="keyword">\j</span>&#125; &gt; <span class="keyword">\intarray_item:Nn</span><span class="keyword">\l_array_int</span>&#123;<span class="keyword">\j</span>+1&#125;&#125;</span><br><span class="line">        &#123;  </span><br><span class="line">        <span class="keyword">\int_set_eq:NN</span> <span class="keyword">\l_t_int</span> <span class="keyword">\intarray_item:Nn</span> <span class="keyword">\l_array_int</span>&#123;<span class="keyword">\j</span>&#125;   </span><br><span class="line">        <span class="keyword">\intarray_gset:Nnn</span>  <span class="keyword">\l_array_int</span> &#123;<span class="keyword">\j</span>&#125;&#123;<span class="keyword">\intarray_item:Nn</span> <span class="keyword">\l_array_int</span>&#123;<span class="keyword">\j</span>+1&#125;&#125;</span><br><span class="line">        <span class="keyword">\intarray_gset:Nnn</span>  <span class="keyword">\l_array_int</span> &#123;<span class="keyword">\j</span>+1&#125;&#123;<span class="keyword">\l_t_int</span>&#125;  </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">这些整数的由小到大的排序为：<span class="keyword">\int_step_inline:nn</span>&#123;<span class="keyword">\intarray_count:N</span> <span class="keyword">\l_array_int</span>&#125;&#123;<span class="keyword">\intarray_item:Nn</span><span class="keyword">\l_array_int</span> &#123;<span class="params">##1</span>&#125;~&#125;</span><br><span class="line"><span class="keyword">\cs_undefine:N</span> <span class="keyword">\l_array_int</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span> </span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\sort</span>&#123;15,4,12,5,45,5,6,15&#125;<span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\sort</span>&#123;12,5,4,5,6,78,100,105&#125;<span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\sort</span>&#123;42,0,-3,5,25,68&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>输出<br><img src="https://pic4.zhimg.com/80/v2-1f8c26052785eef792f0226c6c362c1b.png" alt="Image"></p>
+<hr>
+<p>关注，点赞都是我的动力鸭~~~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -792,7 +878,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>xparse</strong> 宏包是一个非常优秀的宏包，值得大家去学习，另外，作者水平有限，如有错误或者疑问，欢迎联系我</p>
 <ul>
 <li><strong>QQ</strong> : 1123203930</li>
-<li><strong>Email</strong> : <a href="mailto:&#x31;&#49;&#50;&#51;&#x32;&#x30;&#51;&#57;&#51;&#x30;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;">&#x31;&#49;&#50;&#51;&#x32;&#x30;&#51;&#57;&#51;&#x30;&#x40;&#113;&#x71;&#46;&#x63;&#111;&#109;</a></li>
+<li><strong>Email</strong> : <a href="mailto:&#49;&#49;&#50;&#51;&#x32;&#x30;&#51;&#x39;&#x33;&#48;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;">&#49;&#49;&#50;&#51;&#x32;&#x30;&#51;&#x39;&#x33;&#48;&#64;&#113;&#113;&#46;&#99;&#x6f;&#x6d;</a></li>
 </ul>
 
       
@@ -1297,173 +1383,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/05/day01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/05/day01/" class="post-title-link" itemprop="url">Java 学习第一天</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-11-05 00:43:06" itemprop="dateCreated datePublished" datetime="2022-11-05T00:43:06+08:00">2022-11-05</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-06 14:18:08" itemprop="dateModified" datetime="2022-11-06T14:18:08+08:00">2022-11-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li><p><strong>JDK</strong> Java Development Kit (Java 开发环境)</p>
-</li>
-<li><p><strong>JRE</strong> Java Runtime Environment (Java 运行环境)</p>
-</li>
-<li><p><strong>JVM</strong> Java Virtual Mechines (Java 虚拟机)</p>
-</li>
-<li><p>两个编译命令</p>
-<ul>
-<li><strong>javac</strong> 将 java 源文件 <code>.java</code> 编译成 <code>.class</code> 字节码文件</li>
-<li><strong>java</strong> 将解析 <code>.class</code> 文件</li>
-</ul>
-</li>
-<li><p>变量命名 </p>
-<ul>
-<li>驼峰命名: 除了第一个单词, 后面单词首字母大写</li>
-<li>允许使用数字, 字母, 美元符号, 下划线, 数字不能作为开头</li>
-<li>不能使用关键字</li>
-</ul>
-</li>
-<li><p><code>final</code> 用于声明常量</p>
-</li>
-<li><p>数据类型</p>
-<ul>
-<li><p>基本数据类型</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>大小</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>byte(字节类型)</td>
-<td>1byte(8bit)</td>
-<td>-128 - 127</td>
-</tr>
-<tr>
-<td>short</td>
-<td>2byte</td>
-<td>$-2^{15}$ - $2^{15}-1$</td>
-</tr>
-<tr>
-<td>int</td>
-<td>4byte</td>
-<td>$-2^{31}$ - $2^{31}-1$, $-2147483648$ - $2147483647$</td>
-</tr>
-<tr>
-<td>long</td>
-<td>8byte</td>
-<td>$-2^{63}$ - $2^{63}-1$, 为其赋值需要加 L 或 l</td>
-</tr>
-<tr>
-<td>float (单精度)</td>
-<td>4byte</td>
-<td>$-3.4\times 10^{38}$ - $3.4\times 10^{38}$, 为其赋值需要加 F 或 f</td>
-</tr>
-<tr>
-<td>double (双进度)</td>
-<td>8byte</td>
-<td></td>
-</tr>
-<tr>
-<td>char (字符型)</td>
-<td>2byte</td>
-<td>表示字符, unicode 码, (0 - 65535)</td>
-</tr>
-<tr>
-<td>boolean (布尔类型)</td>
-<td>1byte</td>
-<td>true, false</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>引用数据类型</p>
-<p><strong>String</strong>, <strong>Integer</strong>, <strong>Double</strong> 等类</p>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
