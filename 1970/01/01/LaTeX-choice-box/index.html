@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PingFang+SC:300,300italic,400,400italic,700,700italic%7Cconsolas:300,300italic,400,400italic,700,700italic%7CKaiTi:300,300italic,400,400italic,700,700italic%7CSimSum:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="想法来源今天下午在配置我的博客时，看到了这样一种效果  于是想着用 LaTeX 来实现一下 需要实现的功能 定义一个环境，命名为 test  ,并接受一些键值 colorlist &#x3D; {color1,color2,color3, … }, 用于设置各个选择框的颜色 color &#x3D; colorname, 用于接受一个颜色，指定下列所有选择框为同一颜色 scale &#x3D;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个复选列表效果">
+<meta property="og:url" content="http://example.com/1970/01/01/LaTeX-choice-box/index.html">
+<meta property="og:site_name" content="LJGUO">
+<meta property="og:description" content="想法来源今天下午在配置我的博客时，看到了这样一种效果  于是想着用 LaTeX 来实现一下 需要实现的功能 定义一个环境，命名为 test  ,并接受一些键值 colorlist &#x3D; {color1,color2,color3, … }, 用于设置各个选择框的颜色 color &#x3D; colorname, 用于接受一个颜色，指定下列所有选择框为同一颜色 scale &#x3D;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box1.png">
+<meta property="og:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box2.png">
+<meta property="og:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box3.png">
+<meta property="og:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box4.png">
+<meta property="article:published_time" content="1970-01-01T00:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-11T14:44:15.282Z">
+<meta property="article:author" content="ljguo">
+<meta property="article:tag" content="LaTeX3">
+<meta property="article:tag" content="实例">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box1.png">
+
+
+<link rel="canonical" href="http://example.com/1970/01/01/LaTeX-choice-box/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/1970/01/01/LaTeX-choice-box/","path":"1970/01/01/LaTeX-choice-box/","title":"实现一个复选列表效果"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>实现一个复选列表效果 | LJGUO</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">LJGUO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">芒果不盲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-随笔"><a href="/diary/" rel="section"><i class="fa fa-pen-nib fa-fw"></i>随笔</a></li><li class="menu-item menu-item-目标"><a href="/flag/" rel="section"><i class="fa fa-flag fa-fw"></i>目标</a></li><li class="menu-item menu-item-关于我"><a href="/about/" rel="section"><i class="fa fa-bolt fa-fw"></i>关于我</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%83%B3%E6%B3%95%E6%9D%A5%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">想法来源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9C%80%E8%A6%81%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">需要实现的功能</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E5%8A%A8%E6%89%8B"><span class="nav-number">2.</span> <span class="nav-text">开始动手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">2.1.</span> <span class="nav-text">预定义变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-l3draw-%E6%9D%A5%E7%BB%98%E5%88%B6%E4%B8%A4%E7%A7%8D%E6%A1%86"><span class="nav-number">2.2.</span> <span class="nav-text">使用 l3draw 来绘制两种框</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%94%AE%E5%80%BC"><span class="nav-number">2.3.</span> <span class="nav-text">定义键值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89-test-%E7%8E%AF%E5%A2%83"><span class="nav-number">2.4.</span> <span class="nav-text">定义 test 环境</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%BA%90%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">完整源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="nav-number">4.</span> <span class="nav-text">输出结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AA%E5%AE%8C%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">未完结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E7%BB%AD"><span class="nav-number">6.</span> <span class="nav-text">继续</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%BA%90%E7%A0%81-1"><span class="nav-number">7.</span> <span class="nav-text">完整源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">8.</span> <span class="nav-text">测试</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ljguo</p>
+  <div class="site-description" itemprop="description">学习交流</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ljguo1020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ljguo1020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ljguo1020@gmail.com" title="E-Mail → mailto:ljguo1020@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/1970/01/01/LaTeX-choice-box/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="实现一个复选列表效果 | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          实现一个复选列表效果
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：1970-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="1970-01-01T08:00:00+08:00">1970-01-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-11-11 22:44:15" itemprop="dateModified" datetime="2022-11-11T22:44:15+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="想法来源"><a href="#想法来源" class="headerlink" title="想法来源"></a>想法来源</h2><p>今天下午在配置我的博客时，看到了这样一种效果</p>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box1.png"></p>
+<p>于是想着用 LaTeX 来实现一下</p>
+<h3 id="需要实现的功能"><a href="#需要实现的功能" class="headerlink" title="需要实现的功能"></a>需要实现的功能</h3><ul>
+<li>定义一个环境，命名为 <code>test </code> ,并接受一些键值<ul>
+<li>colorlist &#x3D; {color1,color2,color3, … }, 用于设置各个选择框的颜色</li>
+<li>color &#x3D; colorname, 用于接受一个颜色，指定下列所有选择框为同一颜色</li>
+<li>scale &#x3D;  fp ,用于对框大小进行缩放</li>
+<li>style &#x3D; ,用于设置框的样式</li>
+</ul>
+</li>
+<li>(在<code>test</code>环境中)重新定义 <code>\item</code> 命令 和 <code>\item*</code> 命令，分别用于制定空框和选择框</li>
+<li><code>\item</code> 可以接受一个可选参数，即 <code>\item[]</code> <code>\item*[]</code> ,这个可选参数可以设置键值<ul>
+<li>设置当前框颜色</li>
+<li>style &#x3D; ,  设置当前框样式</li>
+</ul>
+</li>
+</ul>
+<h2 id="开始动手"><a href="#开始动手" class="headerlink" title="开始动手"></a>开始动手</h2><h3 id="预定义变量"><a href="#预定义变量" class="headerlink" title="预定义变量"></a>预定义变量</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int <span class="comment">% 用于为 \item 命令设置计数器</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-l3draw-来绘制两种框"><a href="#使用-l3draw-来绘制两种框" class="headerlink" title="使用 l3draw 来绘制两种框"></a>使用 <code>l3draw</code> 来绘制两种框</h3><ol>
+<li><code>\__item_true_label:</code> 选择样式</li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_true_label:</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw_begin:</span></span><br><span class="line">    <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">    <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">    <span class="keyword">\color_fill:x</span>&#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">    <span class="keyword">\draw_path_use:n</span>&#123;fill&#125;</span><br><span class="line">    <span class="keyword">\draw_scope_begin:</span></span><br><span class="line">    <span class="keyword">\draw_cap_round:</span></span><br><span class="line">    <span class="keyword">\draw_join_round:</span></span><br><span class="line">    <span class="keyword">\color_select:n</span>&#123;white&#125;</span><br><span class="line">    <span class="keyword">\draw_path_moveto:n</span>&#123;0.1cm,0.21cm&#125;</span><br><span class="line">    <span class="keyword">\draw_path_lineto:n</span>&#123;0.18cm,0.08cm&#125;</span><br><span class="line">    <span class="keyword">\draw_path_lineto:n</span>&#123;0.32cm,0.32cm&#125;</span><br><span class="line">    <span class="keyword">\draw_linewidth:n</span>&#123;1pt&#125;</span><br><span class="line">    <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">    <span class="keyword">\draw_scope_end:</span></span><br><span class="line">    <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>\__item_false_label:</code> 未选择样式</li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_false_label:</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw_begin:</span></span><br><span class="line">    <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">    <span class="keyword">\draw_linewidth:n</span>&#123;0.8pt&#125;</span><br><span class="line">    <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">    <span class="keyword">\color_select:x</span>&#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">    <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">    <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意上面代码中有两个函数</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\color_select:x</span></span><br><span class="line"><span class="keyword">\color_fill:x</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>expl3</strong>  宏包为我们提供的是 <code>n</code> 变体，这里我们需要对它所接受的参数进行完全展开，于是我们定义一个 <code>x</code> 变体</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_fill:n</span>&#123;x&#125;</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_select:n</span>&#123;x&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义键值"><a href="#定义键值" class="headerlink" title="定义键值"></a>定义键值</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\keys_define:nn</span>&#123;test&#125;</span><br><span class="line">&#123;</span><br><span class="line">  colorlist.clist<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist,   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="定义-test-环境"><a href="#定义-test-环境" class="headerlink" title="定义 test 环境"></a>定义 <code>test</code> 环境</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;test&#125;&#123;m&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\int_zero:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int        </span><br><span class="line">  <span class="keyword">\keys_set:nn</span>&#123;test&#125;&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\seq_set_from_clist:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>seq <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist       </span><br><span class="line">  <span class="keyword">\RenewDocumentCommand</span>&#123;<span class="keyword">\item</span>&#125;&#123;sm&#125;</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\int_incr:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line">    <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">##1</span>&#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\__item_true_label:</span> <span class="keyword">\space</span> <span class="params">##2</span> <span class="keyword">\par</span></span><br><span class="line">    &#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\__item_false_label:</span> <span class="keyword">\space</span> <span class="params">##2</span> <span class="keyword">\par</span></span><br><span class="line">    &#125;</span><br><span class="line">    &#125;        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至此，暂时告一段落～</p>
+<h2 id="完整源码"><a href="#完整源码" class="headerlink" title="完整源码"></a>完整源码</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;l3draw&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">    <span class="keyword">\ExplSyntaxOn</span></span><br><span class="line">    <span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line">    <span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_fill:n</span>&#123;x&#125;</span><br><span class="line">    <span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_select:n</span>&#123;x&#125;</span><br><span class="line">    <span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_true_label:</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\draw_begin:</span></span><br><span class="line">      <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">      <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">      <span class="keyword">\color_fill:x</span>&#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">      <span class="keyword">\draw_path_use:n</span>&#123;fill&#125;</span><br><span class="line">      <span class="keyword">\draw_scope_begin:</span></span><br><span class="line">      <span class="keyword">\draw_cap_round:</span></span><br><span class="line">      <span class="keyword">\draw_join_round:</span></span><br><span class="line">      <span class="keyword">\color_select:n</span>&#123;white&#125;</span><br><span class="line">      <span class="keyword">\draw_path_moveto:n</span>&#123;0.1cm,0.21cm&#125;</span><br><span class="line">      <span class="keyword">\draw_path_lineto:n</span>&#123;0.18cm,0.08cm&#125;</span><br><span class="line">      <span class="keyword">\draw_path_lineto:n</span>&#123;0.32cm,0.32cm&#125;</span><br><span class="line">      <span class="keyword">\draw_linewidth:n</span>&#123;1pt&#125;</span><br><span class="line">      <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">      <span class="keyword">\draw_scope_end:</span></span><br><span class="line">      <span class="keyword">\draw_end:</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_false_label:</span></span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\draw_begin:</span></span><br><span class="line">      <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">      <span class="keyword">\draw_linewidth:n</span>&#123;0.8pt&#125;</span><br><span class="line">      <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">      <span class="keyword">\color_select:x</span>&#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">      <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">      <span class="keyword">\draw_end:</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">\keys_define:nn</span>&#123;test&#125;</span><br><span class="line">    &#123;</span><br><span class="line">      colorlist.clist<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist,   </span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">\NewDocumentEnvironment</span>&#123;test&#125;&#123;m&#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\int_zero:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int        </span><br><span class="line">      <span class="keyword">\keys_set:nn</span>&#123;test&#125;&#123;<span class="params">#1</span>&#125;</span><br><span class="line">      <span class="keyword">\seq_set_from_clist:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>seq <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist       </span><br><span class="line">      <span class="keyword">\RenewDocumentCommand</span>&#123;<span class="keyword">\item</span>&#125;&#123;sm&#125;</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">\int_incr:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line">        <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">##1</span>&#125;</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">\__item_true_label:</span> <span class="keyword">\space</span> <span class="params">##2</span> <span class="keyword">\par</span></span><br><span class="line">        &#125;</span><br><span class="line">        &#123;</span><br><span class="line">          <span class="keyword">\__item_false_label:</span> <span class="keyword">\space</span> <span class="params">##2</span> <span class="keyword">\par</span></span><br><span class="line">        &#125;</span><br><span class="line">     &#125;        </span><br><span class="line">    &#125;</span><br><span class="line">    &#123;<span class="keyword">\vspace</span>*&#123;0.5cm&#125;&#125;</span><br><span class="line">    <span class="keyword">\ExplSyntaxOff</span></span><br><span class="line">&#123;<span class="keyword">\LARGE</span><span class="keyword">\bfseries</span> 我喜欢？&#125;<span class="keyword">\par</span> </span><br><span class="line"><span class="keyword">\begin</span>&#123;test&#125;&#123;colorlist=&#123;green,cyan,red,blue,red,yellow,red&#125;&#125;</span><br><span class="line">  <span class="keyword">\item</span>*&#123;熬夜&#125; </span><br><span class="line">  <span class="keyword">\item</span>&#123;玩游戏&#125; </span><br><span class="line">  <span class="keyword">\item</span>*&#123;打羽毛球&#125; </span><br><span class="line">  <span class="keyword">\item</span>*&#123;LaTeX&#125;</span><br><span class="line">  <span class="keyword">\item</span>*&#123;听歌&#125;</span><br><span class="line">  <span class="keyword">\item</span>&#123;学习&#125;</span><br><span class="line">  <span class="keyword">\item</span>*&#123;熬夜玩游戏&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;test&#125; </span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h2><p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box2.png"></p>
+<h2 id="未完结"><a href="#未完结" class="headerlink" title="未完结"></a>未完结</h2><p>还有些功能没有实现，后面再更新吧 ～ 现在是凌晨 02:55 先睡了～</p>
+<hr>
+<h2 id="继续"><a href="#继续" class="headerlink" title="继续"></a>继续</h2><p>我来继续更新啦~</p>
+<p>我打算用 <code>l3coffin</code> 来实现了，最近看了一下这个模块，真的是非常厉害！</p>
+<ul>
+<li>首先我们需要对绘制的两种框代码做一点点修改</li>
+</ul>
+<ol>
+<li><code>\__item_true_label:</code>  选择样式</li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_true_label:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\draw_begin:</span></span><br><span class="line">  <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">  <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">  <span class="keyword">\color_fill:x</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;fill&#125;</span><br><span class="line">  <span class="keyword">\draw_scope_begin:</span></span><br><span class="line">  <span class="keyword">\draw_cap_round:</span></span><br><span class="line">  <span class="keyword">\draw_join_round:</span></span><br><span class="line">  <span class="keyword">\color_select:n</span>&#123;white&#125;</span><br><span class="line">  <span class="keyword">\draw_path_moveto:n</span>&#123;0.1cm,0.21cm&#125;</span><br><span class="line">  <span class="keyword">\draw_path_lineto:n</span>&#123;0.18cm,0.08cm&#125;</span><br><span class="line">  <span class="keyword">\draw_path_lineto:n</span>&#123;0.32cm,0.32cm&#125;</span><br><span class="line">  <span class="keyword">\draw_linewidth:n</span>&#123;1pt&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">  <span class="keyword">\draw_scope_end:</span></span><br><span class="line">  <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>\__item_false_label:</code> 未选择样式</li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_false_label:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\draw_begin:</span></span><br><span class="line">  <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">  <span class="keyword">\draw_linewidth:n</span>&#123;0.8pt&#125;</span><br><span class="line">  <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">  <span class="keyword">\color_select:x</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">  <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义两个函数来输出 <code>coffin</code></li>
+</ul>
+<ol>
+<li><code>\__item_label: </code></li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new_protected:Npn</span> <span class="keyword">\__item_label:</span> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\par</span></span><br><span class="line">  <span class="keyword">\int_compare:nF</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int = <span class="keyword">\c_zero_int</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\__item_content:</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">\int_incr:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\vcoffin_set:Nnx</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin &#123;1cm&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\vcoffin_set:Nnw</span> <span class="keyword">\_</span><span class="built_in">_</span>content<span class="built_in">_</span>coffin &#123;<span class="keyword">\textwidth</span> - <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim - 2cm&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>\__item_content:</code></li>
+</ol>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new_protected:Npn</span> <span class="keyword">\__item_content:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\vcoffin_set_end:</span></span><br><span class="line">  <span class="keyword">\coffin_join:NnnNnnnn</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin&#123;T&#125;&#123;r&#125;<span class="keyword">\_</span><span class="built_in">_</span>content<span class="built_in">_</span>coffin&#123;T&#125;&#123;l&#125;&#123;-10pt&#125;&#123;0pt&#125;</span><br><span class="line">  <span class="keyword">\coffin_typeset:Nnnnn</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin&#123;B&#125;&#123;l&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim&#125;</span><br><span class="line">  <span class="keyword">\par</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定义键值</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\keys_define:nn</span>&#123;test&#125;</span><br><span class="line">&#123;</span><br><span class="line">  colorlist.clist<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist, <span class="comment">% 用于设置颜色列表</span></span><br><span class="line">  vsep.dim<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim, <span class="comment">% 控制每个条目的垂直间距</span></span><br><span class="line">  vsep.initial:n = 1pt, <span class="comment">% 设置初始值</span></span><br><span class="line">  parsep.dim<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim, <span class="comment">% 控制每个条目整体水平的偏移量</span></span><br><span class="line">  parsep.initial:n = <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim, <span class="comment">% 设置初始值</span></span><br><span class="line">  color.str<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>str, <span class="comment">% 用于设置单个颜色</span></span><br><span class="line">  color.initial:n = black <span class="comment">% 设置初始值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>提前申明变量和定义函数变体</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\coffin_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin</span><br><span class="line"><span class="keyword">\coffin_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>output<span class="built_in">_</span>coffin</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_set_eq:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim <span class="keyword">\parindent</span></span><br><span class="line"><span class="keyword">\tl_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span> <span class="keyword">\vcoffin_set:Nnn</span>&#123;Nnx&#125;</span><br><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_fill:n</span>&#123;x&#125;</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_select:n</span>&#123;x&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>test</code> 环境</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;test&#125;&#123;O&#123;&#125;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\group_begin:</span> </span><br><span class="line">  <span class="keyword">\dim_set:Nn</span> <span class="keyword">\parindent</span>&#123;0pt&#125;</span><br><span class="line">  <span class="keyword">\int_zero:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int        </span><br><span class="line">  <span class="keyword">\keys_set:nn</span>&#123;test&#125;&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\seq_set_from_clist:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>seq <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist  </span><br><span class="line">  <span class="keyword">\clist_if_empty:NTF</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\tl_set:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl</span><br><span class="line">    &#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>str&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\tl_set:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl &#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">  &#125;     </span><br><span class="line">  <span class="keyword">\RenewDocumentCommand</span>&#123;<span class="keyword">\item</span>&#125;&#123;s&#125;</span><br><span class="line">  &#123;           </span><br><span class="line">    <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">##1</span>&#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\tl_gset:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line">      &#123;<span class="keyword">\__item_true_label:</span>&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	&#123;</span><br><span class="line">	  <span class="keyword">\tl_gset:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line">	  &#123;</span><br><span class="line">		<span class="keyword">\__item_false_label:</span></span><br><span class="line">	  &#125; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">\__item_label:</span>					</span><br><span class="line">  &#125;          </span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\__item_output:</span></span><br><span class="line">  <span class="keyword">\group_end:</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这次就到这儿叭，后面在更新~</p>
+<h2 id="完整源码-1"><a href="#完整源码-1" class="headerlink" title="完整源码"></a>完整源码</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;l3draw,expl3,xparse&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\coffin_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin</span><br><span class="line"><span class="keyword">\coffin_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>content<span class="built_in">_</span>coffin</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim</span><br><span class="line"><span class="keyword">\dim_set_eq:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim <span class="keyword">\parindent</span></span><br><span class="line"><span class="keyword">\tl_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span> <span class="keyword">\vcoffin_set:Nnn</span>&#123;Nnx&#125;</span><br><span class="line"><span class="keyword">\int_zero_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_fill:n</span>&#123;x&#125;</span><br><span class="line"><span class="keyword">\cs_generate_variant:Nn</span><span class="keyword">\color_select:n</span>&#123;x&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_true_label:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\draw_begin:</span></span><br><span class="line">  <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">  <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">  <span class="keyword">\color_fill:x</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;fill&#125;</span><br><span class="line">  <span class="keyword">\draw_scope_begin:</span></span><br><span class="line">  <span class="keyword">\draw_cap_round:</span></span><br><span class="line">  <span class="keyword">\draw_join_round:</span></span><br><span class="line">  <span class="keyword">\color_select:n</span>&#123;white&#125;</span><br><span class="line">  <span class="keyword">\draw_path_moveto:n</span>&#123;0.1cm,0.21cm&#125;</span><br><span class="line">  <span class="keyword">\draw_path_lineto:n</span>&#123;0.18cm,0.08cm&#125;</span><br><span class="line">  <span class="keyword">\draw_path_lineto:n</span>&#123;0.32cm,0.32cm&#125;</span><br><span class="line">  <span class="keyword">\draw_linewidth:n</span>&#123;1pt&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">  <span class="keyword">\draw_scope_end:</span></span><br><span class="line">  <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\__item_false_label:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\draw_begin:</span></span><br><span class="line">  <span class="keyword">\draw_baseline:n</span>&#123;0.5ex&#125;</span><br><span class="line">  <span class="keyword">\draw_linewidth:n</span>&#123;0.8pt&#125;</span><br><span class="line">  <span class="keyword">\draw_path_rectangle:nn</span>&#123;0,0&#125;&#123;0.4cm,0.4cm&#125;</span><br><span class="line">  <span class="keyword">\color_select:x</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\draw_path_use:n</span>&#123;stroke&#125;</span><br><span class="line">  <span class="keyword">\draw_end:</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\cs_new_protected:Npn</span> <span class="keyword">\__item_label:</span> </span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\par</span></span><br><span class="line">  <span class="keyword">\int_compare:nF</span>&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int = <span class="keyword">\c_zero_int</span>&#125;</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\__item_content:</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">\int_incr:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int</span><br><span class="line">  <span class="keyword">\vcoffin_set:Nnx</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin &#123;1cm&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl&#125;</span><br><span class="line">  <span class="keyword">\vcoffin_set:Nnw</span> <span class="keyword">\_</span><span class="built_in">_</span>content<span class="built_in">_</span>coffin &#123;<span class="keyword">\textwidth</span> - <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim - 2cm&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\cs_new_protected:Npn</span> <span class="keyword">\__item_content:</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\vcoffin_set_end:</span></span><br><span class="line">  <span class="keyword">\coffin_join:NnnNnnnn</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin&#123;T&#125;&#123;r&#125;<span class="keyword">\_</span><span class="built_in">_</span>content<span class="built_in">_</span>coffin&#123;T&#125;&#123;l&#125;&#123;-10pt&#125;&#123;0pt&#125;</span><br><span class="line">  <span class="keyword">\coffin_typeset:Nnnnn</span> <span class="keyword">\_</span><span class="built_in">_</span>label<span class="built_in">_</span>coffin&#123;B&#125;&#123;l&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim&#125;&#123;<span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim&#125;</span><br><span class="line">  <span class="keyword">\par</span> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\keys_define:nn</span>&#123;test&#125;</span><br><span class="line">&#123;</span><br><span class="line">  colorlist.clist<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist, <span class="comment">% 用于设置颜色列表</span></span><br><span class="line">  vsep.dim<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>vsep<span class="built_in">_</span>dim, <span class="comment">% 控制每个条目的垂直间距</span></span><br><span class="line">  vsep.initial:n = 1pt, <span class="comment">% 设置初始值</span></span><br><span class="line">  parsep.dim<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>parsep<span class="built_in">_</span>dim, <span class="comment">% 控制每个条目整体水平的偏移量</span></span><br><span class="line">  parsep.initial:n = <span class="keyword">\_</span><span class="built_in">_</span>parindent<span class="built_in">_</span>dim, <span class="comment">% 设置初始值</span></span><br><span class="line">  color.str<span class="built_in">_</span>set:N = <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>str, <span class="comment">% 用于设置单个颜色</span></span><br><span class="line">  color.initial:n = black <span class="comment">% 设置初始值</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;test&#125;&#123;O&#123;&#125;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\group_begin:</span> </span><br><span class="line">  <span class="keyword">\dim_set:Nn</span> <span class="keyword">\parindent</span>&#123;0pt&#125;</span><br><span class="line">  <span class="keyword">\int_zero:N</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int        </span><br><span class="line">  <span class="keyword">\keys_set:nn</span>&#123;test&#125;&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\seq_set_from_clist:NN</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>seq <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist  </span><br><span class="line">  <span class="keyword">\clist_if_empty:NTF</span> <span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\tl_set:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl</span><br><span class="line">    &#123;<span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>str&#125;</span><br><span class="line">  &#125;</span><br><span class="line">  &#123;</span><br><span class="line">	<span class="keyword">\tl_set:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>tl &#123;<span class="keyword">\clist_item:Nn</span><span class="keyword">\_</span><span class="built_in">_</span>color<span class="built_in">_</span>clist&#123;<span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>int&#125;&#125;</span><br><span class="line">  &#125;     </span><br><span class="line">  <span class="keyword">\RenewDocumentCommand</span>&#123;<span class="keyword">\item</span>&#125;&#123;sO&#123;&#125;&#125;</span><br><span class="line">  &#123;           </span><br><span class="line">    <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">##1</span>&#125;</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">\tl_gset:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line">      &#123;<span class="keyword">\__item_true_label:</span>&#125;</span><br><span class="line">	  &#125;</span><br><span class="line">	  &#123;</span><br><span class="line">	    <span class="keyword">\tl_gset:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>item<span class="built_in">_</span>tl</span><br><span class="line">	    &#123;</span><br><span class="line">		  <span class="keyword">\__item_false_label:</span></span><br><span class="line">	    &#125; </span><br><span class="line">	  &#125;	</span><br><span class="line">	<span class="keyword">\__item_label:</span>					</span><br><span class="line">  &#125;          </span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\__item_content:</span></span><br><span class="line">  <span class="keyword">\group_end:</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line">我喜欢？</span><br><span class="line"><span class="keyword">\begin</span>&#123;test&#125;[colorlist =&#123; blue,red,yellow,cyan,black&#125;,]</span><br><span class="line">	<span class="keyword">\item</span> 抽烟</span><br><span class="line">	<span class="keyword">\item</span>* 喝酒</span><br><span class="line">	<span class="keyword">\item</span>  蹦迪</span><br><span class="line">	<span class="keyword">\item</span>  赌博</span><br><span class="line">	<span class="keyword">\item</span>* 美女</span><br><span class="line"><span class="keyword">\end</span>&#123;test&#125;</span><br><span class="line">   </span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul>
+<li>测试一 <figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">我喜欢？</span><br><span class="line"><span class="keyword">\begin</span>&#123;test&#125;[colorlist =&#123; blue,red,yellow,cyan,black&#125;,vsep = 10pt]</span><br><span class="line">	<span class="keyword">\item</span> 抽烟</span><br><span class="line">	<span class="keyword">\item</span>* 喝酒</span><br><span class="line">	<span class="keyword">\item</span>  蹦迪</span><br><span class="line">	<span class="keyword">\item</span>  赌博</span><br><span class="line">	<span class="keyword">\item</span>* 美女</span><br><span class="line"><span class="keyword">\end</span>&#123;test&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box3.png"></p>
+<ul>
+<li>测试二</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">我喜欢？</span><br><span class="line"><span class="keyword">\begin</span>&#123;test&#125;[color = blue]</span><br><span class="line">	<span class="keyword">\item</span> 吃饭</span><br><span class="line">	<span class="keyword">\item</span> 睡觉</span><br><span class="line">	<span class="keyword">\item</span>* 玩手机</span><br><span class="line">	<span class="keyword">\item</span>* <span class="keyword">\LaTeX</span> </span><br><span class="line">	<span class="keyword">\item</span>* 编程</span><br><span class="line">	<span class="keyword">\item</span>* 算法</span><br><span class="line"><span class="keyword">\end</span>&#123;test&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_choice_box4.png"></p>
+<hr>
+<p>如果懒得复制源码，可以到我的 <a target="_blank" rel="noopener" href="https://github.com/ljguo1020/TeX/tree/main/choice-box">GitHub</a> 下载</p>
+<p>下次再见~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX3/" rel="tag"># LaTeX3</a>
+              <a href="/tags/%E5%AE%9E%E4%BE%8B/" rel="tag"># 实例</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/1970/01/01/LaTeX-show-answer/" rel="prev" title="实现一个控制答案显示的功能">
+                  <i class="fa fa-chevron-left"></i> 实现一个控制答案显示的功能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/1970/01/01/LaTeX-answer/" rel="next" title="使用 LaTeX3 在试卷中做一个答案统计">
+                  使用 LaTeX3 在试卷中做一个答案统计 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ljguo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
