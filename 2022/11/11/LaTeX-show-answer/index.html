@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PingFang+SC:300,300italic,400,400italic,700,700italic%7Cconsolas:300,300italic,400,400italic,700,700italic%7CKaiTi:300,300italic,400,400italic,700,700italic%7CSimSum:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="有很多老师想要实现一个师生两版的效果。这是一个什么样的效果呢，其实就是教师版的需要显示答案、提示、标注、等等，学生版则不需要。有些老师可能会选择注释法，也即是先把答案等注释掉，生成学生版，然后再来取消注释，生成教师版，但这样未免太麻烦了，其实这个很简单，我们可以使用通过设置一个布尔值来控制答案显示与否 实现细节 先定义两个变量  12\tl_clear_new:N \__answer_tl % 用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现一个控制答案显示的功能">
+<meta property="og:url" content="http://example.com/2022/11/11/LaTeX-show-answer/index.html">
+<meta property="og:site_name" content="LJGUO">
+<meta property="og:description" content="有很多老师想要实现一个师生两版的效果。这是一个什么样的效果呢，其实就是教师版的需要显示答案、提示、标注、等等，学生版则不需要。有些老师可能会选择注释法，也即是先把答案等注释掉，生成学生版，然后再来取消注释，生成教师版，但这样未免太麻烦了，其实这个很简单，我们可以使用通过设置一个布尔值来控制答案显示与否 实现细节 先定义两个变量  12\tl_clear_new:N \__answer_tl % 用">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_show_answer1.png">
+<meta property="article:published_time" content="2022-11-11T14:18:35.387Z">
+<meta property="article:modified_time" content="2022-11-11T14:46:22.114Z">
+<meta property="article:author" content="ljguo">
+<meta property="article:tag" content="LaTeX3">
+<meta property="article:tag" content="实例">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_show_answer1.png">
+
+
+<link rel="canonical" href="http://example.com/2022/11/11/LaTeX-show-answer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/11/11/LaTeX-show-answer/","path":"2022/11/11/LaTeX-show-answer/","title":"实现一个控制答案显示的功能"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>实现一个控制答案显示的功能 | LJGUO</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">LJGUO</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">芒果不盲</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-随笔"><a href="/diary/" rel="section"><i class="fa fa-pen-nib fa-fw"></i>随笔</a></li><li class="menu-item menu-item-目标"><a href="/flag/" rel="section"><i class="fa fa-flag fa-fw"></i>目标</a></li><li class="menu-item menu-item-关于我"><a href="/about/" rel="section"><i class="fa fa-bolt fa-fw"></i>关于我</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">1.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E6%BA%90%E7%A0%811"><span class="nav-number">1.0.1.</span> <span class="nav-text">完整源码1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">1.0.2.</span> <span class="nav-text">结果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E8%BF%9Bcls-%E6%8E%A8%E8%8D%90"><span class="nav-number">1.0.3.</span> <span class="nav-text">写进cls(推荐)</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">ljguo</p>
+  <div class="site-description" itemprop="description">学习交流</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/ljguo1020" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;ljguo1020" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:ljguo1020@gmail.com" title="E-Mail → mailto:ljguo1020@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX-show-answer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="实现一个控制答案显示的功能 | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          实现一个控制答案显示的功能
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:46:22" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>有很多老师想要实现一个<strong>师生两版</strong>的效果。这是一个什么样的效果呢，其实就是教师版的需要显示答案、提示、标注、等等，学生版则不需要。有些老师可能会选择<strong>注释法</strong>，也即是先把答案等注释掉，生成学生版，然后再来取消注释，生成教师版，但这样未免太麻烦了，其实这个很简单，我们可以使用通过设置一个布尔值来控制答案显示与否</p>
+<h2 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h2><ul>
+<li>先定义两个变量</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\tl_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl <span class="comment">% 用于保存答案</span></span><br><span class="line"><span class="keyword">\bool_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool <span class="comment">% bool变量，用于控制答案显示与否</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>声明两个环境</li>
+</ul>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;exercise&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;magenta&#125;&#123;题目：&#125;&#125;<span class="keyword">\par</span> </span><br><span class="line"> <span class="params">#1</span></span><br><span class="line">&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;answer&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\tl_set:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;blue&#125;&#123;答案：&#125;&#125;<span class="keyword">\par</span></span><br><span class="line">    <span class="params">#1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\par</span> </span><br><span class="line">  <span class="keyword">\bool_if:NT</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#123;<span class="keyword">\tl_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p> 其中<code>exercise</code> <code>answer</code> 两个环境分别用于输出题目和答案，在上面，可以发现这样一行代码</p>
+ <figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\tl_set:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br><span class="line"> &#123;</span><br><span class="line">   <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;blue&#125;&#123;答案：&#125;&#125;<span class="keyword">\par</span></span><br><span class="line">   <span class="params">#1</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是将答案的内容写进 <code>\__answer_tl</code> 这个变量里面，而</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\bool_if:NT</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#123;<span class="keyword">\tl_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这行代码中 <code>\bool_if:NT</code> 函数用于判断 <code>\__answer_bool</code> 这个 bool 变量的真假，如果为真则执行</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\tl_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br></pre></td></tr></table></figure>
+
+<p>上面这行代码的作用是使 <code>\__answer_tl</code> 变量的值显示出来，也就是把我们保存的答案显示出来</p>
+<p>可见这里决定答案显示与否的就是这个 bool 变量的真假了，我们通过</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\bool_set_true:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool</span><br><span class="line"><span class="keyword">\bool_set_false:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool</span><br></pre></td></tr></table></figure>
+
+<p>可以将该 bool 变量的设置为<strong>逻辑真</strong>和<strong>逻辑假</strong>，我们来看一下完整源码</p>
+<h4 id="完整源码1"><a href="#完整源码1" class="headerlink" title="完整源码1"></a>完整源码1</h4><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;xcolor&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\tl_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl <span class="comment">% 用于保存答案</span></span><br><span class="line"><span class="keyword">\bool_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool <span class="comment">% bool变量，用于控制答案显示与否</span></span><br><span class="line"><span class="keyword">\bool_set_true:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool <span class="comment">% 将 \__answer_bool 设置为真，则显示答案，如果注释掉，则不显示</span></span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;exercise&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;magenta&#125;&#123;题目：&#125;&#125;<span class="keyword">\par</span> </span><br><span class="line"> <span class="params">#1</span></span><br><span class="line">&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;answer&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\tl_set:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;blue&#125;&#123;答案：&#125;&#125;<span class="keyword">\par</span></span><br><span class="line">    <span class="params">#1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\par</span> </span><br><span class="line">  <span class="keyword">\bool_if:NT</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#123;<span class="keyword">\tl_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;exercise&#125;</span><br><span class="line">这是题目.....</span><br><span class="line"><span class="keyword">\begin</span>&#123;answer&#125;</span><br><span class="line">这是答案...</span><br><span class="line"><span class="keyword">\end</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;exercise&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;exercise&#125;</span><br><span class="line">  这是题目.....</span><br><span class="line"><span class="keyword">\begin</span>&#123;answer&#125;</span><br><span class="line">  这是答案...</span><br><span class="line"><span class="keyword">\end</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;exercise&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><p><img src="https://ljguo-1308058910.cos.ap-nanjing.myqcloud.com//img/LaTeX_show_answer1.png"></p>
+<p>如果将第六行代码注释则不会显示答案</p>
+<h4 id="写进cls-推荐"><a href="#写进cls-推荐" class="headerlink" title="写进cls(推荐)"></a>写进cls(推荐)</h4><p>这里我需要新建一个文件，命名为 <code>mycls.cls</code> ,内容如下</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NeedsTeXFormat</span>&#123;LaTeX2e&#125;</span><br><span class="line"><span class="keyword">\LoadClass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\ProvidesClass</span>&#123;mycls&#125;</span><br><span class="line"><span class="keyword">\RequirePackage</span>&#123;xcolor&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\tl_clear_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br><span class="line"><span class="keyword">\bool_new:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool</span><br><span class="line"><span class="keyword">\keys_define:nn</span>&#123;answer&#125;</span><br><span class="line">&#123;</span><br><span class="line">  show-answer.code:n = &#123;<span class="keyword">\bool_set_true:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ProcessKeysOptions</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;exercise&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;magenta&#125;&#123;题目：&#125;&#125;<span class="keyword">\par</span> </span><br><span class="line"> <span class="params">#1</span></span><br><span class="line">&#125;&#123;&#125;</span><br><span class="line"><span class="keyword">\NewDocumentEnvironment</span>&#123;answer&#125;&#123;+b&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\tl_set:Nn</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">\noindent</span><span class="keyword">\textbf</span>&#123;<span class="keyword">\textcolor</span>&#123;blue&#125;&#123;答案：&#125;&#125;<span class="keyword">\par</span></span><br><span class="line">    <span class="params">#1</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\par</span> </span><br><span class="line">  <span class="keyword">\bool_if:NT</span><span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#123;<span class="keyword">\tl_use:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>tl&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\endinput</span></span><br></pre></td></tr></table></figure>
+
+<p>只对部分代码进行解读，其它的参看隔壁</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\keys_define:nn</span>&#123;answer&#125;</span><br><span class="line">&#123;</span><br><span class="line">  show-answer.code:n = &#123;<span class="keyword">\bool_set_true:N</span> <span class="keyword">\_</span><span class="built_in">_</span>answer<span class="built_in">_</span>bool&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用 <code>l3keys</code> 包提供的键值设置，定义了一个 <code>show-answer</code> 键，他的内容是将 bool 变量设置为逻辑真</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\ProcessKeysOptions</span>&#123;answer&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用 <code>l3keys2e</code> 包提供的 <code>\ProcessKeysOptions</code> 命令，它可以将所接受到的模块内的键值设置传递给我们的模板 <code>class</code> ,这两个包均已内嵌在 LaTeX 内核，无需显示加载，这样我们只需在源文件中</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[show-answer]&#123;mycls&#125;</span><br><span class="line"><span class="comment">%如果加了show-answer可选项，则显示答案，反之则不显示</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;exercise&#125;</span><br><span class="line">这是题目.....</span><br><span class="line"><span class="keyword">\begin</span>&#123;answer&#125;</span><br><span class="line">这是答案...</span><br><span class="line"><span class="keyword">\end</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;exercise&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>&#123;exercise&#125;</span><br><span class="line">  这是题目.....</span><br><span class="line"><span class="keyword">\begin</span>&#123;answer&#125;</span><br><span class="line">  这是答案...</span><br><span class="line"><span class="keyword">\end</span>&#123;answer&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;exercise&#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里输出和前面一样</p>
+<p>至此，大功告成，现在是 4:10 该睡觉了~</p>
+<p>如果有问题，欢迎下方评论~</p>
+<p>如果本文对您有帮助，您可以请我喝杯奶茶~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LaTeX3/" rel="tag"># LaTeX3</a>
+              <a href="/tags/%E5%AE%9E%E4%BE%8B/" rel="tag"># 实例</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/11/LaTeX-choice-box/" rel="prev" title="实现一个复选列表效果">
+                  <i class="fa fa-chevron-left"></i> 实现一个复选列表效果
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/11/LaTeX-vscode/" rel="next" title="使用 Vscode 配置 LaTeX">
+                  使用 Vscode 配置 LaTeX <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ljguo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"all","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

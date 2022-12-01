@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -140,7 +140,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -186,7 +186,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/1970/01/01/texlive-for-termux/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-digui/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -204,7 +204,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/1970/01/01/texlive-for-termux/" class="post-title-link" itemprop="url">在安卓手机上安装 LaTeX</a>
+          <a href="/2022/11/11/LaTeX3-digui/" class="post-title-link" itemprop="url">LaTeX3实例--函数递归</a>
         </h2>
 
         <div class="post-meta-container">
@@ -214,15 +214,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：1970-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="1970-01-01T08:00:00+08:00">1970-01-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-11-11 22:41:16" itemprop="dateModified" datetime="2022-11-11T22:41:16+08:00">2022-11-11</time>
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:43:21" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -244,63 +238,291 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>本文介绍如何在安卓手机上（本地）部署 LaTeX</p>
+          <p>使用LaTeX3实现简单的函数递归，并计算正整数的阶乘和斐波那契数列   </p>
+<p>核心代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\froac</span>:n <span class="params">#1</span>&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;0&#125;&#123;1&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\fp_eval:n</span>&#123;(<span class="params">#1</span>)*<span class="keyword">\froac</span>:n&#123;<span class="params">#1</span>-1&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\fibon</span>:n <span class="params">#1</span>&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;0&#125;&#123;0&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;1&#125;&#123;1&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\fp_eval:n</span>&#123;<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>-1&#125;+<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>-2&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出接口</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\fact</span>&#125;&#123;m&#125;&#123;</span><br><span class="line"><span class="params">#1</span>!~=~<span class="keyword">\froac</span>:n&#123;<span class="params">#1</span>&#125;<span class="keyword">\par</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\fibon</span>&#125;&#123;m&#125;&#123;</span><br><span class="line">F(<span class="params">#1</span>)~=~<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>&#125;<span class="keyword">\par</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>完整代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;mathtools,amsmath&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>[paperwidth=18cm,margin=3cm]&#123;geometry&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\froac</span>:n <span class="params">#1</span>&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;0&#125;&#123;1&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\fp_eval:n</span>&#123;(<span class="params">#1</span>)*<span class="keyword">\froac</span>:n&#123;<span class="params">#1</span>-1&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\fibon</span>:n <span class="params">#1</span>&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;0&#125;&#123;0&#125;</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span>&#123;<span class="params">#1</span>&#125;=&#123;1&#125;&#123;1&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\fp_eval:n</span>&#123;<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>-1&#125;+<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>-2&#125;&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\fact</span>&#125;&#123;m&#125;&#123;</span><br><span class="line"><span class="params">#1</span>!~=~<span class="keyword">\froac</span>:n&#123;<span class="params">#1</span>&#125;<span class="keyword">\par</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\fibon</span>&#125;&#123;m&#125;&#123;</span><br><span class="line">F(<span class="params">#1</span>)~=~<span class="keyword">\fibon</span>:n&#123;<span class="params">#1</span>&#125;<span class="keyword">\par</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;<span class="keyword">\LaTeX</span>3---使用递归&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;ljguo1020@gmail.com&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line">计算~<span class="built_in">$</span>n!<span class="built_in">$</span>~</span><br><span class="line"><span class="keyword">\[</span></span><br><span class="line">  n!= </span><br><span class="line">    <span class="keyword">\begin</span>&#123;dcases&#125;</span><br><span class="line">        1,<span class="built_in">&amp;</span>n=0<span class="keyword">\\</span></span><br><span class="line">        n(n-1)!,<span class="built_in">&amp;</span>n<span class="keyword">\geq</span> ~ 1</span><br><span class="line">    <span class="keyword">\end</span>&#123;dcases&#125;</span><br><span class="line"><span class="keyword">\]</span><span class="keyword">\par</span></span><br><span class="line"><span class="keyword">\int_step_function:nN</span>&#123;20&#125;<span class="keyword">\fact</span></span><br><span class="line"><span class="keyword">\newpage</span></span><br><span class="line">计算斐波那契数列</span><br><span class="line"><span class="keyword">\[</span></span><br><span class="line">F(n)=</span><br><span class="line"><span class="keyword">\begin</span>&#123;dcases&#125;</span><br><span class="line">    0,<span class="built_in">&amp;</span>n=0<span class="keyword">\\</span></span><br><span class="line">    1,<span class="built_in">&amp;</span>n=1<span class="keyword">\\</span></span><br><span class="line">    F(n-1)+F(n-2),<span class="built_in">&amp;</span>n<span class="keyword">\geq</span> 2</span><br><span class="line"><span class="keyword">\end</span>&#123;dcases&#125;</span><br><span class="line"><span class="keyword">\]</span><span class="keyword">\par</span></span><br><span class="line"><span class="keyword">\int_step_function:nN</span>&#123;20&#125;<span class="keyword">\fibon</span></span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>输出<br><img src="https://pic4.zhimg.com/80/v2-19c642f79782c8692c2672ea292ae4ae.png" alt="Image"><br><img src="https://pic4.zhimg.com/80/v2-f11eb0d1d7f506ec54ef4c34cb05389c.png" alt="Image"></p>
 <hr>
-<p>写在前面：本文默认读者已经熟悉一些简单的 Linux 命令行操作，以及知道如何使用命令行来编译 LaTeX. (不会也没关系，花个10来分钟学一下)</p>
+<p>关注，点赞都是我的动力鸭~~~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-args/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX3-args/" class="post-title-link" itemprop="url">在LaTeX中定义多参数命令</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:38:32" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文将要利用 <strong>xparse</strong> 宏包和 <strong>LaTeX3</strong> 的 <strong>l3keys</strong> 模块来构建一个简单的多参数命令   </p>
+</blockquote>
+<h2 id="提出问题"><a href="#提出问题" class="headerlink" title="提出问题"></a>提出问题</h2><p>在 <strong>LaTeX</strong> 中，一个命令最多接受 9 个参数，虽然在日常使用中远远够了，但还是有一些用户有这方面的需求，我们下面来举一个简单的例子</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\rectangle</span>&#125;[4]</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">    <span class="keyword">\draw</span>[line width=<span class="params">#3</span>,draw=<span class="params">#4</span>](0,0) rectangle (<span class="params">#1</span>,<span class="params">#2</span>);</span><br><span class="line">  <span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建了一个画矩形的命令 <code>\rectangle</code> , 它接受 4 个参数分别是 <code>\rectangle&#123;&lt;width&gt;&#125;&#123;&lt;height&gt;&#125;&#123;&lt;line width&gt;&#125;&#123;&lt;color&gt;&#125;</code> 也即是 <strong>宽、高、线宽、颜色</strong> ，这样虽然是合法的，但是难免显得有些臃肿，如果参数再多几个，久而久之，参数顺序估计都忘记了.</p>
+<h2 id="讨论问题"><a href="#讨论问题" class="headerlink" title="讨论问题"></a>讨论问题</h2><p>首先，我们应该放弃前面的思维方式，然后使用一种更好的方法来解决它，观察如下代码</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\rectangle</span></span><br><span class="line">&#123;</span><br><span class="line">  width=2cm,</span><br><span class="line">  height=3cm,</span><br><span class="line">  linewidth=1pt,</span><br><span class="line">  color=red,</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，这个命令仅接受一个参数，但效果却比上面的好得多，我们不用去记住参数顺序，而且可以为每个参数设置一个默认值，当缺省时，就使用默认值. 以上就是所谓的 <code>key = val </code> 键值对.</p>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><h3 id="xparse-宏包简介"><a href="#xparse-宏包简介" class="headerlink" title="xparse 宏包简介"></a>xparse 宏包简介</h3><p><strong>xparse</strong> 宏包是基于 <strong>LaTeX3</strong> 编写的一个更加强大的创建命令或环境的宏包，它提供了<code>\NewDocumentCommand</code> 用于取代原 <strong>LaTeX2e</strong> 中的 <code>\newcommand</code> ,例如</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\foo</span>&#125;&#123;m&#125;&#123;my name is <span class="params">#1</span>.&#125;</span><br><span class="line"><span class="keyword">\foo</span>&#123;ljguo&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="部分参数介绍"><a href="#部分参数介绍" class="headerlink" title="部分参数介绍"></a>部分参数介绍</h4><ul>
+<li><p><strong>m</strong> : 标准必选参数</p>
+</li>
+<li><p><strong>o</strong>  : 标准可选参数 , 如果缺省，会返回一个 <code>-NoValue-</code> 标记</p>
+</li>
+<li><p><strong>O</strong>{default} : 同 <strong>o</strong> ,但可以带一个默认值</p>
+</li>
+<li><p><strong>s</strong> :  带星号命令 </p>
+</li>
+<li><p><strong>v</strong> : 抄录参数</p>
+</li>
+</ul>
+<h4 id="几个命令介绍"><a href="#几个命令介绍" class="headerlink" title="几个命令介绍"></a>几个命令介绍</h4><ul>
+<li><p><code>\IfNoValueTF</code> , <code>\IfNoValueT</code> , <code>\IfNoValueF</code> 用于判断所接受参数是否为  <code>-NoValue-</code> 标记</p>
+</li>
+<li><p><code>\IfBooleanTF</code> , <code>\IfBooleanT</code> , <code>\IfBooleanF</code> 用于判断所接受参数的逻辑值，主要用于 <strong>s</strong> 类参数</p>
+</li>
+</ul>
+<h4 id="使用样例"><a href="#使用样例" class="headerlink" title="使用样例"></a>使用样例</h4><blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\foo</span>&#125;&#123;m&#125;&#123;my name is <span class="params">#1</span>.&#125;</span><br><span class="line"><span class="keyword">\foo</span>&#123;ljguo&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">my name is ljguo.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\foo</span>&#125;&#123;o&#125;&#123;my name is <span class="params">#1</span>.&#125;</span><br><span class="line"><span class="keyword">\foo</span></span><br><span class="line"><span class="keyword">\foo</span>[ljguo]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my name is -NoValue-.</span><br><span class="line">my name is ljguo.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\foo</span>&#125;&#123;O&#123;ljguo&#125;&#125;&#123;my name is <span class="params">#1</span>.&#125;</span><br><span class="line"><span class="keyword">\foo</span></span><br><span class="line"><span class="keyword">\foo</span>[latexer]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">my name is ljguo.</span><br><span class="line">my name is latexer.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\foo</span>&#125;&#123;s&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\IfBooleanTF</span>&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  &#123;i have star.&#125;</span><br><span class="line">  &#123;i dont have star.&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\foo</span></span><br><span class="line"><span class="keyword">\foo</span>*</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">i dont have star.</span><br><span class="line">i have star.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="l3keys-模块简介"><a href="#l3keys-模块简介" class="headerlink" title="l3keys 模块简介"></a>l3keys 模块简介</h3><p>主要用到两个函数</p>
+<ul>
+<li><code>\keys_define:nn</code> : 用于设置键值对</li>
+<li><code>\keys_set:nn</code> : 用于为键值对赋值</li>
+<li>这两个函数的第一个参数接受模块名</li>
+</ul>
+<p>注意：使用 <strong>LaTeX3</strong> 语法应当将该部分代码放在 <code>\ExplSyntaxOn</code> 和 <code>\ExplSyntaxOff</code> 之间</p>
+<blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\ExplSyntaxOn</span> </span><br><span class="line"><span class="keyword">\keys_define:nn</span>&#123;example&#125; <span class="comment">%为 example 模块设置键值对</span></span><br><span class="line">&#123;</span><br><span class="line">  name.tl<span class="built_in">_</span>set:N  = <span class="keyword">\l_name_tl</span>,    <span class="comment">%将 name 保存到一个 tl 变量中</span></span><br><span class="line">  name.default:n = ljguo,         <span class="comment">%为 name 设置默认值</span></span><br><span class="line">  name.initial:n = ljguo,         <span class="comment">%为 name 设置初始值</span></span><br><span class="line">  age.int<span class="built_in">_</span>set:N  = <span class="keyword">\l_age_int</span>,    <span class="comment">%将 age 保存到一个 int 变量中</span></span><br><span class="line">  age.default:n  = 21,            <span class="comment">%为 age 设置默认值</span></span><br><span class="line">  age.initial:n  = 21             <span class="comment">%为 age 设置初始值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\showinfo</span>&#125;&#123;&#125; <span class="comment">% 构建一个命令，用于输出个人信息</span></span><br><span class="line">&#123;</span><br><span class="line">  hello,~my~name~is~<span class="keyword">\tl_use:c</span> &#123;l<span class="built_in">_</span>name<span class="built_in">_</span>tl&#125;,~and~i~am~<span class="keyword">\int_use:c</span> &#123;l<span class="built_in">_</span>age<span class="built_in">_</span>int&#125; ~ years~old.  </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\showinfo</span></span><br><span class="line"><span class="keyword">\keys_set:nn</span>&#123;example&#125; <span class="comment">%为 example 模块的键值赋值</span></span><br><span class="line">&#123;</span><br><span class="line">  name = latexer,</span><br><span class="line">  age  = 50</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\showinfo</span></span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hello, my name is ljguo, and i am 21 years old.</span><br><span class="line">hello, my name is latexer, and i am 50 years old.</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h2 id="回到原问题"><a href="#回到原问题" class="headerlink" title="回到原问题"></a>回到原问题</h2><p>现在我们再来定义一个<code>\rectangle</code> 命令</p>
+<p>首先设置键值对，需要四个键值</p>
+<blockquote>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\keys_define:nn</span>&#123;rectangle&#125;</span><br><span class="line">&#123;</span><br><span class="line">  width.dim<span class="built_in">_</span>set:N        = <span class="keyword">\l_width_dim</span>,</span><br><span class="line">  width.default:n        = 2cm,</span><br><span class="line">  width.initial:n        = 2cm,</span><br><span class="line">  height.dim<span class="built_in">_</span>set:N       = <span class="keyword">\l_height_dim</span>,</span><br><span class="line">  height.default:n       = 3cm,</span><br><span class="line">  height.initial:n       = 3cm,</span><br><span class="line">  linewidth.dim<span class="built_in">_</span>set:N    = <span class="keyword">\l_linewidth_dim</span>,</span><br><span class="line">  linewidth.default:n    = 1pt,</span><br><span class="line">  linewidth.initial:n    = 1pt,</span><br><span class="line">  color.tl<span class="built_in">_</span>set:N         = <span class="keyword">\l_color_tl</span>,</span><br><span class="line">  color.default:n        = cyan,</span><br><span class="line">  color.initial:n        =cyan</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\rectangle</span>&#125;&#123;O&#123;&#125;&#125;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">\group_begin:</span> </span><br><span class="line">  <span class="keyword">\keys_set:nn</span>&#123;rectangle&#125;&#123;<span class="params">#1</span>&#125;</span><br><span class="line">  <span class="keyword">\begin</span>&#123;tikzpicture&#125;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width = <span class="keyword">\dim_use:N</span> <span class="keyword">\l_linewidth_dim</span>,draw = <span class="keyword">\tl_use:N</span>     <span class="keyword">\l_color_tl</span>](0,0)rectangle(<span class="keyword">\dim_use:N</span> <span class="keyword">\l_width_dim</span>,<span class="keyword">\dim_use:N</span> <span class="keyword">\l_height_dim</span>);</span><br><span class="line">  <span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line">  <span class="keyword">\group_end:</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\rectangle</span><span class="keyword">\par</span></span><br><span class="line"><span class="keyword">\rectangle</span></span><br><span class="line">[</span><br><span class="line">  width = 3cm,</span><br><span class="line">  height = 2cm,</span><br><span class="line">  color = red</span><br><span class="line">]</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>xparse</strong> 宏包是一个非常优秀的宏包，值得大家去学习，另外，作者水平有限，如有错误或者疑问，欢迎联系我</p>
+<ul>
+<li><strong>QQ</strong> : 1123203930</li>
+<li><strong>Email</strong> : <a href="mailto:&#49;&#x31;&#50;&#51;&#x32;&#48;&#x33;&#x39;&#x33;&#48;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#49;&#x31;&#50;&#51;&#x32;&#48;&#x33;&#x39;&#x33;&#48;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/hello-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/hello-blog/" class="post-title-link" itemprop="url">LaTeX3----函数篇</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:38:21" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>本文只记录函数，也即控制序列(control sequences)的相关用法</p>
+<h2 id="与-LaTeX2e-的一些比较"><a href="#与-LaTeX2e-的一些比较" class="headerlink" title="与 LaTeX2e 的一些比较"></a>与 LaTeX2e 的一些比较</h2><p>在原始的 LaTeX2e 中 并没有严格的区分变量和函数，或许在命名上有些区分，例如 <code>\mycmd</code> <code>\myvar</code>,它们的定义方法都是一样的</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\mycmd</span>&#125;[2]&#123;<span class="params">#1</span> love <span class="params">#2</span>&#125;<span class="comment">%\mycmd&#123;I&#125;&#123;you&#125;--&gt;I love you</span></span><br><span class="line"><span class="keyword">\newcommand</span>&#123;<span class="keyword">\myvar</span>&#125;&#123;I love <span class="keyword">\LaTeX</span>&#125;<span class="comment">%\myvar --&gt;I love LaTeX </span></span><br></pre></td></tr></table></figure>
+<p>都是用 <code>\newcommand</code> 来定义的，函数无非是多了几个参数，这意味着函数是可以接受参数的，而变量是不需要的.<br>更加古老的 <code>\def</code> 也是如此</p>
+<h2 id="LaTeX3"><a href="#LaTeX3" class="headerlink" title="LaTeX3"></a>LaTeX3</h2><p>在LaTeX3中创建一个函数的语法如下：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; </span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;I&#125;&#123;you&#125; <span class="comment">%--&gt;I love you</span></span><br></pre></td></tr></table></figure>
+<p>这是在全局范围内创建一个函数，相当于 <code>\newcommand</code> ,所有如果这个函数已经被定义，将会报错，当然还有其它语法</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%局部创建函数</span></span><br><span class="line"><span class="keyword">\cs_gset:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125; <span class="comment">%全局创建函数</span></span><br></pre></td></tr></table></figure>
+<p>这两个函数也可以用于创建函数，但是区别于前面的是，如果这个函数存在，它会重新定义该函数，而不会报错，如果不存在，就创建.而这里的 <code>set</code> 和 <code>gset</code> 通过上面的注释，大概知道了，前者用于局部创建，后者用于全局.至于这里的 <strong>Npn</strong> <strong>nn</strong>，可以通过上一篇文章了解一下.</p>
+<p>前面三个，还有一些情况，待我一一道来</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="params">#1</span><span class="params">#2</span>&#123;<span class="params">#1</span> ~ Do~not ~love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>顾名思义 <code>nopar</code> 就是参数中不能加 <code>\par</code> 这个命令，也就是不能分段啦。</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，根据名字 <code>protected</code> 我们可以猜到，这是一个受保护的函数，也就是它不能被 <strong>x</strong> 型展开.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_protected_nopar:Npn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn <span class="params">#1</span><span class="params">#2</span> &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>这个，自己猜一下吧。</p>
+<p>另外，以上只列举了 <code>set</code> ,当然 <code>new</code>,<code>gset</code> 也都有这些对应的情况，并且它们默认各自还提供了几种不同的<font color=magenta><strong>变体</strong></font>供大家使用，当然也可以自己创建一些变体，我们后面再讲。</p>
+<p>大家再来看看</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn &#123;<span class="params">#1</span> ~ love ~ <span class="params">#2</span> &#125;</span><br></pre></td></tr></table></figure>
+<p>对比一下，是不是有点不一样 <code>Npn</code> $\to$ <code>Nn</code>,少了个屁 (p),读过前面的文章应该知道，这个 p 其实就是 parameters (参数), 创建函数时可以将其省略 ，对应的花括号外部的 <code>#1#2</code> 也一并省去，系统会自动检测参数数量.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set_eq:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数的作用是复制函数定义，复制第二个函数的定义给第一个函数，在底层 TeX 中有 <code>\let\cmda\cmdb</code> 与之有类似或者一模一样(?)的功能, <code>eq</code> $\to$ <code>equal</code> ,当然 <code>new</code> , <code>gset</code><br>也有对应的函数.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_undefine:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_undefine:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数 <code>undefine</code> 顾名思义，就是删掉一个函数的定义。例如，我们前文定义了函数 <code>\l_my_cmd:nn</code> 现在我们使用以上其中一个命令 (两个命令是等效的，待会就会讲到), 然后再用该函数的话，系统就会报错 </p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">! Undefined control sequence.</span><br><span class="line"><span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>结果很显然了.</p>
+<p><strong>注</strong> . 这里我们第一次遭遇 <code>c</code> 变体, <code>N</code> 变体接受一个 <strong>cs</strong> (控制序列)，也就是一个带反斜杠的命令(?), 而 <code>c</code> 接受一个 (token list) 也就是一个带花括号的内容，然后会为花括号里面的内容自动加上一个 <code>\</code> , 对比上面的例子，不难理解.</p>
+<p>还有一些函数如下，我将它们一起列举出来 (偷个懒)：</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_meaning:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_meaning:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="keyword">\cs_show:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_show:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_log:N</span>  ...</span><br><span class="line"><span class="keyword">\cs_log:c</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>这三个函数都是用于查看函数定义的，区别在于第一个是直接在 PDF 里面显示，第二个是在终端显示 (会停止运行) ，第三个是在日志中显示.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%first</span></span><br><span class="line"><span class="keyword">\use:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn&#125;</span><br><span class="line"><span class="comment">%second</span></span><br><span class="line"><span class="keyword">\cs:w</span></span><br><span class="line">l<span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs</span><span class="built_in">_</span>end</span><br></pre></td></tr></table></figure>
+<p>上面两个作用是一样的，前者将内容放在花括号里面，后者放在环境之间.都等价于直接使用 <code>\l_my_cmd:nn</code> .</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_to_str:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br></pre></td></tr></table></figure>
+<p>这个函数是将函数转化为字符串 (str) 输出是 <code>˙my˙cmd:nn</code>，好吧，我也不知道它干嘛用的，希望有大佬能为我解释一下.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\use:n</span> &#123;abc&#125;</span><br><span class="line"><span class="keyword">\use:nn</span> &#123;abc&#125;&#123;&#123;def&#125;&#125;</span><br><span class="line"><span class="keyword">\use_i:nn</span> &#123;abc&#125;&#123;def&#125;</span><br></pre></td></tr></table></figure>
+<p>上面三个函数得到的结果依次是：<code>abc</code>, <code>abc&#123;def&#125;</code>, <code>abc</code> ,这个函数的作用就是直接将花括号里面的内容输出，应该注意第二个，你在 PDF 里面看到的应该是 <code>abcdef</code> 这是因为 <code>&#123;&#125;</code> 在PDF 里面是不显示的，当然我们可以做一个简单的测试来验证它</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;abc&#125;<span class="built_in">$</span> </span><br><span class="line"><span class="built_in">$</span>a<span class="built_in">^</span><span class="keyword">\use:n</span>&#123;&#123;abc&#125;&#125;<span class="built_in">$</span></span><br></pre></td></tr></table></figure>
+<p>输出依次是 $a^{a}bc$, $a^{abc}$.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_eq_p:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn</span><br><span class="line"><span class="keyword">\cs_if_eq:NNTF</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmda:nn <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmdb:nn &#123;yse&#125;&#123;no&#125;</span><br></pre></td></tr></table></figure>
+<p>第一个函数用于测试两个函数的定义是否相同，在 PDF 中的显示是 $\Delta$,$\Gamma$ ,这其实就是两个布尔值, 前者为真，后者为假. 第二个函数同样的作用，只不过跟上了 <code>T</code>, <code>F</code> 变体，也就是说条件为真，执行 <code>T</code>,条件为假，执行 <code>F</code>.</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_if_exist_p:N</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:nn</span><br><span class="line"><span class="keyword">\cs_if_exist_p:c</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\cs_if_exist:NTF</span> ...</span><br><span class="line"><span class="keyword">\cs_if_exist:cTF</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>通过名字，可以知道，这是用来测试这个函数是否存在的，类比一下上面就知道了.(懒得敲了)</p>
 <hr>
-<p>个人本是极力反对在手机上<strong>编程</strong>的，但是有时候出门在外，身边没有电脑，又需要做一些代码的简单修改，调试. 这个东西倒也还是不错.</p>
-<p>当然，我们有一些在线的编译网站，比较出名的 “overleaf” “texpage” etc . 但是对网络有一定的要求，总觉得还是不太好.下面就来介绍如何在安卓手机端安装一个 <strong>texlive</strong> (LaTeX 的一个发行版)：</p>
-<h2 id="安装-Termux"><a href="#安装-Termux" class="headerlink" title="安装 Termux"></a>安装 Termux</h2><h3 id="介绍（废话）"><a href="#介绍（废话）" class="headerlink" title="介绍（废话）"></a>介绍（废话）</h3><p>Termux 是一款运行于 Android 系统的开源终端模拟器. 该软件提供了 Linux 环境，即使设备不具备 root 权限也可使用. 通过自带的包管理器（pkg、 apt），Termux 可以安装许多现代化的开发和系统维护工具，例如 zsh、Python、Ruby、NodeJS、MySQL 等软件.</p>
-<h3 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h3><p>如果条件允许，可以使用 <strong>谷歌商店</strong> 或者 <strong>F-Droid</strong> 来安装它.当然也可以使用下面的百度云链接来下载安装</p>
-<p>链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1b_lrPvcLXq9fIdUDAjs8MQ">https://pan.baidu.com/s/1b_lrPvcLXq9fIdUDAjs8MQ</a><br>提取码：1234</p>
-<p>安装好了直接打开，出现如下界面</p>
-<p><img src="https://pic4.zhimg.com/80/v2-b3b73f6d6043012a0db5300db661b76d.jpg" alt="Image"></p>
-<h4 id="换源"><a href="#换源" class="headerlink" title="换源"></a>换源</h4><p>复制以下内容，输入在这个黑窗口（以下我们称<strong>终端</strong>）里面</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sed -i <span class="string">&#x27;s@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/termux-packages-24 stable main@&#x27;</span> <span class="variable">$PREFIX</span>/etc/apt/sources.list</span><br><span class="line">sed -i <span class="string">&#x27;s@^\(deb.*games stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/game-packages-24 games stable@&#x27;</span> <span class="variable">$PREFIX</span>/etc/apt/sources.list.d/game.list</span><br><span class="line">sed -i <span class="string">&#x27;s@^\(deb.*science stable\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/science-packages-24 science stable@&#x27;</span> <span class="variable">$PREFIX</span>/etc/apt/sources.list.d/science.list</span><br><span class="line">pkg update</span><br></pre></td></tr></table></figure>
-<p>然后回车，遇到不动了，直接按回车. 直到换源结束. 如下图：</p>
-<p><img src="https://pic4.zhimg.com/80/v2-5f02c4b4a770c079e18ecbccc1ce4ed5.jpg" alt="Image"></p>
-<h4 id="美化一下终端"><a href="#美化一下终端" class="headerlink" title="美化一下终端"></a>美化一下终端</h4><p>先安装一些基础工具，终端输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkg update</span><br><span class="line">pkg install vim curl wget git tree -y</span><br></pre></td></tr></table></figure>
-<p>然后回车，直到安装成功，随后执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)</span>&quot;</span>  </span><br></pre></td></tr></table></figure>
-<p>如果请求访问权限，请允许.随后会出现让你选择配色和字体，随便选择吧，后面可以改.</p>
-<p>注意：这里访问 Github 可能会比较慢，甚至失败. 可以使用科学上网，或者换成以下命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh -c <span class="string">&quot;<span class="subst">$(curl -fsSL https://html.sqlsec.com/termux-install.sh)</span>&quot;</span>  </span><br></pre></td></tr></table></figure>
-<p>然后重启终端，你会发现它变样了.<br><img src="https://pic4.zhimg.com/80/v2-33310d7ef96dccf214bff5f7d20b8c18.jpg" alt="Image"></p>
-<p>美化到此结束吧！</p>
-<h2 id="安装-texlive"><a href="#安装-texlive" class="headerlink" title="安装 texlive"></a>安装 texlive</h2><p>终端执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkg install texlive-full</span><br></pre></td></tr></table></figure>
-<p>然后回车，等待下载安装结束. 大概又接近 4 个G吧，请保证手机内存充足.</p>
-<p>安装完成后如下图：<br><img src="https://pic4.zhimg.com/80/v2-1e6910f73ab3fe7e604382527022c42e.png" alt="Image"><br>这时候还没完成，我们依据提示需要执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="variable">$PREFIX</span>/etc/profile.d</span><br></pre></td></tr></table></figure>
-<p>然后执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">. ./texlive.sh</span><br></pre></td></tr></table></figure>
-<p><img src="https://pic4.zhimg.com/80/v2-bef6e16eac5cd24fdc1031aab4656fdd.jpg" alt="Image"></p>
-<p>然后执行以下命令检查是否安装成功</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tex -v</span><br></pre></td></tr></table></figure>
-<p>如果出现如下信息，则大功告成了.<br><img src="https://pic4.zhimg.com/80/v2-8342a9c17b0552c281b5368b7527eced.jpg" alt="Image"></p>
-<h2 id="编译第一份文档"><a href="#编译第一份文档" class="headerlink" title="编译第一份文档"></a>编译第一份文档</h2><h3 id="编辑器的选择"><a href="#编辑器的选择" class="headerlink" title="编辑器的选择"></a>编辑器的选择</h3><p>先重启一下Termux吧.</p>
-<p>编辑器呢，很多，这里推荐 <strong>vim</strong> 或者 <strong>nano</strong> , 分别执行以下命令安装</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pkg install vim</span><br><span class="line">pkg install nano</span><br></pre></td></tr></table></figure>
-<p>不会 vim 的朋友可以学习一下，下面用 nano 演示一下<br>直接执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nano main.tex</span><br></pre></td></tr></table></figure>
-<p>来创建一个 tex 文件, 然后将以下内容复制进去</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;amsmath&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;Welcome to <span class="keyword">\LaTeX</span>&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;ljguo&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"></span><br><span class="line">hello  <span class="keyword">\LaTeX</span>&#123;&#125;!</span><br><span class="line">你好  <span class="keyword">\LaTeX</span>&#123;&#125;!</span><br><span class="line"></span><br><span class="line">这是勾股定理</span><br><span class="line"><span class="keyword">\[</span></span><br><span class="line">   a<span class="built_in">^</span>&#123;2&#125;+b<span class="built_in">^</span>&#123;2&#125;=c<span class="built_in">^</span>&#123;2&#125;    </span><br><span class="line"><span class="keyword">\]</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
-<p>复制好后如下<br><img src="https://pic4.zhimg.com/80/v2-bfc01cf26171ecaeeec135d9505a2dd5.png" alt="Image"></p>
-<p>按 <code>CTRL</code>+<code>O</code>来保存文件，随后按回车确认保存，注意文件名，不要被改了</p>
-<p><img src="https://pic4.zhimg.com/80/v2-767d69fc5d69fd0796a0d051ffd6115c.png" alt="Image"></p>
-<p>最后 <code>CTRL</code>+<code>X</code>,来退出编辑器，回到终端界面<br>用 <code>ls</code> 命令查看文件是否存在<br><img src="https://pic4.zhimg.com/80/v2-aa98093cfd57bb1bfba2f7a75c5281f8.png" alt="Image"></p>
-<p>如果存在就可以编译了，执行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xelatex main.tex</span><br></pre></td></tr></table></figure>
-<p>开始编译，随后出现如下信息表示编译成功<br><img src="https://pic4.zhimg.com/80/v2-4f381c509aa9ff053e0518d31ed2ca40.png" alt="Image"><br>然后用 <code>ls</code> 命令查看<br><img src="https://pic4.zhimg.com/80/v2-d6aa8fb82e7f98eb2ee6e999326a4704.png" alt="Image"><br>多出了几个以 main 开头的文件，我们需要这个 pdf 文件，执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">termux-open ./main.pdf</span><br></pre></td></tr></table></figure>
-<p>来打开这个 pdf 文件，随后就会自动跳转到打开 pdf 了<br><img src="https://pic4.zhimg.com/80/v2-d9f5e05993e7d095cfb158e9f35e6b01.jpg" alt="Image"></p>
-<h2 id="一些补充"><a href="#一些补充" class="headerlink" title="一些补充"></a>一些补充</h2><p>使用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /sdcard</span><br></pre></td></tr></table></figure>
-<p>可以进入你的手机目录下，然后可以建一个文件夹来专门写 LaTeX, 同时也方便传输.</p>
-<hr>
-<p>先到这里吧，有问题评论区指出.</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Termux 高级终端安装使用配置教程<br><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2018/05/termux.html">https://www.sqlsec.com/2018/05/termux.html</a></p>
+<p> 函数篇大概就写这么多了吧，还有些函数我没看懂，或者暂时不知道它有啥用的，就先不写了,以后再更吧.</p>
 
       
     </div>
