@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -177,6 +177,92 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/texlive-and-ctex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/texlive-and-ctex/" class="post-title-link" itemprop="url">Windows 系统下texlive与CTeX套装共存</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:40:57" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>texlive想必大家都已经很熟悉了，这里不做介绍；CTeX套装我不熟悉，也不做过多介绍</p>
+<p>CTeX套装已经10年左右未更新了，CTeX套装的存在是为了解决正文在 LaTeX 中的排版，现在已经有了更好的替代品 <strong>ctex宏集</strong> ,原则上来说，它已经完成自己的使命，应该退出历史的舞台了.</p>
+<p>但是由于国内有些中文期刊仍然在使用 CTeX 套装，所以要想投稿这些期刊，不得不使用它，一些大佬建议不要在一台机器上装两个发行版，原因应该是当你使用编译引擎编译文档时，新手无法确定使用的是哪个发行版提供的，本文旨在简单介绍如何通过修改环境变量，使得可以控制使用哪一个发行版</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>点击下面链接，下载CTeX套装，如何无脑下一步安装就行，建议安装位置不要放在C盘（我的安装位置是E:\CTEX）</p>
+<p><a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/ctex/legacy/2.9/CTeX_2.9.2.164_Full.exe">CTeX下载地址</a> </p>
+<p>安装好之后，打开环境变量，具体方法是 </p>
+<p>右键此电脑 —&gt; 属性 —&gt;  高级系统设置 —&gt; 环境变量 </p>
+<p>找到系统变量中的 Path 变量栏，然后打开<img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/061901.png"></p>
+<p><img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/061902.png"></p>
+<p>红框的都是 CTeX 的环境变量，篮框的是 texlive 的环境变量，原则上编译的时候都是在命令行调用可执行程序来编译. 所以它会优先选择环境变量 <strong>靠前</strong> 的路径来执行.</p>
+<p>如上图，在 <code>E:\CTEX\MiKTeX\miktex\bin</code> 和 <code>D:\texlive\2022\bin\win32</code> 两个路径下都有 <code>tex.exe</code> 这个可执行文件，但是由于 CTeX 的环境变量靠前，所以会优先选择 CTeX, 如下图</p>
+<p><img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/061903.png"></p>
+<p>当我将 texlive 的环境变量移到前面后，如下</p>
+<p><img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/061904.png"></p>
+<p><img src="https://raw.githubusercontent.com/ljguo1020/Images/main/img/061905.png"></p>
+<p>至此，大概明白了如何选择需要的发行版来编译了</p>
+<h2 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h2><p>其它的，比如编辑器的使用，我就不做解释了</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1319,155 +1405,6 @@
 
 <hr>
 <p>点赞，收藏都是我的动力鸭~~~</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-int/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/11/LaTeX3-int/" class="post-title-link" itemprop="url">LaTeX3--整数</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:15" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>本文仅仅介绍 LaTeX3 的整数模块.</p>
-<hr>
-<h2 id="构建赋值、运算"><a href="#构建赋值、运算" class="headerlink" title="构建赋值、运算"></a>构建赋值、运算</h2><p>首先，利用以下函数创建一个整数变量</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_my_int</span></span><br><span class="line"><span class="keyword">\int_new:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>int&#125;</span><br></pre></td></tr></table></figure>
-<p>这样就创建了一个整数变量,下面我们来为其赋值：</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_my_int</span> &#123;10&#125; <span class="comment">% ---&gt;10</span></span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_my_int</span> &#123;2+2*3&#125; <span class="comment">% ----&gt;8</span></span><br><span class="line"><span class="keyword">\int_gset:Nn</span> <span class="keyword">\l_my_int</span> &#123;2+2*3+(2+1)*3&#125; <span class="comment">% ---&gt;17</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_set_eq:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>int<span class="built_in">_</span>b <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>int<span class="built_in">_</span>a</span><br><span class="line"><span class="keyword">\int_gset_eq:NN</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>int<span class="built_in">_</span>b <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>int<span class="built_in">_</span>a</span><br></pre></td></tr></table></figure>
-<p>使用整数</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_use:N</span> <span class="keyword">\l_my_int</span></span><br><span class="line"><span class="keyword">\int_use:c</span> &#123;...&#125;</span><br></pre></td></tr></table></figure>
-<p>加(减)一个数</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">% \int_set:Nn \l_my_int &#123;3&#125;</span></span><br><span class="line"><span class="keyword">\int_add:Nn</span> <span class="keyword">\l_my_int</span> &#123;10&#125; </span><br><span class="line"><span class="keyword">\int_use:N</span> <span class="keyword">\l_my_int</span> <span class="comment">% ---&gt;13</span></span><br><span class="line"><span class="keyword">\int_sub:Nn</span> <span class="keyword">\l_my_int</span> &#123;1+9&#125;</span><br><span class="line"><span class="keyword">\int_use:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>int&#125; <span class="comment">%---&gt;3</span></span><br></pre></td></tr></table></figure>
-<p>自加(减) 1</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_incr:N</span> <span class="keyword">\l_my_int</span></span><br><span class="line"><span class="keyword">\int_decr:N</span> <span class="keyword">\l_my_int</span></span><br></pre></td></tr></table></figure>
-<p>运算</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_eval:n</span> &#123;10+2*3+5&#125; <span class="comment">% ---&gt;21</span></span><br></pre></td></tr></table></figure>
-<p>一些数学函数</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_sign:n</span> &#123;100&#125; <span class="comment">% ---&gt;1 ,符号函数</span></span><br><span class="line"><span class="keyword">\int_abs:n</span> &#123;-10&#125; <span class="comment">% ---&gt;10 ,绝对值</span></span><br><span class="line"><span class="keyword">\int_div_round:nn</span> &#123;3&#125;&#123;1+1&#125; <span class="comment">% ---&gt;2 ,除法，四舍五入</span></span><br><span class="line"><span class="keyword">\int_div_truncate:nn</span> &#123;3&#125;&#123;2&#125; <span class="comment">% ---&gt;1,除法，向零取整</span></span><br><span class="line"><span class="keyword">\int_max:nn</span> &#123;100&#125;&#123;45&#125; <span class="comment">% ---&gt;100,取较大的一个</span></span><br><span class="line"><span class="keyword">\int_min:nn</span> &#123;100&#125;&#123;45&#125; <span class="comment">% ---&gt;45</span></span><br><span class="line"><span class="keyword">\int_mod:nn</span> &#123;9&#125;&#123;5&#125; <span class="comment">% ---&gt;4 ,取余数</span></span><br><span class="line"><span class="keyword">\int_zero:N</span> <span class="keyword">\l_my_int</span> <span class="comment">% ---&gt; ,将变量清零</span></span><br></pre></td></tr></table></figure>
-<h2 id="测试、比较"><a href="#测试、比较" class="headerlink" title="测试、比较"></a>测试、比较</h2><p>测试变量是否存在</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_if_exist_p:N</span> <span class="keyword">\l_my_int</span> <span class="comment">%---&gt;输出布尔值 </span></span><br><span class="line"><span class="keyword">\int_if_exist:NTF</span> <span class="keyword">\l_my_int</span> &#123;yes&#125; &#123;no&#125; <span class="comment">%---&gt;条件语句 </span></span><br></pre></td></tr></table></figure>
-<p>比较</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_compare_p:nNn</span> &#123;100&#125; &gt; &#123;102&#125; </span><br><span class="line"><span class="keyword">\int_compare:nNnTF</span> &#123;100&#125; &gt; &#123;102&#125; &#123;yes&#125; &#123;no&#125; <span class="comment">% ---&gt; no </span></span><br><span class="line"><span class="keyword">\int_compare_p:n</span> &#123;1&lt;2&lt;3&#125; </span><br><span class="line"><span class="keyword">\int_compare:nTF</span> &#123;1&lt;2&lt;3&#125; &#123;yes&#125; &#123;no&#125;</span><br></pre></td></tr></table></figure>
-<p>以上除了 <code>&gt;</code>, <code>&lt;</code>, 还有 <code>=</code>, <code>!=</code>, <code>&gt;=</code> and <code>&lt;=</code> .</p>
-<p>case</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_case:nn</span>&#123;10&#125;</span><br><span class="line">&#123;</span><br><span class="line">    &#123;2+4&#125;&#123;aaa&#125;</span><br><span class="line">    &#123;3+7&#125;&#123;bbb&#125;</span><br><span class="line">&#125; <span class="comment">% ---&gt; bbb</span></span><br><span class="line"><span class="keyword">\int_case:nnTF</span> ...</span><br></pre></td></tr></table></figure>
-<p>测试奇偶</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_if_even_p:n</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\int_if_even:nTF</span> &#123;...&#125; &#123;...&#125; &#123;...&#125;</span><br><span class="line"><span class="keyword">\int_if_odd_p:n</span> &#123;...&#125;</span><br><span class="line"><span class="keyword">\int_if_odd:nTF</span> &#123;...&#125; &#123;...&#125; &#123;...&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h3 id="do-until-循环"><a href="#do-until-循环" class="headerlink" title="do-until 循环"></a>do-until 循环</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_do_until:nNnn</span> &#123;&lt;intexpr1&gt;&#125; &lt;relation&gt; &#123;&lt;intexpr2&gt;&#125; &#123;&lt;code&gt;&#125;</span><br></pre></td></tr></table></figure>
-<p>这是 <code>do-until</code> 循环， 它会先执行一次 <code>&lt;code&gt;</code> 中的内容，然后循环，直到条件为真.</p>
-<p>示例</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_mya_int</span></span><br><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_myb_int</span></span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_mya_int</span> &#123;1&#125;</span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_myb_int</span> &#123;10&#125;</span><br><span class="line"><span class="keyword">\int_do_until:nNnn</span> &#123;<span class="keyword">\l_mya_int</span>&#125;&gt;&#123;<span class="keyword">\l_myb_int</span>&#125; </span><br><span class="line">&#123;</span><br><span class="line">    this~is~<span class="keyword">\int_use:c</span>&#123;l<span class="built_in">_</span>mya<span class="built_in">_</span>int&#125;.</span><br><span class="line">    <span class="keyword">\int_incr:N</span> <span class="keyword">\l_mya_int</span> <span class="keyword">\par</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这将会输出  </p>
-<p><img src="https://pic4.zhimg.com/80/v2-989dd33fc68601292049d678ad7cd10c.png"></p>
-<p>示例</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_mya_int</span></span><br><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_myb_int</span></span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_mya_int</span> &#123;1&#125;</span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_myb_int</span> &#123;10&#125;</span><br><span class="line"><span class="keyword">\int_do_until:nNnn</span> &#123;<span class="keyword">\l_mya_int</span>&#125;&lt;&#123;<span class="keyword">\l_myb_int</span>&#125; </span><br><span class="line">&#123;</span><br><span class="line">    this~is~<span class="keyword">\int_use:c</span>&#123;l<span class="built_in">_</span>mya<span class="built_in">_</span>int&#125;.</span><br><span class="line">    <span class="keyword">\int_incr:N</span> <span class="keyword">\l_mya_int</span> <span class="keyword">\par</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这将只得到 <code>this is 1.</code> 对比一下.</p>
-<h3 id="do-while-循环"><a href="#do-while-循环" class="headerlink" title="do-while 循环"></a>do-while 循环</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_do_while:nNnn</span> &#123;&lt;intexpr1&gt;&#125; &lt;relation&gt; &#123;&lt;intexpr2&gt;&#125; &#123;&lt;code&gt;&#125;</span><br></pre></td></tr></table></figure>
-<p>与 <code>do-until</code> 循环类似，不过它是等到条件为假时结束循环</p>
-<p>示例</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_mya_int</span></span><br><span class="line"><span class="keyword">\int_new:N</span> <span class="keyword">\l_myb_int</span></span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_mya_int</span> &#123;1&#125;</span><br><span class="line"><span class="keyword">\int_set:Nn</span> <span class="keyword">\l_myb_int</span> &#123;10&#125;</span><br><span class="line"><span class="keyword">\int_do_while:nNnn</span> &#123;<span class="keyword">\l_mya_int</span>&#125;&lt;&#123;<span class="keyword">\l_myb_int</span>&#125;</span><br><span class="line">&#123;</span><br><span class="line">     this~is~<span class="keyword">\int_use:c</span>&#123;l<span class="built_in">_</span>mya<span class="built_in">_</span>int&#125;.</span><br><span class="line">     <span class="keyword">\int_incr:N</span> <span class="keyword">\l_mya_int</span> <span class="keyword">\par</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这将会输出</p>
-<p><img src="https://pic4.zhimg.com/80/v2-987c1955b1c411066a8865d72deb3876.png"></p>
-<p>类似的还有 <code>until-do</code> , <code>while-do</code> 循环，它们是直接测试条件，不会事先执行一次 <code>&lt;code&gt;</code> 中的内容.</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_until_do:nNnn</span> &#123;⟨intexpr1⟩&#125; ⟨relation⟩ &#123;⟨intexpr2⟩&#125; &#123;⟨code⟩&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_while_do:nNnn</span> &#123;⟨intexpr1⟩&#125; ⟨relation⟩ &#123;⟨intexpr2⟩&#125; &#123;⟨code⟩&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_do_until:nn</span> &#123;⟨integer relation⟩&#125; &#123;⟨code⟩&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_do_while:nn</span> &#123;⟨integer relation⟩&#125; &#123;⟨code⟩&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_until_do:nn</span> &#123;⟨integer relation⟩&#125; &#123;⟨code⟩&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_while_do:nn</span> &#123;⟨integer relation⟩&#125; &#123;⟨code⟩&#125;</span><br></pre></td></tr></table></figure>
-<p>自行测试.</p>
-<h3 id="step-按步-循环"><a href="#step-按步-循环" class="headerlink" title="step (按步)循环"></a>step (按步)循环</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_step_function:nN</span> &#123;⟨final value⟩&#125; ⟨function⟩</span><br></pre></td></tr></table></figure>
-<p>这个函数是接受 <code>nN</code> 变体，第一个接受一个整数，第二个接受一个函数，也即将整数作为参数传递给该函数.</p>
-<p>示例</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n &#123;I~am~<span class="params">#1</span>~years~old.<span class="keyword">\par</span> &#125;</span><br><span class="line"><span class="keyword">\int_step_function:nN</span> &#123;6&#125; <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n</span><br></pre></td></tr></table></figure>
-<p>这将会得到</p>
-<p><img src="https://pic4.zhimg.com/80/v2-fe7ab951b6d3fd1e8da1f4f66b6123b6.png"></p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n &#123;I~am~<span class="params">#1</span>~years~old.<span class="keyword">\par</span> &#125;</span><br><span class="line"><span class="keyword">\int_step_function:nnN</span> &#123;5&#125;&#123;8&#125; <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n</span><br></pre></td></tr></table></figure>
-<p><img src="https://pic4.zhimg.com/80/v2-1fc200290f1a45abd0bb3d3c1f69305d.png"></p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_set:Nn</span> <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n &#123;I~am~<span class="params">#1</span>~years~old.<span class="keyword">\par</span> &#125;</span><br><span class="line"><span class="keyword">\int_step_function:nnnN</span> &#123;1&#125;&#123;2&#125;&#123;9&#125; <span class="keyword">\l</span><span class="built_in">_</span>my<span class="built_in">_</span>cmd:n</span><br></pre></td></tr></table></figure>
-<p><img src="https://pic4.zhimg.com/80/v2-513cab728a331219cadc428f6286fafb.png"></p>
-<p>以上是按函数循环，下面还有两种循环</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_step_inline:nn</span>&#123;5&#125;&#123;我有~<span class="params">#1</span>~个苹果 <span class="keyword">\par</span>&#125;</span><br></pre></td></tr></table></figure>
-<p>得到</p>
-<p><img src="https://pic4.zhimg.com/80/v2-d8989096e5f266fc5278140fcdd7a640.png"></p>
-<p>这是用 <code>#1</code> 作为参数传递给后面的内容，另外还有：</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_step_inline:nnn</span>&#123;3&#125;&#123;7&#125;&#123;我有~<span class="params">#1</span>~个苹果 <span class="keyword">\par</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_step_inline:nnnn</span>&#123;3&#125;&#123;2&#125;&#123;9&#125;&#123;我有~<span class="params">#1</span>~个苹果 <span class="keyword">\par</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">\int_step_variable:nNn</span> ...</span><br><span class="line"><span class="keyword">\int_step_variable:nnNn</span> ...</span><br><span class="line"><span class="keyword">\int_step_variable:nnnNn</span> ...</span><br></pre></td></tr></table></figure>
-<p>自行测试一下.</p>
-<h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_to_arabic:n</span>&#123;123&#125; <span class="comment">% ---&gt;123</span></span><br><span class="line"><span class="keyword">\int_to_alph:n</span>&#123;3&#125; <span class="comment">% ---&gt;c</span></span><br><span class="line"><span class="keyword">\int_to_Alph:n</span>&#123;4&#125; <span class="comment">% ---&gt;D</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Npn</span> <span class="keyword">\int_to_alph:n</span> <span class="params">#1</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">\int_to_symbols:nnn</span> &#123;<span class="params">#1</span>&#125; &#123; 26 &#125;</span><br><span class="line">&#123;</span><br><span class="line">    &#123; 1 &#125; &#123; a &#125;</span><br><span class="line">    &#123; 2 &#125; &#123; b &#125;</span><br><span class="line">        ...</span><br><span class="line">    &#123; 26 &#125; &#123; z &#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_to_bin:n</span>&#123;6&#125; <span class="comment">% ---&gt;110 ,二进制</span></span><br><span class="line"><span class="keyword">\int_to_hex:n</span>&#123;78&#125; <span class="comment">% ---&gt;4e ,十六进制</span></span><br><span class="line"><span class="keyword">\int_to_Hex:n</span>&#123;78&#125; <span class="comment">% ---&gt;4E ,十六进制</span></span><br><span class="line"><span class="keyword">\int_to_oct:n</span>&#123;10&#125; <span class="comment">% ---&gt;12 ,八进制</span></span><br><span class="line"><span class="keyword">\int_to_base:nn</span>&#123;9&#125;&#123;3&#125; <span class="comment">% ---&gt;100 ,三进制</span></span><br><span class="line"><span class="keyword">\int_to_base:nn</span>&#123;9&#125;&#123;4&#125; <span class="comment">% ---&gt;21 ,四进制</span></span><br><span class="line"><span class="keyword">\int_to_Base:nn</span>&#123;17&#125;&#123;18&#125; <span class="comment">% ---&gt;H ,十八进制</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_to_roman:n</span> &#123;2&#125; <span class="comment">% ---&gt; ii </span></span><br><span class="line"><span class="keyword">\int_to_Roman:n</span> &#123;2&#125; <span class="comment">% ---&gt; II</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_from_alph:n</span> &#123;f&#125; <span class="comment">% ---&gt; 6</span></span><br><span class="line"><span class="keyword">\int_from_bin:n</span> ...</span><br><span class="line"><span class="keyword">\int_from_hex:n</span> ...</span><br><span class="line"><span class="keyword">\int_from_oct:n</span> ...</span><br><span class="line"><span class="keyword">\int_from_roman:n</span> ...</span><br><span class="line"><span class="keyword">\int_from_base:nn</span> ...</span><br></pre></td></tr></table></figure>
-<h2 id="伪随机数"><a href="#伪随机数" class="headerlink" title="伪随机数"></a>伪随机数</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\int_rand:n</span> &#123;10&#125; <span class="comment">% 1~10 之间产生一个随机整数</span></span><br><span class="line"><span class="keyword">\int_rand:nn</span> &#123;5&#125;&#123;8&#125; <span class="comment">% 5~8 之间产生一个随机整数</span></span><br></pre></td></tr></table></figure>
-<h2 id="已定义的常量"><a href="#已定义的常量" class="headerlink" title="已定义的常量"></a>已定义的常量</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\c_zero_int</span> <span class="comment">% ---&gt;0</span></span><br><span class="line"><span class="keyword">\c_one_int</span> <span class="comment">% ---&gt;1</span></span><br><span class="line"><span class="keyword">\c_max_int</span> <span class="comment">% ---&gt; 2147483647 ,可存储的最大整数</span></span><br><span class="line"><span class="keyword">\c_max_register_int</span> <span class="comment">% ---&gt;32767 ,整数寄存器的最大数量</span></span><br><span class="line"><span class="keyword">\c_max_char_int</span> <span class="comment">% ---&gt;255 ,引擎完全支持的最大字符编码。</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>就到这儿吧，整数模块就告一段落了.</p>
 
       
     </div>
