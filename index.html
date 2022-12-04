@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -186,6 +186,106 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/03/w3c-note-04/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/12/03/w3c-note-04/" class="post-title-link" itemprop="url">WEB 学习第四天</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-12-03 17:07:44" itemprop="dateCreated datePublished" datetime="2022-12-03T17:07:44+08:00">2022-12-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-12-05 01:33:45" itemprop="dateModified" datetime="2022-12-05T01:33:45+08:00">2022-12-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="DOM-文档对象模型"><a href="#DOM-文档对象模型" class="headerlink" title="DOM(文档对象模型)"></a>DOM(文档对象模型)</h2><p>当网页被加载时，浏览器会创建页面的文档对象模型(Document Object Model).</p>
+<p>通过可编程的对象模型，JavaScript 获得了足够的能力来创建动态的 HTML.</p>
+<ul>
+<li>JavaScript 能够改变页面中的所有 HTML 元素</li>
+<li>JavaScript 能够改变页面中的所有 HTML 属性</li>
+<li>JavaScript 能够改变页面中的所有 CSS 样式</li>
+<li>JavaScript 能够对页面中的所有事件做出反应</li>
+</ul>
+<h3 id="查找HTML元素"><a href="#查找HTML元素" class="headerlink" title="查找HTML元素"></a>查找HTML元素</h3><ul>
+<li>通过 id 查找<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> demo = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&quot;demo&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>通过标签名查找<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> demo = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;p&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+<li>通过类名查找<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> demo = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;demo&quot;</span>);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="修改HTML内容"><a href="#修改HTML内容" class="headerlink" title="修改HTML内容"></a>修改HTML内容</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 获取元素对象(集合)</span></span><br><span class="line"><span class="keyword">var</span> demo = <span class="variable language_">document</span>.<span class="title function_">getElementsByClassName</span>(<span class="string">&quot;demo&quot;</span>);</span><br><span class="line"><span class="comment">// 对元素的 innerHTML 属性赋值, (可读可写)</span></span><br><span class="line">demo[<span class="number">0</span>].<span class="property">innerHTML</span> = <span class="string">&quot;hello JavaScript!&quot;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="修改HTML属性"><a href="#修改HTML属性" class="headerlink" title="修改HTML属性"></a>修改HTML属性</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通过TagName获取元素对象集合</span></span><br><span class="line"><span class="keyword">var</span> imgobj = <span class="variable language_">document</span>.<span class="title function_">getElementsByTagName</span>(<span class="string">&quot;img&quot;</span>);</span><br><span class="line"><span class="comment">// 绑定onclick事件, 触发对应函数</span></span><br><span class="line">imgobj[<span class="number">0</span>].<span class="property">onclick</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    imgobj[<span class="number">0</span>].<span class="property">src</span> = <span class="string">&quot;./images/news.jpg&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/02/w3c-note-03/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -222,7 +322,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-12-03 13:15:11" itemprop="dateModified" datetime="2022-12-03T13:15:11+08:00">2022-12-03</time>
+      <time title="修改时间：2022-12-03 17:07:21" itemprop="dateModified" datetime="2022-12-03T17:07:21+08:00">2022-12-03</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -281,7 +381,7 @@
 <h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><ul>
 <li>for&#x2F;in 循环<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> str = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> str) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(str[i]);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// i 在这里作为 str 数组的索引</span></span><br></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2>
+
       
     </div>
 
@@ -1358,189 +1458,6 @@
 <hr>
 <p>先到这里吧，有问题评论区指出.</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>Termux 高级终端安装使用配置教程<br><a target="_blank" rel="noopener" href="https://www.sqlsec.com/2018/05/termux.html">https://www.sqlsec.com/2018/05/termux.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/texlive-for-linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/11/texlive-for-linux/" class="post-title-link" itemprop="url">texlive-for-linux</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:41:06" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>我们采用镜像下载安装</p>
-<h1 id="下载texlive镜像文件"><a href="#下载texlive镜像文件" class="headerlink" title="下载texlive镜像文件"></a>下载texlive镜像文件</h1><p>这里给出<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/Images/texlive2021-20210325.iso">清华大学的镜像源</a></p>
-<p>下载到一个自己能够找得到的地方，这里默认你已经熟悉一些基本的命令行操作</p>
-<h3 id="挂载镜像文件"><a href="#挂载镜像文件" class="headerlink" title="挂载镜像文件"></a>挂载镜像文件</h3><p>这里假设你的.iso文件路径为&#x2F;path&#x2F;iso&#x2F;textive2021-texlive20210325.iso ,在命令行窗口通过 cd 命令进入该文件夹，如下图，这是我的.iso文件所在路径<br><img src="https://pic4.zhimg.com/80/v2-410ed05383391d060d87efd7baf41000.png" alt="文件路径"><br>然后我们就可以开始进行挂载镜像了</p>
-<blockquote>
-<p>mkdir ~&#x2F;iso</p>
-</blockquote>
-<p>在命令行执行以上命令，这个命令是在 “~” 目录，也即是家(home)目录下创建一个名叫“iso”的目录，用于挂载镜像文件。这里不理解的话，其实镜像文件也相当于一个压缩包，我们创建这个文件夹就是用来将.iso文件解压在其中<br><img src="https://pic4.zhimg.com/80/v2-8fd10bb4528202442809fc82cf1f29bb.png" alt="创建挂载目录"></p>
-<blockquote>
-<p>sudo mount texlive2021-20210325.iso ~&#x2F;iso -o loop</p>
-</blockquote>
-<p>这条命令用于挂载镜像<br><img src="https://pic4.zhimg.com/80/v2-09efa3cf85368e97ed6b64c5eab0b2e3.png" alt="挂载镜像"></p>
-<p>随后进入刚刚创建的文件夹，执行</p>
-<blockquote>
-<p>cd ~&#x2F;iso</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-0caf895b241de2f5139d0067d6bd5c3c.png" alt="进入挂载目录"><br>然后用 ls 命令可以看到里面有很多文件，其中有个install-tl就是我们的安装脚本</p>
-<p><img src="https://pic4.zhimg.com/80/v2-04e66fae15176a6ba11007a3e8779d9e.png" alt="查看内部文件"></p>
-<h1 id="开始安装"><a href="#开始安装" class="headerlink" title="开始安装"></a>开始安装</h1><p>然后执行</p>
-<blockquote>
-<p>sudo .&#x2F;install-tl</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-4789ed193fa5c8c2324bad0f87c42f8b.png" alt="执行脚本，安装texlive"></p>
-<p>你将会看到：</p>
-<p><img src="https://pic4.zhimg.com/80/v2-289a9b3d4f0b35236a2f67da9aca1963.png" alt="选择界面"></p>
-<p>输入 i 然后回车，等待安装，界面如下</p>
-<p><img src="https://pic4.zhimg.com/80/v2-70e4283c185a885d3889eebc8a0df929.png" alt="安装界面"></p>
-<p>一直等待，大概在20~30分钟，也说不准，直到出现 </p>
-<blockquote>
-<p>欢迎进入 TeX Live 的世界</p>
-</blockquote>
-<p>或者是</p>
-<blockquote>
-<p>welcome to texlive</p>
-</blockquote>
-<p>等文字信息，即表示安装成功.</p>
-<p>你以为你真的安装成功了吗？？？，nonono，接下来我们还需要做一些配置：</p>
-<h1 id="添加环境变量"><a href="#添加环境变量" class="headerlink" title="添加环境变量"></a>添加环境变量</h1><p>执行</p>
-<blockquote>
-<p>sudo gedit ~&#x2F;.bashrc</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-7430a4e6f884da9e41244fba0c23cbb6.png" alt="打开 .bashrc"><br>此命令表示使用 Gedit 编辑器打开 .bashrc 这个配置文件，如果你是WSL用户,没有自带该编辑器，可将 gedit 换成 vi 或者 vim ，打开之后将以下内容添加到里面（如果你用的zsh，可以将 .bashrc 换成 .zshrc ）</p>
-<p>注意：如果用 vim 请先了解一下 vim 编辑器的使用方法</p>
-<blockquote>
-<p>export PATH&#x3D;&#x2F;usr&#x2F;local&#x2F;texlive&#x2F;2021&#x2F;bin&#x2F;x86_64-linux:$PATH</p>
-<p>export MANPATH&#x3D;&#x2F;usr&#x2F;local&#x2F;texlive&#x2F;2021&#x2F;texmf&#x2F;doc&#x2F;man:$MANPATH</p>
-<p>export INFOPATH&#x3D;&#x2F;usr&#x2F;local&#x2F;texlive&#x2F;2021&#x2F;texmf&#x2F;doc&#x2F;info:$INFOPATH</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-fa1d39b316a0907ccf3e1fec315fd677.png" alt="配置 .bashrc"><br>保存，然后命令行继续执行</p>
-<blockquote>
-<p>sudo gedit &#x2F;etc&#x2F;manpath.config</p>
-</blockquote>
-<p>同样，也是打开一个配置文件，在里面相对应的位置加入以下内容，同样也可用 vim 编辑器打开</p>
-<blockquote>
-<p>MANPATH_MAP  &#x2F;usr&#x2F;local&#x2F;texlive&#x2F;2021&#x2F;bin&#x2F;x86_64-linux  &#x2F;usr&#x2F;local&#x2F;texlive&#x2F;2021&#x2F;texmf&#x2F;doc&#x2F;man</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-6ae8ad7d40b3bf73d849ba1c2214f83e.png" alt="配置 manpath.config"></p>
-<p>保存退出，重新打开终端，用以刷新配置文件，然后在新的终端里面执行</p>
-<blockquote>
-<p>tex -v</p>
-</blockquote>
-<p>得到如下界面，则表示安装成功</p>
-<p><img src="https://pic4.zhimg.com/80/v2-ffd58c5da049e4b6db2ac6e1815e0e25.png" alt="终于成功啦"></p>
-<p>接下来你就可以开始写 LaTeX 代码了.</p>
-<h1 id="开始第一份文档"><a href="#开始第一份文档" class="headerlink" title="开始第一份文档"></a>开始第一份文档</h1><p>终端执行</p>
-<blockquote>
-<p>touch main.tex</p>
-</blockquote>
-<p>新建一个 .tex 文件，用编辑器打开这个文件，在里面写入代码</p>
-<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>&#123;ctexart&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;amsmath&#125;</span><br><span class="line"><span class="keyword">\title</span>&#123;Welcome to <span class="keyword">\LaTeX</span>&#125;</span><br><span class="line"><span class="keyword">\author</span>&#123;ljguo&#125;</span><br><span class="line"><span class="keyword">\date</span>&#123;<span class="keyword">\today</span>&#125;</span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\maketitle</span></span><br><span class="line"></span><br><span class="line">hello  <span class="keyword">\LaTeX</span>&#123;&#125;!</span><br><span class="line">你好  <span class="keyword">\LaTeX</span>&#123;&#125;!</span><br><span class="line"></span><br><span class="line">这是勾股定理</span><br><span class="line"><span class="keyword">\[</span></span><br><span class="line">   a<span class="built_in">^</span>&#123;2&#125;+b<span class="built_in">^</span>&#123;2&#125;=c<span class="built_in">^</span>&#123;2&#125;    </span><br><span class="line"><span class="keyword">\]</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://pic4.zhimg.com/80/v2-1225d5c19522e319747215754fda6077.png" alt="写入 .tex 文件内容"></p>
-<p>保存，然后命令行执行</p>
-<blockquote>
-<p>xelatex main.tex</p>
-</blockquote>
-<p><img src="https://pic4.zhimg.com/80/v2-857992e8c281cb5a6a2572f93a01b24d.png" alt="编译文件"></p>
-<p>你将会看到如下内容</p>
-<p><img src="https://pic4.zhimg.com/80/v2-a76aea94d409b224a70bfd6b28f92f8d.png" alt="开始编译了"></p>
-<p>直到……</p>
-<p><img src="https://pic4.zhimg.com/80/v2-41772d1185c7d129a3b1fb839f0d1095.png" alt="编译成功"></p>
-<p>这个过程不过1~2秒，表示编译成功了，随即使用 ls 命令来查看里面的东西</p>
-<p><img src="https://pic4.zhimg.com/80/v2-7ce214cb238cee5d20dfdcab3d1ec701.png" alt="pdf文件"></p>
-<p>多了几个main开头的文件（请自动忽略我的其他文件）然而我们关系的就是这个pdf文件，请到相应的文件加打开它，如果不知道你自己所处的文件夹位置，可以使用 pwd 命令来查看.</p>
-<p><img src="https://pic4.zhimg.com/80/v2-aa2b430ef39759011067f3da2c9aad0d.png" alt="查看所在目录"></p>
-<p>然后去打开它吧.</p>
-<p><img src="https://pic4.zhimg.com/80/v2-50b1f9eb90425e81bc502f5a6c3e5eb3.png" alt="pdf文件显示"></p>
-<p>这时候，你应该算是大功告成了.别急着乐，在LaTeX这条路上，你只是跨入了大门.不过，嘿嘿，万事开头难嘛.加油！</p>
-<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><p>请记住 texdoc 命令，用于打开宏包帮助文档，使用方法如下</p>
-<blockquote>
-<p>texdoc 宏包&#x2F;文件名</p>
-</blockquote>
-<p>例如， texdoc amsmath 查看amsmath 宏包的说明文档<br>另外，推荐入门必读的手册</p>
-<blockquote>
-<p>lshort-zh-zn</p>
-<p>install-latex-guide-zh-cn</p>
-</blockquote>
-<p>第一份文档，入门使用，看完它之后，你的一些日常写作应当没有任何问题，强烈推荐</p>
-<p>第二份文档，解决你安装过程中遇到的 99% 的问题，请按需仔细阅读</p>
-<p>调出它们的方法很简单，只需要命令行执行</p>
-<blockquote>
-<p>texdoc lshort-zh-zn</p>
-<p>texdoc install-latex-guide-zh-cn</p>
-</blockquote>
-<p>好了，先写到这里吧…….</p>
 
       
     </div>
