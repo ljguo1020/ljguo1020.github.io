@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -140,7 +140,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -177,6 +177,157 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-prop/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX3-prop/" class="post-title-link" itemprop="url">LaTeX3---prop (属性列表)</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:35" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>本文介绍LaTeX3的 prop 模块<br>简介：主要用来设置一些键值(keyval)，但是与l3keys模块又有区别</p>
+</blockquote>
+<h2 id="创建和初始化属性列表"><a href="#创建和初始化属性列表" class="headerlink" title="创建和初始化属性列表"></a>创建和初始化属性列表</h2><h3 id="新建一个属性列表"><a href="#新建一个属性列表" class="headerlink" title="新建一个属性列表"></a>新建一个属性列表</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_new:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_new:c</span> &#123;l<span class="built_in">_</span>my<span class="built_in">_</span>prop&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化-清空内容"><a href="#初始化-清空内容" class="headerlink" title="初始化(清空内容)"></a>初始化(清空内容)</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_clear:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_clear:c</span> ...</span><br><span class="line"><span class="keyword">\prop_gclear:N</span> ...</span><br><span class="line"><span class="keyword">\prop_gclear:c</span> ...</span><br></pre></td></tr></table></figure>
+
+<p>检测是否存在，如果存在就清空.如果不存在就创建，然后清空</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_clear_new:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_clear_new:c</span> </span><br><span class="line"><span class="keyword">\prop_gclear_new:N</span></span><br><span class="line"><span class="keyword">\prop_gclear_new:c</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h2><h3 id="直接赋值"><a href="#直接赋值" class="headerlink" title="直接赋值"></a>直接赋值</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_set_from_keyval:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">	key1 = val1,</span><br><span class="line">	key2 = val2,</span><br><span class="line">	key3 = val3,</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\prop_set_from_keyval:cn</span></span><br><span class="line"><span class="keyword">\prop_gset_from_keyval:Nn</span></span><br><span class="line"><span class="keyword">\prop_gset_from_keyval:cn</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="创建副本"><a href="#创建副本" class="headerlink" title="创建副本"></a>创建副本</h3><p>这让 <code>\l_myb_prop</code> 和<code>\l_mya_prop</code> 相等</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_set_eq:NN</span> <span class="keyword">\l_mab_prop</span> <span class="keyword">\l_mya_prop</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_const_from_keyval:Nn</span><span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">	key1 = val1,</span><br><span class="line">	key2 = val2,</span><br><span class="line">	key3 = val3,</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="追加-put"><a href="#追加-put" class="headerlink" title="追加(put)"></a>追加(put)</h3><p>直接追加</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_put:Nnn</span> <span class="keyword">\l_my_prop</span> &#123;key4&#125;&#123;val4&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先检测键值是否存在，如果存在，则什么也不做，不存在就为其追加. 区别于前者的是，如果存在，前者会覆盖掉</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_put_if_new:Nnn</span> <span class="keyword">\l_my_prop</span> &#123;key4&#125;&#123;val4&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合"><a href="#结合" class="headerlink" title="结合"></a>结合</h3><p>将后面两个属性列表组合起来，给第一个列表</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_concat:NNN</span> <span class="keyword">\l_mya_prop</span> <span class="keyword">\l_myb_prop</span> <span class="keyword">\l_myc_prop</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="以键值形式追加"><a href="#以键值形式追加" class="headerlink" title="以键值形式追加"></a>以键值形式追加</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_put_from_keyval:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">⟨key1⟩ = ⟨value1⟩ ,</span><br><span class="line">⟨key2⟩ = ⟨value2⟩ ,</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="传递给一个变量"><a href="#传递给一个变量" class="headerlink" title="传递给一个变量"></a>传递给一个变量</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_get:NnN</span> <span class="keyword">\l_my_prop</span> &#123;key1&#125; <span class="keyword">\l_my_tl</span></span><br></pre></td></tr></table></figure>
+
+<p>此时，<code>\l_my_tl</code>中保存的值就是<code>val1</code> </p>
+<h3 id="直接使用"><a href="#直接使用" class="headerlink" title="直接使用"></a>直接使用</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_item:Nn</span> <span class="keyword">\l_my_prop</span> &#123;key1&#125; <span class="comment">% ---&gt; val1</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="计算属性列表数量"><a href="#计算属性列表数量" class="headerlink" title="计算属性列表数量"></a>计算属性列表数量</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_count:N</span> <span class="keyword">\l_my_prop</span> <span class="comment">% 返回一个整数</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="移除"><a href="#移除" class="headerlink" title="移除"></a>移除</h2><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_remove:Nn</span> <span class="keyword">\l_my_prop</span> &#123;key2&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="条件判断"><a href="#条件判断" class="headerlink" title="条件判断"></a>条件判断</h2><h3 id="检测是否存在"><a href="#检测是否存在" class="headerlink" title="检测是否存在"></a>检测是否存在</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_if_exist_p:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_if_exist:NTF</span> <span class="keyword">\l_my_prop</span> &#123;true code&#125;&#123;false code&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测是否为空"><a href="#检测是否为空" class="headerlink" title="检测是否为空"></a>检测是否为空</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_if_empty_p:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_if_empty:NTF</span> <span class="keyword">\l_my_prop</span> &#123;true code&#125;&#123;false code&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测某键值是否存在"><a href="#检测某键值是否存在" class="headerlink" title="检测某键值是否存在"></a>检测某键值是否存在</h3><figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_if_in:NnTF</span> <span class="keyword">\l_my_prop</span>&#123;key4&#125;&#123;true code&#125;&#123;false code&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h2><h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>将<code>keys</code>和<code>vals</code>通过参数传递给函数,所以函数应当接受两个参数</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_map_function:NN</span> <span class="keyword">\l_my_prop</span> <span class="keyword">\my_cmd:nn</span></span><br></pre></td></tr></table></figure>
+
+<p>example</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\cs_new:Nn</span> <span class="keyword">\my_cmd:nn</span> &#123;<span class="params">#1</span>~:~i~love~<span class="params">#2</span>.<span class="keyword">\par</span>&#125;</span><br><span class="line"><span class="keyword">\prop_new:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_set_from_keyval:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">   a = 杨幂,</span><br><span class="line">   b = 迪丽热巴,</span><br><span class="line">   c = 周冬雨</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\prop_map_function:NN</span> <span class="keyword">\l_my_prop</span> <span class="keyword">\my_cmd:nn</span></span><br></pre></td></tr></table></figure>
+
+<p>这会得到</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a : i love 杨幂.</span><br><span class="line">b : i love 迪丽热巴.</span><br><span class="line">c : i love 周冬雨.</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_map_inline:Nn</span> <span class="keyword">\l_my_prop</span> &#123;code&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>code</code>中可以带两个参数，用于代表<code>key</code>和<code>val</code></p>
+<p>example</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_new:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_set_from_keyval:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">   a = 杨幂,</span><br><span class="line">   b = 迪丽热巴,</span><br><span class="line">   c = 周冬雨</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\prop_map_inline:Nn</span> <span class="keyword">\l_my_prop</span>&#123;<span class="params">#1</span>~:~i~love~<span class="params">#2</span>.<span class="keyword">\par</span>&#125; </span><br></pre></td></tr></table></figure>
+
+<p>同样也得到上面的结果</p>
+<h3 id="break"><a href="#break" class="headerlink" title="break"></a>break</h3><p>用于终止循环</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_map_break:</span></span><br></pre></td></tr></table></figure>
+
+<p>下面这个函数会在终止循环后再执行一些东西</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_map_break:n</span> &#123;code&#125;</span><br></pre></td></tr></table></figure>
+
+<p>example</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\prop_new:N</span> <span class="keyword">\l_my_prop</span></span><br><span class="line"><span class="keyword">\prop_set_from_keyval:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line">   a = 杨幂,</span><br><span class="line">   b = 迪丽热巴,</span><br><span class="line">   c = 周冬雨</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\prop_map_inline:Nn</span> <span class="keyword">\l_my_prop</span></span><br><span class="line">&#123;</span><br><span class="line"> 	<span class="keyword">\str_if_eq:nnTF</span>&#123;<span class="params">#1</span>&#125;&#123;c&#125;</span><br><span class="line"> 	&#123;</span><br><span class="line"> 		<span class="keyword">\prop_map_break:</span></span><br><span class="line"> 	&#125;</span><br><span class="line"> 	&#123;</span><br><span class="line"> 		<span class="params">#1</span>~:~i~love~<span class="params">#2</span>.<span class="keyword">\par</span></span><br><span class="line"> 	&#125;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<p>这将只得到</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a : i love 杨幂.</span><br><span class="line">b : i love 迪丽热巴.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>该模块暂时更新到这里吧</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -643,7 +794,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>xparse</strong> 宏包是一个非常优秀的宏包，值得大家去学习，另外，作者水平有限，如有错误或者疑问，欢迎联系我</p>
 <ul>
 <li><strong>QQ</strong> : 1123203930</li>
-<li><strong>Email</strong> : <a href="mailto:&#x31;&#x31;&#50;&#51;&#50;&#x30;&#51;&#x39;&#51;&#48;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;">&#x31;&#x31;&#50;&#51;&#50;&#x30;&#51;&#x39;&#51;&#48;&#x40;&#113;&#113;&#46;&#x63;&#x6f;&#x6d;</a></li>
+<li><strong>Email</strong> : <a href="mailto:&#x31;&#49;&#x32;&#x33;&#x32;&#48;&#51;&#x39;&#x33;&#x30;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;">&#x31;&#49;&#x32;&#x33;&#x32;&#48;&#51;&#x39;&#x33;&#x30;&#64;&#x71;&#x71;&#x2e;&#x63;&#111;&#x6d;</a></li>
 </ul>
 
       
