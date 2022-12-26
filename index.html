@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -177,6 +177,129 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/26/ssm-learn-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/12/26/ssm-learn-02/" class="post-title-link" itemprop="url">SSM 学习第二天</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-12-26 09:59:03" itemprop="dateCreated datePublished" datetime="2022-12-26T09:59:03+08:00">2022-12-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-12-27 00:05:00" itemprop="dateModified" datetime="2022-12-27T00:05:00+08:00">2022-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="纯注解开发"><a href="#纯注解开发" class="headerlink" title="纯注解开发"></a>纯注解开发</h2><p>首先在需要注入 IOC 容器的类上加入 <code>@Component</code> 注解, 这样就向 IOC 容器中注入了一个 Bean 了.   </p>
+<p><code>@Component</code> 注解有三个衍生注解</p>
+<ul>
+<li><code>@Repository</code></li>
+<li><code>@Service</code></li>
+<li><code>@Controller</code><br>用于标识不同层, 快捷开发</li>
+</ul>
+<p>IOC 容器默认是单例的, 可以通过 <code>@Scope</code> 注解, 有 <code>prototype</code>(多例), <code>singleton</code>(单例) 两个参数.<br>然后需要创建一个 Spring 的配置类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.ljguo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;org.ljguo&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BeanConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>@Configuration</code> 注解使得其成为一个注解类</li>
+<li><code>@ComponentScan(&quot;org.ljguo&quot;)</code> 进行包扫描, 扫描刚刚的 <code>@Component</code> 注解</li>
+</ul>
+<p>测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.ljguo.test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.ljguo.config.BeanConfig;</span><br><span class="line"><span class="keyword">import</span> org.ljguo.dao.UserDao;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.AnnotationConfigApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">AnnotationConfigApplicationContext</span> <span class="variable">ac</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AnnotationConfigApplicationContext</span>(BeanConfig.class);</span><br><span class="line">        <span class="type">UserDao</span> <span class="variable">userDao</span> <span class="operator">=</span> ac.getBean(UserDao.class);</span><br><span class="line"><span class="comment">//        ac.close();</span></span><br><span class="line">        System.out.println(userDao);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>需要使用 <code>AnnotationConfigApplicationContext</code> 类加载配置类, 可以加载多个配置类, 以逗号给出即可.</li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>包括 <code>init</code> <code>destroy</code><br>定义两个方法, </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PostConstruct</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;init...&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@PreDestroy</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;destroy...&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两个注解, <code>@PostConstruct</code> 用于注解 <code>init</code> 方法, 表示在构造器之后执行, <code>@PreDestroy</code> 注解用于 <code>destroy</code> 方法, 表示在销毁之前执行, 但是需要手动关闭 IOC 容器对象. </p>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><h3 id="自动装配"><a href="#自动装配" class="headerlink" title="自动装配"></a>自动装配</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Autowired</span></span><br><span class="line"><span class="keyword">private</span> User user;</span><br></pre></td></tr></table></figure>
+<h3 id="值注入"><a href="#值注入" class="headerlink" title="值注入"></a>值注入</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;100&quot;)</span></span><br><span class="line"><span class="keyword">private</span> <span class="type">int</span> num;</span><br></pre></td></tr></table></figure>
+<p>也可以从 properties 文件中获得数据, 首先在 Spring 配置文件中引入 properties 文件, </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@PropertySource(&quot;classpath:jdbc.properties&quot;)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jdbc.driver</span>=<span class="string">com.mysql.jdbc.Driver</span></span><br><span class="line"><span class="attr">jdbc.url</span>=<span class="string">jdbc:mysql://localhost:3306/ljguo</span></span><br><span class="line"><span class="attr">jdbc.username</span>=<span class="string">root</span></span><br><span class="line"><span class="attr">jdbc.password</span>=<span class="string">20001020</span></span><br></pre></td></tr></table></figure>
+<p>然后使用,</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;jdbc.url&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String str;</span><br></pre></td></tr></table></figure>
+
+<h2 id="管理第三方-Bean"><a href="#管理第三方-Bean" class="headerlink" title="管理第三方 Bean"></a>管理第三方 Bean</h2><p>建议新建一个配置类, 例如名为 <code>JdbcConfig.class</code>, </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.ljguo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.druid.pool.DruidDataSource;</span><br><span class="line"><span class="keyword">import</span> org.ljguo.dao.impl.UserDaoImpl;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> javax.sql.DataSource;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JdbcConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jdbc.driver&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String driver;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jdbc.url&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String url;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jdbc.username&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String username;</span><br><span class="line">    <span class="meta">@Value(&quot;$&#123;jdbc.password&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> DataSource <span class="title function_">dataSource</span><span class="params">(UserDaoImpl userDao)</span> &#123;</span><br><span class="line">        userDao.show();</span><br><span class="line">        <span class="type">DruidDataSource</span> <span class="variable">dc</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">DruidDataSource</span>();</span><br><span class="line">        dc.setDriverClassName(driver);</span><br><span class="line">        dc.setUrl(url);</span><br><span class="line">        dc.setUsername(username);</span><br><span class="line">        dc.setPassword(password);</span><br><span class="line">        <span class="keyword">return</span> dc;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>@Value</code> 注解用于注入一些普通类型的值, 注入的是 properties 文件中的数据, 记得需要载入该配置文件</li>
+<li><code>@Bean</code> 用于注入一个第三方 Bean</li>
+<li>方法名就是要注入 Bean 的 id 值</li>
+<li>若要注入引用类型, 需要将类型写在方法的形参里面, 如上的 <code>UserDaoImpl</code> (自动装配)</li>
+</ul>
+<p>在主配置文件中, 使用 <code>@Import</code> 注解导入该配置文件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.ljguo.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Import;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.PropertySource;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Import(JdbcConfig.class)</span></span><br><span class="line"><span class="meta">@ComponentScan(&quot;org.ljguo&quot;)</span></span><br><span class="line"><span class="meta">@PropertySource(&quot;classpath:jdbc.properties&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">BeanConfig</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1284,165 +1407,6 @@ xml 配置文件可优化为如下内容<figure class="highlight xml"><table><tr
 <h1 id="Students-类-待更新"><a href="#Students-类-待更新" class="headerlink" title="Students 类(待更新)"></a>Students 类(待更新)</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> Students;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Students</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> String[] elements;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">STUDENTS_SIZE</span> <span class="operator">=</span> <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">int</span> <span class="variable">numberOfStudents</span> <span class="operator">=</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">Students</span><span class="params">()</span> &#123;</span><br><span class="line">        elements = <span class="keyword">new</span> <span class="title class_">String</span>[STUDENTS_SIZE];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">push</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (numberOfStudents &gt;= STUDENTS_SIZE) &#123;</span><br><span class="line">            String[] temp = <span class="keyword">new</span> <span class="title class_">String</span>[<span class="number">2</span> * STUDENTS_SIZE];</span><br><span class="line">            STUDENTS_SIZE *= <span class="number">2</span>;</span><br><span class="line">            System.arraycopy(elements, <span class="number">0</span>, temp, <span class="number">0</span>, elements.length);</span><br><span class="line">            elements = temp;</span><br><span class="line">        &#125;</span><br><span class="line">        elements[numberOfStudents++] = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="type">int</span> <span class="title function_">getNumberOfStudents</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> numberOfStudents;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getStudent</span><span class="params">(<span class="type">int</span> index)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(index &lt; numberOfStudents)&#123;</span><br><span class="line">            <span class="keyword">return</span> elements[index];</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ArrayIndexOutOfBoundsException</span>(<span class="string">&quot;Index &quot;</span> + index + <span class="string">&quot; out of bounds for length &quot;</span> + numberOfStudents);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">toString</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">tem</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span>; i &lt; numberOfStudents; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (i &lt; numberOfStudents - <span class="number">1</span>)</span><br><span class="line">                tem.append(elements[i]).append(<span class="string">&quot;,&quot;</span>);</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                tem.append(elements[i]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;[&quot;</span> + tem +<span class="string">&quot;]&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">pop</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> elements[--numberOfStudents];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Students.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">StudentsTest</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="type">Students</span> <span class="variable">st</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Students</span>();</span><br><span class="line">        st.push(<span class="string">&quot;ljguo&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;张三&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;李四&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;王二麻子&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;王八蛋&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;狗头&quot;</span>);</span><br><span class="line">        st.push(<span class="string">&quot;二蛋子&quot;</span>);</span><br><span class="line"></span><br><span class="line">        System.out.println(st.getStudent(<span class="number">5</span>));</span><br><span class="line">        System.out.println(st.getNumberOfStudents());</span><br><span class="line">        </span><br><span class="line">        System.out.println(st.pop());</span><br><span class="line">        System.out.println(st);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">狗头</span><br><span class="line"><span class="number">7</span></span><br><span class="line">二蛋子</span><br><span class="line">[ljguo,张三,李四,王二麻子,王八蛋,狗头]</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/javaday01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="ljguo">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="LJGUO">
-      <meta itemprop="description" content="学习交流">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | LJGUO">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/11/11/javaday01/" class="post-title-link" itemprop="url">Java 学习第一天</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-11-11 22:56:26 / 修改时间：22:56:58" itemprop="dateCreated datePublished" datetime="2022-11-11T22:56:26+08:00">2022-11-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><ul>
-<li><p><strong>JDK</strong> Java Development Kit (Java 开发环境)</p>
-</li>
-<li><p><strong>JRE</strong> Java Runtime Environment (Java 运行环境)</p>
-</li>
-<li><p><strong>JVM</strong> Java Virtual Mechines (Java 虚拟机)</p>
-</li>
-<li><p>两个编译命令</p>
-<ul>
-<li><strong>javac</strong> 将 java 源文件 <code>.java</code> 编译成 <code>.class</code> 字节码文件</li>
-<li><strong>java</strong> 将解析 <code>.class</code> 文件</li>
-</ul>
-</li>
-<li><p>变量命名 </p>
-<ul>
-<li>驼峰命名: 除了第一个单词, 后面单词首字母大写</li>
-<li>允许使用数字, 字母, 美元符号, 下划线, 数字不能作为开头</li>
-<li>不能使用关键字</li>
-</ul>
-</li>
-<li><p><code>final</code> 用于声明常量</p>
-</li>
-<li><p>数据类型</p>
-<ul>
-<li><p>基本数据类型</p>
-<table>
-<thead>
-<tr>
-<th>类型</th>
-<th>大小</th>
-<th>范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>byte(字节类型)</td>
-<td>1byte(8bit)</td>
-<td>-128 - 127</td>
-</tr>
-<tr>
-<td>short</td>
-<td>2byte</td>
-<td>$-2^{15}$ - $2^{15}-1$</td>
-</tr>
-<tr>
-<td>int</td>
-<td>4byte</td>
-<td>$-2^{31}$ - $2^{31}-1$, $-2147483648$ - $2147483647$</td>
-</tr>
-<tr>
-<td>long</td>
-<td>8byte</td>
-<td>$-2^{63}$ - $2^{63}-1$, 为其赋值需要加 L 或 l</td>
-</tr>
-<tr>
-<td>float (单精度)</td>
-<td>4byte</td>
-<td>$-3.4\times 10^{38}$ - $3.4\times 10^{38}$, 为其赋值需要加 F 或 f</td>
-</tr>
-<tr>
-<td>double (双进度)</td>
-<td>8byte</td>
-<td></td>
-</tr>
-<tr>
-<td>char (字符型)</td>
-<td>2byte</td>
-<td>表示字符, unicode 码, (0 - 65535)</td>
-</tr>
-<tr>
-<td>boolean (布尔类型)</td>
-<td>1byte</td>
-<td>true, false</td>
-</tr>
-</tbody></table>
-</li>
-<li><p>引用数据类型</p>
-<p><strong>String</strong>, <strong>Integer</strong>, <strong>Double</strong> 等类</p>
-</li>
-</ul>
-</li>
-</ul>
-
       
     </div>
 
