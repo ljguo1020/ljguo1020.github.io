@@ -129,7 +129,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -177,6 +177,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/11/LaTeX3-TikZ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="ljguo">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="LJGUO">
+      <meta itemprop="description" content="学习交流">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | LJGUO">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/11/LaTeX3-TikZ/" class="post-title-link" itemprop="url">LaTeX3 和 TikZ 结合绘图</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-11-11 22:18:35 / 修改时间：22:39:59" itemprop="dateCreated datePublished" datetime="2022-11-11T22:18:35+08:00">2022-11-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/LaTeX/" itemprop="url" rel="index"><span itemprop="name">LaTeX</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>这是LaTeX3的使用样例</p>
+<hr>
+<h2 id="定义颜色"><a href="#定义颜色" class="headerlink" title="定义颜色"></a>定义颜色</h2><p>colors.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\definecolor</span>&#123;1&#125;&#123;RGB&#125;&#123;255,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;2&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;3&#125;&#123;RGB&#125;&#123;0,255,255&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;4&#125;&#123;RGB&#125;&#123;255,20,147&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;5&#125;&#123;RGB&#125;&#123;225,0,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;6&#125;&#123;RGB&#125;&#123;225,255,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;7&#125;&#123;RGB&#125;&#123;47,79,79&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;8&#125;&#123;RGB&#125;&#123;25,25,112&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;9&#125;&#123;RGB&#125;&#123;0,200,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;10&#125;&#123;RGB&#125;&#123;124,252,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;11&#125;&#123;RGB&#125;&#123;139,69,19&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;12&#125;&#123;RGB&#125;&#123;250,128,114&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;13&#125;&#123;RGB&#125;&#123;255,69,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;14&#125;&#123;RGB&#125;&#123;153,50,204&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;15&#125;&#123;RGB&#125;&#123;139,121,94&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;16&#125;&#123;RGB&#125;&#123;205,193,197&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;17&#125;&#123;RGB&#125;&#123;205,16,118&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;18&#125;&#123;RGB&#125;&#123;238,154,0&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;19&#125;&#123;RGB&#125;&#123;205,133,63&#125;</span><br><span class="line"><span class="keyword">\definecolor</span>&#123;20&#125;&#123;RGB&#125;&#123;139,0,139&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主文件"><a href="#主文件" class="headerlink" title="主文件"></a>主文件</h2><p>main.tex</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=5cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=0.1cm,y=0.1cm]  </span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;1080&#125; <span class="keyword">\i</span> </span><br><span class="line">        &#123;   </span><br><span class="line">            <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> 2+1*<span class="keyword">\i</span>)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15*<span class="keyword">\i</span>&#125;        </span><br><span class="line">        &#125;</span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>输出<br><img src="https://pic4.zhimg.com/80/v2-13e03941cfa2da229449c2128c569c25.jpg" alt="Image"><br>将函数解析式稍加修改</p>
+<figure class="highlight tex"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">\documentclass</span>[margin=10cm]&#123;standalone&#125;</span><br><span class="line"><span class="keyword">\usepackage</span>&#123;tikz&#125;</span><br><span class="line"><span class="keyword">\pagecolor</span>&#123;black&#125;</span><br><span class="line"><span class="keyword">\input</span>&#123;colors.tex&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\NewDocumentCommand</span>&#123;<span class="keyword">\helix</span>&#125;&#123; m m m&#125;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(0 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(60 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(120 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(180 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(240 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(300 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(10 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(70 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(130 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(190 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(250 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(310 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(20 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(80 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(140 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(200 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(260 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(320 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;</span><br><span class="line">    <span class="keyword">\draw</span>[line~width=2pt,<span class="params">#2</span>] <span class="params">#1</span>+(30 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(90 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(150 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(210 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(270 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--+(330 <span class="keyword">\c_colon_str</span> <span class="params">#3</span>)--cycle;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;document&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOn</span></span><br><span class="line"><span class="keyword">\begin</span>&#123;tikzpicture&#125;[x=20cm,y=20cm]</span><br><span class="line">    <span class="keyword">\int_step_variable:nnnNn</span>&#123;0&#125;&#123;10&#125;&#123;360&#125; <span class="keyword">\i</span> </span><br><span class="line">     &#123;   </span><br><span class="line">         <span class="keyword">\helix</span>&#123;(<span class="keyword">\i</span> <span class="keyword">\c_colon_str</span> &#123;1-sin(<span class="keyword">\i</span>)&#125;)&#125;&#123;<span class="keyword">\int_rand:nn</span>&#123;1&#125;&#123;20&#125;&#125;&#123;0.15&#125;        </span><br><span class="line">     &#125; </span><br><span class="line"><span class="keyword">\end</span>&#123;tikzpicture&#125;</span><br><span class="line"><span class="keyword">\ExplSyntaxOff</span></span><br><span class="line"><span class="keyword">\end</span>&#123;document&#125;</span><br></pre></td></tr></table></figure>
+<p>得到<br><img src="https://pic4.zhimg.com/80/v2-bc27ca6062fe5896b4a2df6a671916df.jpg" alt="Image"></p>
+<hr>
+<p>点赞，关注都是我的动力鸭~~~</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -880,7 +969,7 @@
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>xparse</strong> 宏包是一个非常优秀的宏包，值得大家去学习，另外，作者水平有限，如有错误或者疑问，欢迎联系我</p>
 <ul>
 <li><strong>QQ</strong> : 1123203930</li>
-<li><strong>Email</strong> : <a href="mailto:&#x31;&#x31;&#x32;&#51;&#x32;&#x30;&#51;&#57;&#51;&#48;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;">&#x31;&#x31;&#x32;&#51;&#x32;&#x30;&#51;&#57;&#51;&#48;&#x40;&#x71;&#x71;&#x2e;&#x63;&#x6f;&#x6d;</a></li>
+<li><strong>Email</strong> : <a href="mailto:&#49;&#49;&#50;&#51;&#50;&#x30;&#x33;&#57;&#51;&#x30;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;">&#49;&#49;&#50;&#51;&#50;&#x30;&#x33;&#57;&#51;&#x30;&#64;&#113;&#x71;&#46;&#x63;&#111;&#x6d;</a></li>
 </ul>
 
       
