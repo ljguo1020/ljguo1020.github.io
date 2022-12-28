@@ -29,7 +29,7 @@
 <meta property="og:description" content="AOPAOP: 面向切面编程  连接点(JoinPoint) 程序执行过程中的任意位置, 粒度为执行方法, 抛出异常, 设置变量等. 在 SpringAOP 中, 理解为方法的执行   切入点(PointCut) 一个切入点可以只描述一个方法, 也可以匹配多个方法 通知(Advice) 在切入点处执行的方法, 也就是共性功能 在 SpringAOP 中, 功能最终以方法的形式呈现   通知类: 定">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-27T01:51:37.012Z">
-<meta property="article:modified_time" content="2022-12-27T10:58:08.956Z">
+<meta property="article:modified_time" content="2022-12-27T11:38:28.056Z">
 <meta property="article:author" content="ljguo">
 <meta property="article:tag" content="SSM">
 <meta name="twitter:card" content="summary">
@@ -119,7 +119,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">1.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">入门案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5-AOP"><span class="nav-number">2.</span> <span class="nav-text">深入 AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">AOP 工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%85%A5%E7%82%B9%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">切入点表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-%E9%80%9A%E7%9F%A5%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">AOP 通知类型</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP"><span class="nav-number">1.</span> <span class="nav-text">AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A5%E9%97%A8%E6%A1%88%E4%BE%8B"><span class="nav-number">1.1.</span> <span class="nav-text">入门案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">1.2.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E5%85%A5-AOP"><span class="nav-number">2.</span> <span class="nav-text">深入 AOP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">AOP 工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E5%85%A5%E7%82%B9%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">切入点表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOP-%E9%80%9A%E7%9F%A5%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">AOP 通知类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E7%BB%95%E9%80%9A%E7%9F%A5%E8%AF%A6%E8%A7%A3"><span class="nav-number">2.3.1.</span> <span class="nav-text">环绕通知详解</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -220,7 +220,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-12-27 09:51:37 / 修改时间：18:58:08" itemprop="dateCreated datePublished" datetime="2022-12-27T09:51:37+08:00">2022-12-27</time>
+      <time title="创建时间：2022-12-27 09:51:37 / 修改时间：19:38:28" itemprop="dateCreated datePublished" datetime="2022-12-27T09:51:37+08:00">2022-12-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -330,6 +330,10 @@
 <li>如果原始方法没有返回值, 那么通知方法可以设置为 void 返回值类型, 如果有, 则必须设置为 Object 类型返回值</li>
 <li>可以使用形参 <code>pjp</code> 调用 <code>peoceed</code> 方法, 执行原始方法并返回值</li>
 <li>由于无法预知原始方法是否有异常, 所以环绕通知方法必须抛异常</li>
+</ul>
+<h4 id="环绕通知详解"><a href="#环绕通知详解" class="headerlink" title="环绕通知详解"></a>环绕通知详解</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Around(&quot;pointcut()&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">around</span><span class="params">(ProceedingJoinPoint pjp)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;before&quot;</span>);</span><br><span class="line">    <span class="type">Object</span> <span class="variable">proceed</span> <span class="operator">=</span> pjp.proceed();</span><br><span class="line">    <span class="type">Signature</span> <span class="variable">signature</span> <span class="operator">=</span> pjp.getSignature();</span><br><span class="line">    System.out.println(<span class="string">&quot;after&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>pjp.getSignature</code> 获取到一个 <code>Signature</code> 对象, 可以通过该对象得到一些原始方法的属性, 例如<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">signature.getClass();</span><br><span class="line">signature.getDeclaringType();</span><br><span class="line">signature.getDeclaringTypeName();</span><br><span class="line">signature.getName();</span><br></pre></td></tr></table></figure></li>
 </ul>
 
     </div>
